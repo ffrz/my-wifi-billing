@@ -1,0 +1,15 @@
+.table td,
+.table th {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    vertical-align: middle;
+}
+.table.center-th th {
+    text-align: center;
+}
+.form-error {
+    color: red;
+}
+.plus-btn {
+    border-radius: 100%;
+}
