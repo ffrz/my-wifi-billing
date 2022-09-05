@@ -37,6 +37,15 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'DashboardController::index');
 
+$routes->group('customers', function($routes) {
+    $routes->get('', 'CustomerController::index');
+    $routes->match(['get', 'post'], 'add', 'CustomerController::edit/0');
+    $routes->match(['get', 'post'], 'edit/(:num)', 'CustomerController::edit/$1');
+    $routes->match(['get', 'post'], 'delete/(:num)', 'CustomerController::delete/$1');
+    $routes->get('view/(:num)', 'CustomerController::view/$1');
+});
+
+
 $routes->group('users', function($routes) {
     $routes->get('', 'UserController::index');
     $routes->match(['get', 'post'], 'edit/(:num)', 'UserController::edit/$1');

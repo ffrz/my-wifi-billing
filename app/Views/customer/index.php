@@ -1,18 +1,12 @@
 <?php
-$this->title = 'Daftar Pelanggan';
+$this->title = 'Pelanggan';
 $this->titleIcon = 'fa-users';
 $this->navActive = 'customer';
-$this->menuActive = 'customer';
-$this->addButtonLink = [
-    'url' => '/customers/edit/0',
-    'icon' => 'fa-plus',
-    'text' => 'Tambah Pelanggan'
-];
 ?>
 <?= $this->extend('_layouts/default') ?>
 <?= $this->section('right-menu') ?>
 <li class="nav-item">
-    <a href="<?= base_url('customers/edit/0') ?>" class="btn plus-btn btn-primary mr-2" title="Baru"><i class="fa fa-plus"></i></a>
+    <a href="<?= base_url('customers/add') ?>" class="btn plus-btn btn-primary mr-2" title="Baru"><i class="fa fa-plus"></i></a>
 </li>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
@@ -23,17 +17,21 @@ $this->addButtonLink = [
                 <table class="data-table display table table-bordered table-striped table-condensed center-th" style="width:100%">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nama</th>
-                            <th>Kontak</th>
+                            <th>Paket</th>
+                            <th>WA</th>
                             <th>Alamat</th>
-                            <th>Aksi</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item) : ?>
                             <tr>
-                                <td><?= esc($item->name) ?></td>
-                                <td><?= esc($item->contacts) ?></td>
+                                <td><?= esc($item->username) ?></td>
+                                <td><?= esc($item->fullname) ?></td>
+                                <td><?= esc('') ?></td>
+                                <td><?= esc($item->wa) ?></td>
                                 <td><?= esc($item->address) ?></td>
                                 <td class="text-center">
                                     <div class="btn-group">
@@ -54,7 +52,7 @@ $this->addButtonLink = [
 <?= $this->section('footscript') ?>
 <script>
     DATATABLES_OPTIONS.order = [[0, 'asc']];
-    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 3 }];
+    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 5 }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });

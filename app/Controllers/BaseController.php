@@ -92,6 +92,19 @@ abstract class BaseController extends Controller
         return $this->models['user-group'];
     }
 
+        /**
+     * 
+     * @return \App\Models\CustomerModel
+     */
+    public function getCustomerModel()
+    {
+        if (!isset($this->models['customer'])) {
+            $this->models['customer'] = new \App\Models\CustomerModel($this->db);
+        }
+
+        return $this->models['customer'];
+    }
+
     /**
      * 
      * @return \App\Models\SettingModel

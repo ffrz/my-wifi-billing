@@ -15,11 +15,6 @@ $this->extend('_layouts/default')
             <li class="nav-item">
                 <a class="nav-link" id="tabcontent2-tab" data-toggle="pill" href="#tabcontent2" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Transaksi</a>
             </li>
-            <?php if (env('REPAIR_SERVICE_MODULE')) : ?>
-                <li class="nav-item">
-                    <a class="nav-link" id="tabcontent3-tab" data-toggle="pill" href="#tabcontent3" role="tab" aria-controls="tabcontent3-tab" aria-selected="true">Riwayat Servis</a>
-                </li>
-            <?php endif ?>
         </ul>
     </div>
     <div class="card-body">
@@ -28,14 +23,29 @@ $this->extend('_layouts/default')
                 <table class="table table-condensed table-striped">
                     <tbody>
                         <tr>
-                            <td style="width:5rem;">Nama</td>
+                            <td style="width:10rem;">ID Pelanggan</td>
                             <td style="width:1rem;">:</td>
-                            <td><?= esc($data->name) ?></td>
+                            <td><?= esc($data->username) ?></td>
                         </tr>
                         <tr>
-                            <td>Kontak</td>
+                            <td style="width:10rem;">Nama Lengkap</td>
+                            <td style="width:1rem;">:</td>
+                            <td><?= esc($data->fullname) ?></td>
+                        </tr>
+                        <tr>
+                            <td>Alamat Email</td>
                             <td>:</td>
-                            <td><a href="<?= esc(wa_send_url($data->contacts)) ?>" target="blank"><?= esc($data->contacts) ?></a></td>
+                            <td><?= esc($data->email) ?></td>
+                        </tr>
+                        <tr>
+                            <td>No. Whatsapp</td>
+                            <td>:</td>
+                            <td><a href="<?= esc(wa_send_url($data->wa)) ?>" target="blank"><?= esc($data->wa) ?></a></td>
+                        </tr>
+                        <tr>
+                            <td>No. HP</td>
+                            <td>:</td>
+                            <td><?= esc($data->phone) ?></td>
                         </tr>
                         <tr>
                             <td>Alamat</td>
@@ -45,7 +55,7 @@ $this->extend('_layouts/default')
                         <tr>
                             <td>Status</td>
                             <td>:</td>
-                            <td><?= $data->active ? 'Aktif' : 'Non Aktif' ?></td>
+                            <td><?= $data->status == 1 ? 'Aktif' : 'Non Aktif' ?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -67,7 +77,7 @@ $this->extend('_layouts/default')
                                 <tr>
                                     <td colspan="5" class="text-center font-italic text-muted">Belum ada rekaman penjualan.</td>
                                 </tr>
-                            <?php endif ?>
+                            <?php else: ?>
                             <?php foreach ($salesOrders as $item) : ?>
                                 <tr>
                                     <td class="text-center">
@@ -81,49 +91,16 @@ $this->extend('_layouts/default')
                                     <td><?= esc($item->notes) ?></td>
                                 </tr>
                             <?php endforeach ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <?php if (defined('REPAIR_SERVICE_MODULE')) : ?>
-            <div class="tab-pane fade" id="tabcontent3" role="tabpanel" aria-labelledby="tabcontent3-tab">
-                <div class="overlay-wrapper table-responsive">
-                    <table class="table table-bordered table-condensed table-striped">
-                        <thead>
-                            <tr class="text-center">
-                                <th>No Servis</th>
-                                <th>Tanggal Masuk</th>
-                                <th>Status Order</th>
-                                <th>Perangkat</th>
-                                <th>Total</th>
-                                <th>Catatan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($services)) : ?>
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted font-italic">Belum ada rekaman servis.</td>
-                                </tr>
                             <?php endif ?>
-                            <?php foreach ($services as $item) : ?>
-                                <tr>
-                                    <td class="text-center"><?= format_service_order_code($item->id) ?></td>
-                                    <td class="text-center"><?= format_date($item->date) ?></td>
-                                    <td class="text-center"><?= format_service_order_status($item->status) ?></td>
-                                    <td><?= esc($item->device) ?></td>
-                                    <td class="text-right"><?= format_number($item->total_cost) ?></td>
-                                    <td><?= esc($item->notes) ?></td>
-                                </tr>
-                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <?php endif ?>
         </div>
     </div>
     <div class="card-footer">
-        <a href="<?= base_url('/customers/') ?>" class="btn btn-default"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
+        <a href="<?= base_url('/customers') ?>" class="btn btn-default mr-2"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
+        <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
     </div>
 </div>
 <?= $this->endSection() ?>

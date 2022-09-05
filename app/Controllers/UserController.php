@@ -17,6 +17,7 @@ class UserController extends BaseController
 
     public function edit($id)
     {
+        $oldPassword = '';
         $model = $this->getUserModel();
         if ($id == 0) {
             $item = new User();
@@ -26,6 +27,7 @@ class UserController extends BaseController
             if (!$item) {
                 return redirect()->to(base_url('users'))->with('warning', 'Pengguna tidak ditemukan.');
             }
+            $oldPassword = $item->password;
         }
 
         if ($item->username == 'admin') {
@@ -45,6 +47,10 @@ class UserController extends BaseController
             $item->is_admin = (int)$this->request->getPost('is_admin');
             $item->active = (int)$this->request->getPost('active');
             $item->group_id = (int)$this->request->getPost('group_id');
+
+            if ($item->group_id == 0) {
+                $item->group_id = null;
+            }
 
             if ($item->username == '') {
                 $errors['username'] = 'Username harus diisi.';
@@ -68,6 +74,12 @@ class UserController extends BaseController
             }
 
             if (empty($errors)) {
+                
+                if ($item->password === '' && $oldPassword !== '') {
+                    // user ga mengganti password maka reset dengan password lama
+                    $item->password = $oldPassword;
+                }
+                
                 $model->save($item);
                 return redirect()->to(base_url('users'))->with('info', 'Berhasil disimpan.');
             }
