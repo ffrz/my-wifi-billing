@@ -15,6 +15,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
-writable/*
+/writable/
 public/dist/*
 public/plugins/*
+*.env
