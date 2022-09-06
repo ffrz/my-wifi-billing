@@ -14,6 +14,7 @@
           </a>
         </li>
         
+        <?php /*
         <?php if (current_user_can(Acl::VIEW_REPORTS)): ?>
         <li class="nav-item <?= menu_open($this, 'report') ?>">
           <a href="#" class="nav-link <?= menu_active($this, 'report') ?>">
@@ -23,7 +24,7 @@
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
-          <?php /*
+          
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="<?= base_url('/reports/income-statement') ?>" class="nav-link <?= nav_active($this, 'income-statement-report') ?>">
@@ -44,7 +45,7 @@
               </a>
             </li>
           </ul>
-          <?php */ ?>
+          <?php
         </li>
         <?php endif ?>
         <li class="nav-item">
@@ -52,7 +53,7 @@
             <i class="nav-icon fas fa-money-bills"></i>
             <p>Tagihan</p>
           </a>
-        </li>
+        </li> */ ?>
         <li class="nav-item">
           <a href="<?= base_url('/customers') ?>" class="nav-link <?= nav_active($this, 'customer') ?>">
             <i class="nav-icon fas fa-users"></i>
