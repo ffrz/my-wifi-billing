@@ -92,7 +92,7 @@ abstract class BaseController extends Controller
         return $this->models['user-group'];
     }
 
-        /**
+    /**
      * 
      * @return \App\Models\CustomerModel
      */
@@ -103,6 +103,32 @@ abstract class BaseController extends Controller
         }
 
         return $this->models['customer'];
+    }
+
+    /**
+     * 
+     * @return \App\Models\ProductModel
+     */
+    public function getProductModel()
+    {
+        if (!isset($this->models['product'])) {
+            $this->models['product'] = new \App\Models\ProductModel($this->db);
+        }
+
+        return $this->models['product'];
+    }
+
+    /**
+     * 
+     * @return \App\Models\BillModel
+     */
+    public function getBillModel()
+    {
+        if (!isset($this->models['bill'])) {
+            $this->models['bill'] = new \App\Models\BillModel($this->db);
+        }
+
+        return $this->models['bill'];
     }
 
     /**

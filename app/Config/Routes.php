@@ -45,6 +45,22 @@ $routes->group('customers', function($routes) {
     $routes->get('view/(:num)', 'CustomerController::view/$1');
 });
 
+$routes->group('products', function($routes) {
+    $routes->get('', 'ProductController::index');
+    $routes->match(['get', 'post'], 'add', 'ProductController::edit/0');
+    $routes->match(['get', 'post'], 'edit/(:num)', 'ProductController::edit/$1');
+    $routes->match(['get', 'post'], 'delete/(:num)', 'ProductController::delete/$1');
+    $routes->get('view/(:num)', 'ProductController::view/$1');
+});
+
+$routes->group('bills', function($routes) {
+    $routes->get('', 'BillController::index');
+    $routes->match(['get', 'post'], 'add', 'BillController::edit/0');
+    $routes->match(['get', 'post'], 'edit/(:num)', 'BillController::edit/$1');
+    $routes->match(['get', 'post'], 'delete/(:num)', 'BillController::delete/$1');
+    $routes->get('view/(:num)', 'BillController::view/$1');
+});
+
 
 $routes->group('users', function($routes) {
     $routes->get('', 'UserController::index');

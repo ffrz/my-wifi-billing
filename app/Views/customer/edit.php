@@ -22,6 +22,7 @@ $this->extend('_layouts/default')
                         <?php endif ?>
                     </div>
                 </div>
+                <?php /*
                 <div class="form-group row">
                     <label for="password" class="col-sm-3 col-form-label">Password</label>
                     <div class="col-sm-4">
@@ -33,7 +34,7 @@ $this->extend('_layouts/default')
                             </span>
                         <?php endif ?>
                     </div>
-                </div>
+                </div> */ ?>
                 <div class="form-group row">
                     <label for="fullname" class="col-sm-3 col-form-label">Nama Lengkap</label>
                     <div class="col-sm-9">
@@ -46,6 +47,7 @@ $this->extend('_layouts/default')
                         <?php endif ?>
                     </div>
                 </div>
+                <?php /*
                 <div class="form-group row">
                     <label for="email" class="col-sm-3 col-form-label">Alamat Email</label>
                     <div class="col-sm-9">
@@ -57,7 +59,7 @@ $this->extend('_layouts/default')
                             </span>
                         <?php endif ?>
                     </div>
-                </div>
+                </div> */ ?>
                 <div class="form-group row">
                     <label for="wa_number" class="col-sm-3 col-form-label">No Whatsapp</label>
                     <div class="col-sm-4">

@@ -48,9 +48,21 @@
         </li>
         <?php endif ?>
         <li class="nav-item">
+          <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
+            <i class="nav-icon fas fa-money-bills"></i>
+            <p>Tagihan</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?= base_url('/customers') ?>" class="nav-link <?= nav_active($this, 'customer') ?>">
-            <i class="nav-icon fas fa-user"></i>
+            <i class="nav-icon fas fa-users"></i>
             <p>Pelanggan</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= base_url('/products') ?>" class="nav-link <?= nav_active($this, 'product') ?>">
+            <i class="nav-icon fas fa-satellite-dish"></i>
+            <p>Produk</p>
           </a>
         </li>
         <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)): ?>
@@ -90,6 +102,7 @@
           </ul>
         </li>
         <?php endif ?>
+        <li class="nav-item"><hr></li>
         <li class="nav-item">
           <a href="<?= base_url('/users/profile/') ?>" class="nav-link <?= nav_active($this, 'profile') ?>">
             <i class="nav-icon fas fa-user"></i>

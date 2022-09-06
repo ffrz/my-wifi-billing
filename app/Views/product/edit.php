@@ -7,73 +7,65 @@ if ($duplicate) {
 } else {
     $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Produk';
 }
-$this->titleIcon = 'fa-cube';
-$this->menuActive = 'inventory';
 $this->navActive = 'product';
+
 ?>
 <?php $this->extend('_layouts/default') ?>
 <?= $this->section('content') ?>
-<div class="card card-primary">
+<div class="card card-primary col-md-8">
     <form class="form-horizontal quick-form" method="POST">
         <div class="card-body">
             <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= $data->id ?>">
             <div class="form-group row">
-                <label for="name" class="col-sm-2 col-form-label">Nama Produk</label>
-                <div class="col-sm-10">
-                    <input type="text" autofocus class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama" name="name" value="<?= esc($data->name) ?>">
+                <label for="name" class="col-sm-3 col-form-label">Nama Produk</label>
+                <div class="col-sm-5">
+                    <input type="text" autofocus class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama Produk" name="name" value="<?= esc($data->name) ?>">
                 </div>
                 <?php if (!empty($errors['name'])) : ?>
-                    <span class="offset-sm-2 col-sm-10 error form-error">
+                    <span class="offset-sm-3 col-sm-9 error form-error">
                         <?= $errors['name'] ?>
                     </span>
                 <?php endif ?>
             </div>
             <div class="form-group row">
-                <label for="type" class="col-sm-2 col-form-label">Jenis Produk</label>
-                <div class="col-sm-10">
-                    <select class="custom-select" id="type" name="type">
-                        <option value="<?= Product::TYPE_NON_STOCKED ?>" <?= $data->type == Product::TYPE_NON_STOCKED ? 'selected' : '' ?>>
-                            <?= format_product_type(Product::TYPE_NON_STOCKED) ?>
-                        </option>
-                        <option value="<?= Product::TYPE_STOCKED ?>" <?= $data->type == Product::TYPE_STOCKED ? 'selected' : '' ?>>
-                            <?= format_product_type(Product::TYPE_STOCKED) ?>
-                        </option>
-                        <option value="<?= Product::TYPE_SERVICE ?>" <?= $data->type == Product::TYPE_SERVICE ? 'selected' : '' ?>>
-                            <?= format_product_type(Product::TYPE_SERVICE) ?>
-                        </option>
-                    </select>
+                <label for="description" class="col-sm-3 col-form-label">Deskripsi</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="description" placeholder="Deskripsi" name="description" value="<?= esc($data->description) ?>">
                 </div>
             </div>
             <div class="form-group row">
-                <div class="offset-sm-2 col-sm-10">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input " id="active" name="active" value="1" <?= $data->active ? 'checked="checked"' : '' ?>>
-                        <label class="custom-control-label" for="active" title="Produk aktif dapat dijual">Aktif</label>
-                    </div>
+                <label for="price" class="col-sm-3 col-form-label">Harga</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control text-right select-all-on-focus <?= !empty($errors['price']) ? 'is-invalid' : '' ?>" id="price" placeholder="Harga" name="price" value="<?= format_number((float)$data->price) ?>">
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="category_id" class="col-sm-2 col-form-label">Kategori</label>
-                <div class="col-sm-10">
-                    <select class="custom-select select2" id="category_id" name="category_id">
-                        <option value="" <?= !$data->category_id ? 'selected' : '' ?>>Tidak Ditentukan</option>
-                        <?php foreach ($categories as $category) : ?>
-                            <option value="<?= $category->id ?>" <?= $data->category_id == $category->id ? 'selected' : '' ?>><?= esc($category->name) ?></option>
-                        <?php endforeach ?>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="stock" class="col-sm-2 col-form-label">Stok</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control select-all-on-focus <?= !empty($errors['stock']) ? 'is-invalid' : '' ?>" id="name" placeholder="Stok" name="stock" value="<?= format_number($data->stock) ?>">
-                </div>
-                <?php if (!empty($errors['stock'])) : ?>
-                    <span class="offset-sm-2 col-sm-10 error form-error">
-                        <?= $errors['stock'] ?>
+                <?php if (!empty($errors['price'])) : ?>
+                    <span class="offset-sm-3 col-sm-9 error form-error">
+                        <?= $errors['price'] ?>
                     </span>
                 <?php endif ?>
+            </div>
+            <div class="form-group row">
+                <label for="bill_cycle" class="col-sm-3 col-form-label">Siklus Tagihan</label>
+                <div class="col-sm-3">
+                    <select class="custom-select" id="bill_cycle" name="bill_cycle"
+                    title="Siklus tagihan">
+                        <option value="1" <?= $data->cycle == 1 ? 'selected' : '' ?>>Setiap Bulan</option>
+                        <?php  /*
+                        <option value="3" <?= $data->cycle == 3 ? 'selected' : '' ?>>Setiap 3 Bulan</option>
+                        <option value="6" <?= $data->cycle == 6 ? 'selected' : '' ?>>Setiap 6 Bulan</option>
+                        <option value="12" <?= $data->cycle == 12 ? 'selected' : '' ?>>Setiap 12 Bulan</option>
+                        */ ?>
+                    </select>
+                </div>
+            </div>
+            <?php /*
+            <div class="form-group row">
+                <label for="notify_before" class="col-sm-3 col-form-label">Pemberitahuan</label>
+                <div class="col-sm-3">
+                    <input type="number" class="form-control text-right select-all-on-focus"
+                        id="notify_before" placeholder="Notifikasi" name="notify_before" value="<?= $data->notify_before ?>" min="1" max="30">
+                </div>
             </div>
             <div class="form-group row">
                 <label for="uom" class="col-sm-2 col-form-label">Satuan</label>
@@ -131,11 +123,13 @@ $this->navActive = 'product';
                         <?php endforeach ?>
                     </select>
                 </div>
-            </div>
+            </div> */ ?>
             <div class="form-group row">
-                <label for="notes" class="col-sm-2 col-form-label">Catatan</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" id="notes" name="notes"><?= esc($data->notes) ?></textarea>
+                <div class="offset-sm-3 col-sm-9">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input " id="active" name="active" value="1" <?= $data->active ? 'checked="checked"' : '' ?>>
+                        <label class="custom-control-label" for="active" title="Produk aktif dapat digunakan">Aktif</label>
+                    </div>
                 </div>
             </div>
         </div>

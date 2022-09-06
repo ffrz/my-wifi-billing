@@ -22,3 +22,4 @@ public/plugins/*
 writable/logs/log-2022-09-05.log
 writable/logs/log-2022-09-05.log
 writable/logs/log-2022-09-05.log
+*.bak
