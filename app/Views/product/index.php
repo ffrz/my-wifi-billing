@@ -49,6 +49,7 @@ $this->extend('_layouts/default')
                             <th>Nama</th>
                             <th>Harga</th>
                             <th>Tagihan</th>
+                            <th>Pelanggan Aktif</th>
                             <th>Deskripsi</th>
                             <th></th>
                         </tr>
@@ -64,6 +65,7 @@ $this->extend('_layouts/default')
                                 </td>
                                 <td class="text-right"><?= format_number($item->price) ?></td>
                                 <td class="text-center">Tiap <?= $item->bill_period ?> Bulan</td>
+                                <td class="text-center"><?= $item->customer_count ?></td>
                                 <td><?= $item->description ?></td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Actions">

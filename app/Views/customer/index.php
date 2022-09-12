@@ -50,8 +50,8 @@ $this->navActive = 'customer';
                             <th>ID</th>
                             <th>Nama</th>
                             <th>Paket</th>
+                            <th>Biaya (Rp.)</th>
                             <th>WA</th>
-                            <th>Alamat</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -74,17 +74,17 @@ $this->navActive = 'customer';
                                         <span class="text-muted font-italic">Tidak Ada</span>
                                     <?php endif ?>
                                 </td>
+                                <td class="text-right"><?= format_number($item->product_price) ?></td>
                                 <td><?= esc($item->wa) ?></td>
-                                <td><?= esc($item->address) ?></td>
                                 <td class="text-center">
-                                    <div class="btn-group">
-                                        <?php if ($item->status == 1): ?>
-                                        <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah paket produk"><i class="fa fa-satellite-dish"></i></a>
-                                        <?php endif ?>
+                                    <div class="btn-group mr-2">
                                         <a href="<?= base_url("/customers/view/$item->id") ?>" class="btn btn-default btn-sm" title="Lihat rincian"><i class="fa fa-eye"></i></a>
                                         <a href="<?= base_url("/customers/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-                                        <a onclick="return confirm('Hapus pelanggan?')" href="<?= base_url("/customers/delete/$item->id") ?>" title="Hapus / nonaktifkan" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        <?php if ($item->status == 1): ?>
+                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-warning btn-sm" title="Ubah paket produk"><i class="fa fa-satellite-dish"></i></a>
+                                        <?php endif ?>
                                     </div>
+                                    <a onclick="return confirm('Hapus pelanggan?')" href="<?= base_url("/customers/delete/$item->id") ?>" title="Hapus / nonaktifkan" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach ?>

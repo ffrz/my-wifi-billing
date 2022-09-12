@@ -12,7 +12,7 @@ class CustomerModel extends Model
     protected $returnType       = \App\Entities\Customer::class;
     protected $useSoftDeletes   = false;
     protected $allowedFields    = ['username', 'password', 'status', 'fullname', 'email', 'address', 'wa', 'phone',
-        'installation_date', 'id_card_number', 'map_location', 'notes', 'product_id',
+        'installation_date', 'id_card_number', 'map_location', 'notes', 'product_id', 'product_price',
         'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'
     ];
 

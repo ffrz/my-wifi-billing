@@ -95,7 +95,7 @@ class CustomerController extends BaseController
     public function view($id)
     {
         $item = $this->db->query("
-        select c.*, p.name product_name, p.price product_price
+        select c.*, p.name product_name
         from customers c
         left join products p on p.id = c.product_id
         where c.id=$id
@@ -140,6 +140,11 @@ class CustomerController extends BaseController
         $item->product_id = 0;
         $item->price = 0;
 
+        $current_product = null;
+        if ($customer->product_id) {
+            $current_product = $this->getProductModel()->find($customer->product_id);
+        }
+
         if ($this->request->getMethod() == 'post') {
             $item->date = datetime_from_input($this->request->getPost('date'));
             $item->product_id = $this->request->getPost('product_id');
@@ -153,6 +158,7 @@ class CustomerController extends BaseController
 
             try {
                 $customer->product_id = $item->product_id;
+                $customer->product_price = $item->price;
                 $customerModel->save($customer);
             }
             catch (DataException $ex) {
@@ -165,6 +171,7 @@ class CustomerController extends BaseController
 
         return view('customer/activate-product', [
             'data' => $item,
+            'current_product' => $current_product,
             'customer' => $customer,
             'products' => $this->getProductModel()->getAll()
         ]); 

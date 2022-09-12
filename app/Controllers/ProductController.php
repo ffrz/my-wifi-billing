@@ -18,7 +18,7 @@ class ProductController extends BaseController
 
         $where = [];
         if ($filter->active != 'all') {
-            $where[] = 'active=' . (int)$filter->active;
+            $where[] = 'p.active=' . (int)$filter->active;
         }
 
         if (!empty($where)) {
@@ -28,7 +28,9 @@ class ProductController extends BaseController
         }
 
         $items = $this->db->query("
-            select * from products $where order by name asc
+            select p.*,
+                (select ifnull(count(0), 0) from customers c where c.product_id=p.id) as customer_count
+            from products p $where order by p.name asc
         ")->getResultObject();
 
         return view('product/index', [

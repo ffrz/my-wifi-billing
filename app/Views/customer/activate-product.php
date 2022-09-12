@@ -35,10 +35,22 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="product" class=" col-form-label col-sm-3">Paket</label>
+                    <label for="old_product" class=" col-form-label col-sm-3">Paket Produk saat ini</label>
+                    <div class="col-sm-9">
+                        <?php
+                        $current_product_text = 'Tidak diset';
+                        if ($current_product) {
+                            $current_product_text = esc($current_product->name) . ' - Rp. ' . format_number($current_product->price);
+                        }
+                        ?>
+                        <input type="text" class="form-control" value="<?= $current_product_text ?>" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="product" class=" col-form-label col-sm-3">Paket Produk Baru</label>
                     <div class="col-sm-9">
                         <select class="form-control custom-select select2" id="product" name="product_id">
-                            <option value="" <?= !$data->product_id ? 'selected' : '' ?>>Tidak Ditentukan</option>
+                            <option value="" <?= !$data->product_id ? 'selected' : '' ?>>--------</option>
                             <?php foreach ($products as $product) : ?>
                                 <option value="<?= $product->id ?>" <?= $data->product_id == $product->id ? 'selected' : '' ?> data-price="<?= $product->price ?>">
                                     <?= esc($product->name) ?>

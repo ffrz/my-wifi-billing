@@ -57,7 +57,7 @@ $this->extend('_layouts/default')
                         </tr>
                         <?php if ($data->product_id): ?>
                         <tr>
-                            <td>Produk / Paket Aktif</td>
+                            <td>Paket Produk Aktif</td>
                             <td>:</td>
                             <td><?= esc($data->product_name) ?></td>
                         </tr>
@@ -121,7 +121,7 @@ $this->extend('_layouts/default')
                         <thead>
                             <tr class="text-center">
                             <th>Tanggal</th>
-                            <th>Produk / Paket</th>
+                            <th>Paket Produk</th>
                             <th>Harga</th>
                             </tr>
                         </thead>
@@ -146,8 +146,11 @@ $this->extend('_layouts/default')
         </div>
     </div>
     <div class="card-footer">
-        <a href="<?= base_url('/customers') ?>" class="btn btn-default mr-2"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
-        <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default mr-2"><i class="fas fa-edit mr-2"></i>Edit</a>
+        <div class="btn-group mr-2">
+            <a href="<?= base_url('/customers') ?>" class="btn btn-default"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
+            <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
+            <a href="<?= base_url("/customers/activate-product/$data->id") ?>" class="btn btn-warning"><i class="fas fa-satellite-dish mr-2"></i>Ubah Paket</a>
+        </div>
         <a href="<?= base_url("/customers/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
     </div>
 </div>
