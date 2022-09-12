@@ -57,6 +57,11 @@ $this->extend('_layouts/default')
                                 </option>
                             <?php endforeach ?>
                         </select>
+                        <?php if (!empty($errors['product_id'])) : ?>
+                            <span class="error form-error">
+                                <?= $errors['product_id'] ?>
+                            </span>
+                        <?php endif ?>
                     </div>
                 </div>
                 <div class="form-group row">

@@ -35,8 +35,7 @@ class CustomerController extends BaseController
             $item->installation_date = date('Y-m-d');
             $next_id = $this->db->query('select ifnull(max(id), 0)+1 id from customers limit 1')->getRow()->id;
             $item->username = 'P' . str_pad($next_id, 3, '0', STR_PAD_LEFT);
-        }
-        else {
+        } else {
             $item = $model->find($id);
             if (!$item) {
                 return redirect()->to(base_url('customers'))->with('warning', 'Pelanggan tidak ditemukan.');
@@ -54,37 +53,33 @@ class CustomerController extends BaseController
 
             if ($item->username == '') {
                 $errors['username'] = 'ID Pelanggan harus diisi.';
-            }
-            else if ($model->exists($item->username, $item->id)) {
+            } else if ($model->exists($item->username, $item->id)) {
                 $errors['username'] = 'ID Pelanggan sudah digunakan, harap gunakan ID yang lain.';
             }
-            
+
             if ($item->fullname == '') {
                 $errors['fullname'] = 'Nama lengkap harus diisi.';
-            }
-            else if ($item->fullname == '') {
+            } else if ($item->fullname == '') {
                 $errors['fullname'] = 'Nama lengkap harus diisi.';
             }
-            
+
             if (empty($errors)) {
                 try {
                     if ($item->id) {
                         $item->updated_at = date('Y-m-d H:i:s');
                         $item->updated_by = current_user()->username;
-                    }
-                    else {
+                    } else {
                         $item->created_at = date('Y-m-d H:i:s');
                         $item->created_by = current_user()->username;
                     }
                     $model->save($item);
-                }
-                catch (DataException $ex) {
+                } catch (DataException $ex) {
                 }
                 $id = $item->id ? $item->id : $this->db->insertID();
                 return redirect()->to(base_url("customers/view/{$id}"))->with('info', 'Data Pelanggan telah disimpan.');
             }
         }
-        
+
         $item->password = '';
         return view('customer/edit', [
             'data' => $item,
@@ -123,9 +118,7 @@ class CustomerController extends BaseController
 
         try {
             $model->save($item);
-        }
-        catch (DataException $ex) {
-
+        } catch (DataException $ex) {
         }
 
         return redirect()->to(base_url('customers'))->with('info', 'Pelanggan telah dinonaktifkan.');
@@ -133,7 +126,7 @@ class CustomerController extends BaseController
 
     public function activateProduct($id)
     {
-        $customerModel = $this->getCustomerModel(); 
+        $customerModel = $this->getCustomerModel();
         $customer = $customerModel->find($id);
         $item = new ProductActivation();
         $item->date = date('Y-m-d');
@@ -145,35 +138,43 @@ class CustomerController extends BaseController
             $current_product = $this->getProductModel()->find($customer->product_id);
         }
 
+        $errors = [];
+
         if ($this->request->getMethod() == 'post') {
             $item->date = datetime_from_input($this->request->getPost('date'));
-            $item->product_id = $this->request->getPost('product_id');
+            $item->product_id = (int)$this->request->getPost('product_id');
             $item->price = $this->request->getPost('price');
             $item->customer_id = $this->request->getPost('id');
             $item->bill_period = 1;
 
-            $this->db->transBegin();
-            
-            $this->getProductActivationModel()->save($item);
-
-            try {
-                $customer->product_id = $item->product_id;
-                $customer->product_price = $item->price;
-                $customerModel->save($customer);
-            }
-            catch (DataException $ex) {
+            if (!$item->product_id) {
+                $errors['product_id'] = 'Silahkan pilih produk.';
             }
 
-            $this->db->transCommit();
+            if (empty($errors)) {
+                $this->db->transBegin();
 
-            return redirect()->to(base_url('customers'))->with('info', 'Paket telah ditambahkan ke pelanggan.');
+                $this->getProductActivationModel()->save($item);
+
+                try {
+                    $customer->product_id = $item->product_id;
+                    $customer->product_price = $item->price;
+                    $customerModel->save($customer);
+                } catch (DataException $ex) {
+                }
+
+                $this->db->transCommit();
+
+                return redirect()->to(base_url('customers'))->with('info', 'Paket telah ditambahkan ke pelanggan.');
+            }
         }
 
         return view('customer/activate-product', [
             'data' => $item,
+            'errors' => $errors,
             'current_product' => $current_product,
             'customer' => $customer,
             'products' => $this->getProductModel()->getAll()
-        ]); 
+        ]);
     }
 }
