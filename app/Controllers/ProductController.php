@@ -10,12 +10,26 @@ class ProductController extends BaseController
 {
     public function index()
     {
-        $items = $this->getProductModel()->getAll();
         $filter = new stdClass;
         $filter->active = $this->request->getGet('active');
         if ($filter->active == null) {
             $filter->active = 1;
         }
+
+        $where = [];
+        if ($filter->active != 'all') {
+            $where[] = 'active=' . (int)$filter->active;
+        }
+
+        if (!empty($where)) {
+            $where = ' where ' . implode(' and ', $where);
+        } else {
+            $where = '';
+        }
+
+        $items = $this->db->query("
+            select * from products $where order by name asc
+        ")->getResultObject();
 
         return view('product/index', [
             'items' => $items,
@@ -30,11 +44,12 @@ class ProductController extends BaseController
 
         if ($id == 0) {
             $item = new Product();
+            $item->created_at = date('Y-m-d H:i:s');
+            $item->created_by = current_user()->username;
             $item->active = 1;
-            $item->bill_cycle = 1 ;
-            $item->notify_before = 7;
-        }
-        else {
+            $item->bill_cycle = 1; // fixed, belum bisa selain 1 bulan
+            $item->notify_before = 7; // belum dipakai
+        } else {
             $item = $model->find($id);
             if (!$item) {
                 return redirect()->to(base_url('products'))->with('warning', 'Produk tidak ditemukan.');
@@ -49,20 +64,21 @@ class ProductController extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $item->fill($this->request->getPost());
+            $item->active = (int)$this->request->getPost('active');
             $item->price = str_to_double($item->price);
-            
+
             if ($item->name == '') {
                 $errors['name'] = 'Nama Produk harus diisi.';
-            }
-            else if ($model->exists($item->name, $item->id)) {
+            } else if ($model->exists($item->name, $item->id)) {
                 $errors['name'] = 'Nama Produk sudah digunakan, harap gunakan nama yang lain.';
             }
-            
+
             if (empty($errors)) {
                 try {
+                    $item->updated_at = date('Y-m-d H:i:s');
+                    $item->updated_by = current_user()->username;
                     $model->save($item);
-                }
-                catch (DataException $ex) {
+                } catch (DataException $ex) {
                     if ($ex->getMessage() == 'There is no data to update. ') {
                     }
                 }
@@ -70,7 +86,7 @@ class ProductController extends BaseController
                 return redirect()->to(base_url("products"))->with('info', 'Data Produk telah disimpan.');
             }
         }
-        
+
         return view('product/edit', [
             'data' => $item,
             'duplicate' => $duplicate,
@@ -84,7 +100,13 @@ class ProductController extends BaseController
         $product = $model->find($id);
 
         $product->active = false;
-        $model->save($product);
+        $product->deleted_at = date('Y-m-d H:i:s');
+        $product->deleted_by = current_user()->username;
+
+        try {
+            $model->save($product);
+        } catch (DataException $ex) {
+        }
 
         return redirect()->to(base_url('products'))->with('info', 'Produk telah dinonaktifkan.');
     }

@@ -42,6 +42,7 @@ $routes->group('customers', function($routes) {
     $routes->match(['get', 'post'], 'add', 'CustomerController::edit/0');
     $routes->match(['get', 'post'], 'edit/(:num)', 'CustomerController::edit/$1');
     $routes->match(['get', 'post'], 'delete/(:num)', 'CustomerController::delete/$1');
+    $routes->match(['get', 'post'], 'activate-product/(:num)', 'CustomerController::activateProduct/$1');
     $routes->get('view/(:num)', 'CustomerController::view/$1');
 });
 

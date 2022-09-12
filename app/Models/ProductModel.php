@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Entities\Product;
 use CodeIgniter\Model;
 
 class ProductModel extends Model
@@ -12,7 +11,9 @@ class ProductModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\Product::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['name', 'description', 'active', 'price', 'bill_cycle', 'nottify_before'];
+    protected $allowedFields    = ['name', 'description', 'active', 'price', 'bill_period', 'nottify_before',
+        'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'
+    ];
 
     /**
      * Periksa duplikat rekaman berdasarkan nama paket dan id
@@ -42,6 +43,7 @@ class ProductModel extends Model
         return $this->db->query('
             select c.*
                 from products c
+                where active=1
                 order by c.name asc'
             )->getResultObject();
     }

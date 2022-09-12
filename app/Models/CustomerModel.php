@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Entities\Customer;
 use CodeIgniter\Model;
 
 class CustomerModel extends Model
@@ -13,7 +12,9 @@ class CustomerModel extends Model
     protected $returnType       = \App\Entities\Customer::class;
     protected $useSoftDeletes   = false;
     protected $allowedFields    = ['username', 'password', 'status', 'fullname', 'email', 'address', 'wa', 'phone',
-        'installation_date', 'id_card_number', 'map_location', 'notes'];
+        'installation_date', 'id_card_number', 'map_location', 'notes', 'product_id',
+        'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'
+    ];
 
     /**
      * Periksa duplikat rekaman berdasarkan username dan id
@@ -32,6 +33,29 @@ class CustomerModel extends Model
         }
 
         return $this->db->query($sql, $params)->getRow()->count != 0;
+    }
+
+    public function getAllWithFilter($filter)
+    {
+        $where = [];
+        if ($filter->status != 'all') {
+            $where[] = 'c.status=' . (int)$filter->status;
+        }
+
+        if (!empty($where)) {
+            $where = ' where ' . implode(' and ', $where);
+        }
+        else {
+            $where = '';
+        }
+
+        return $this->db->query("
+        select c.*, p.name product_name
+            from customers c
+            left join products p on p.id = c.product_id
+            $where
+            order by c.username asc
+        ")->getResultObject();
     }
 
     public function getAll()

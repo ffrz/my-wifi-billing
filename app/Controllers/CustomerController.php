@@ -3,16 +3,26 @@
 namespace App\Controllers;
 
 use App\Entities\Customer;
+use App\Entities\ProductActivation;
+use App\Models\ProductActivationModel;
 use CodeIgniter\Database\Exceptions\DataException;
+use stdClass;
 
 class CustomerController extends BaseController
 {
     public function index()
     {
-        $items = $this->getCustomerModel()->getAll();
+        $filter = new stdClass;
+        $filter->status = $this->request->getGet('status');
+        if ($filter->status == null) {
+            $filter->status = 1;
+        }
+
+        $items = $this->getCustomerModel()->getAllWithFilter($filter);
 
         return view('customer/index', [
             'items' => $items,
+            'filter' => $filter,
         ]);
     }
 
@@ -22,6 +32,9 @@ class CustomerController extends BaseController
         if ($id == 0) {
             $item = new Customer();
             $item->status = 1;
+            $item->installation_date = date('Y-m-d');
+            $next_id = $this->db->query('select ifnull(max(id), 0)+1 id from customers limit 1')->getRow()->id;
+            $item->username = 'P' . str_pad($next_id, 3, '0', STR_PAD_LEFT);
         }
         else {
             $item = $model->find($id);
@@ -34,7 +47,6 @@ class CustomerController extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             if (!$id) {
-                // username tidak boleh diganti
                 $item->username = trim($this->request->getPost('username'));
             }
 
@@ -54,27 +66,19 @@ class CustomerController extends BaseController
                 $errors['fullname'] = 'Nama lengkap harus diisi.';
             }
             
-            if (!$item->id) {
-                if ($item->password == '') {
-                    $errors['password'] = 'Kata sandi harus diisi.';
-                }
-                else {
-                    $item->password = sha1($item->password);
-                }
-            }
-            else if ($item->password != '') {
-                $item->password = sha1($item->password);
-            }
-
             if (empty($errors)) {
                 try {
+                    if ($item->id) {
+                        $item->updated_at = date('Y-m-d H:i:s');
+                        $item->updated_by = current_user()->username;
+                    }
+                    else {
+                        $item->created_at = date('Y-m-d H:i:s');
+                        $item->created_by = current_user()->username;
+                    }
                     $model->save($item);
                 }
                 catch (DataException $ex) {
-                    if ($ex->getMessage() == 'There is no data to update. ') {
-                        exit('fooo');
-                        return;
-                    }
                 }
                 $id = $item->id ? $item->id : $this->db->insertID();
                 return redirect()->to(base_url("customers/view/{$id}"))->with('info', 'Data Pelanggan telah disimpan.');
@@ -90,8 +94,19 @@ class CustomerController extends BaseController
 
     public function view($id)
     {
-        $model = $this->getCustomerModel(); 
-        $item = $model->find($id);
+        $item = $this->db->query("
+        select c.*, p.name product_name, p.price product_price
+        from customers c
+        left join products p on p.id = c.product_id
+        where c.id=$id
+        ")->getRow();
+
+        $item->productActivations = $this->db->query("
+            select a.*, p.name product_name from product_activations a
+            inner join products p on p.id = a.product_id
+            where a.customer_id=$id
+            order by a.id desc
+        ")->getResultObject();
 
         return view('customer/view', [
             'data' => $item,
@@ -100,30 +115,58 @@ class CustomerController extends BaseController
 
     public function delete($id)
     {
-        $model = $this->getUserModel();
-        $user = $model->find($id);
+        $model = $this->getCustomerModel();
+        $item = $model->find($id);
+        $item->status = 0;
+        $item->deleted_at = date('Y-m-d H:i:s');
+        $item->deleted_by = current_user()->username;
 
-        if ($user->username == 'admin') {
-            return redirect()->to(base_url('users'))
-                ->with('error', 'Akun <b>' . esc($user->username) . '</b> tidak dapat dihapus.');
+        try {
+            $model->save($item);
         }
-        else if ($user->id == current_user()->id) {
-            return redirect()->to(base_url('users'))
-            ->with('error', 'Anda tidak dapat menghapus akun sendiri.');
+        catch (DataException $ex) {
+
         }
+
+        return redirect()->to(base_url('customers'))->with('info', 'Pelanggan telah dinonaktifkan.');
+    }
+
+    public function activateProduct($id)
+    {
+        $customerModel = $this->getCustomerModel(); 
+        $customer = $customerModel->find($id);
+        $item = new ProductActivation();
+        $item->date = date('Y-m-d');
+        $item->product_id = 0;
+        $item->price = 0;
 
         if ($this->request->getMethod() == 'post') {
-            $user->active = 0;
-            $model->save($user);
-            if ($model->delete($user->id)) {
-                return redirect()->to(base_url('users'))->with('info', 'Pengguna ' . esc($user->username) . ' telah dihapus.');
+            $item->date = datetime_from_input($this->request->getPost('date'));
+            $item->product_id = $this->request->getPost('product_id');
+            $item->price = $this->request->getPost('price');
+            $item->customer_id = $this->request->getPost('id');
+            $item->bill_period = 1;
+
+            $this->db->transBegin();
+            
+            $this->getProductActivationModel()->save($item);
+
+            try {
+                $customer->product_id = $item->product_id;
+                $customerModel->save($customer);
+            }
+            catch (DataException $ex) {
             }
 
-            return redirect()->to(base_url('users'))->with('info', 'Pengguna telah dinonaktifkan.');
+            $this->db->transCommit();
+
+            return redirect()->to(base_url('customers'))->with('info', 'Paket telah ditambahkan ke pelanggan.');
         }
 
-        return view('user/delete', [
-            'data' => $user
-        ]);
+        return view('customer/activate-product', [
+            'data' => $item,
+            'customer' => $customer,
+            'products' => $this->getProductModel()->getAll()
+        ]); 
     }
 }

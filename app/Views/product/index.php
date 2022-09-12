@@ -24,11 +24,11 @@ $this->extend('_layouts/default')
                     <div class="form-group row">
                         <label for="active" class="col-form-label col-sm-3">Status</label>
                         <div class="col-sm-9">
-                        <select class="custom-select" id="active" name="active">
-                            <option value="all" <?= $filter->active == 'all' ? 'selected' : '' ?>>Semua Status</option>
-                            <option value="1" <?= $filter->active == 1 ? 'selected' : '' ?>>Aktif</option>
-                            <option value="0" <?= $filter->active == 0 ? 'selected' : '' ?>>Tidak Aktif</option>
-                        </select>
+                            <select class="custom-select" id="active" name="active">
+                                <option value="all" <?= $filter->active == 'all' ? 'selected' : '' ?>>Semua Status</option>
+                                <option value="1" <?= $filter->active == 1 ? 'selected' : '' ?>>Aktif</option>
+                                <option value="0" <?= $filter->active == 0 ? 'selected' : '' ?>>Tidak Aktif</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -56,16 +56,22 @@ $this->extend('_layouts/default')
                     <tbody>
                         <?php foreach ($items as $item) : ?>
                             <tr>
-                                <td><?= esc($item->name) ?></td>
+                                <td>
+                                    <?= esc($item->name) ?>
+                                    <?php if (!$item->active) : ?>
+                                        <span class="badge badge-danger">Non Aktif</span>
+                                    <?php endif ?>
+                                </td>
                                 <td class="text-right"><?= format_number($item->price) ?></td>
-                                <td class="text-center">Tiap <?= $item->bill_cycle ?> Bulan</td>
+                                <td class="text-center">Tiap <?= $item->bill_period ?> Bulan</td>
                                 <td><?= $item->description ?></td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Actions">
-                                        <a href="<?= base_url("/products/view/$item->id") ?>" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
-                                        <a href="<?= base_url("/products/edit/$item->id?duplicate=1") ?>" class="btn btn-default btn-sm"><i class="fa fa-copy"></i></a>
-                                        <a href="<?= base_url("/products/edit/$item->id") ?>" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a onclick="return confirm('Hapus produk?')" href="<?= base_url("/products/delete/$item->id") ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        <a href="<?= base_url("/products/edit/$item->id?duplicate=1") ?>" class="btn btn-default btn-sm" title="Duplikat produk"><i class="fa fa-copy"></i></a>
+                                        <a href="<?= base_url("/products/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah Produk"><i class="fa fa-edit"></i></a>
+                                        <?php if ($item->active): ?>
+                                            <a onclick="return confirm('Hapus produk?')" href="<?= base_url("/products/delete/$item->id") ?>" title="Hapus Produk" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        <?php endif ?>
                                     </div>
                                 </td>
                             </tr>

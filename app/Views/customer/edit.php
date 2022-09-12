@@ -14,7 +14,7 @@ $this->extend('_layouts/default')
                     <label for="username" class="col-sm-3 col-form-label">ID Pelanggan</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control <?= !empty($errors['username']) ? 'is-invalid' : '' ?>"
-                            id="username" placeholder="ID Pelanggan" name="username" value="<?= esc($data->username) ?>">
+                            id="username" readonly placeholder="ID Pelanggan" name="username" value="<?= esc($data->username) ?>">
                         <?php if (!empty($errors['username'])) : ?>
                             <span class="error form-error">
                                 <?= $errors['username'] ?>
@@ -22,19 +22,6 @@ $this->extend('_layouts/default')
                         <?php endif ?>
                     </div>
                 </div>
-                <?php /*
-                <div class="form-group row">
-                    <label for="password" class="col-sm-3 col-form-label">Password</label>
-                    <div class="col-sm-4">
-                        <input type="password" class="form-control <?= !empty($errors['password']) ? 'is-invalid' : '' ?>"
-                            id="password" placeholder="Password" name="password" value="<?= esc($data->password) ?>">
-                        <?php if (!empty($errors['password'])) : ?>
-                            <span class="error form-error">
-                                <?= $errors['password'] ?>
-                            </span>
-                        <?php endif ?>
-                    </div>
-                </div> */ ?>
                 <div class="form-group row">
                     <label for="fullname" class="col-sm-3 col-form-label">Nama Lengkap</label>
                     <div class="col-sm-9">
@@ -47,19 +34,6 @@ $this->extend('_layouts/default')
                         <?php endif ?>
                     </div>
                 </div>
-                <?php /*
-                <div class="form-group row">
-                    <label for="email" class="col-sm-3 col-form-label">Alamat Email</label>
-                    <div class="col-sm-9">
-                        <input type="email" class="form-control <?= !empty($errors['email']) ? 'is-invalid' : '' ?>"
-                            id="email" placeholder="Alamat Email" name="email" value="<?= esc($data->email) ?>">
-                        <?php if (!empty($errors['email'])) : ?>
-                            <span class="error form-error">
-                                <?= $errors['email'] ?>
-                            </span>
-                        <?php endif ?>
-                    </div>
-                </div> */ ?>
                 <div class="form-group row">
                     <label for="wa_number" class="col-sm-3 col-form-label">No Whatsapp</label>
                     <div class="col-sm-4">

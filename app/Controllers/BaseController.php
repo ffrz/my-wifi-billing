@@ -133,6 +133,19 @@ abstract class BaseController extends Controller
 
     /**
      * 
+     * @return \App\Models\ProductActivationModel
+     */
+    public function getProductActivationModel()
+    {
+        if (!isset($this->models['product_activation'])) {
+            $this->models['product_activation'] = new \App\Models\ProductActivationModel($this->db);
+        }
+
+        return $this->models['product_activation'];
+    }
+
+    /**
+     * 
      * @return \App\Models\SettingModel
      */
     public function getSettingModel()

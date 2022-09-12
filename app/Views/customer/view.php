@@ -13,7 +13,10 @@ $this->extend('_layouts/default')
                 <a class="nav-link active" id="tabcontent1-tab1" data-toggle="pill" href="#tabcontent1" role="tab" aria-controls="tabcontent1-tab1" aria-selected="false">Info Pelanggan</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tabcontent2-tab" data-toggle="pill" href="#tabcontent2" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Transaksi</a>
+                <a class="nav-link" id="tabcontent2-tab" data-toggle="pill" href="#tabcontent2" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Tagihan</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tabcontent3-tab" data-toggle="pill" href="#tabcontent3" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Aktivasi Produk</a>
             </li>
         </ul>
     </div>
@@ -31,11 +34,6 @@ $this->extend('_layouts/default')
                             <td style="width:10rem;">Nama Lengkap</td>
                             <td style="width:1rem;">:</td>
                             <td><?= esc($data->fullname) ?></td>
-                        </tr>
-                        <tr>
-                            <td>Alamat Email</td>
-                            <td>:</td>
-                            <td><?= esc($data->email) ?></td>
                         </tr>
                         <tr>
                             <td>No. Whatsapp</td>
@@ -57,6 +55,36 @@ $this->extend('_layouts/default')
                             <td>:</td>
                             <td><?= $data->status == 1 ? 'Aktif' : 'Non Aktif' ?></td>
                         </tr>
+                        <?php if ($data->product_id): ?>
+                        <tr>
+                            <td>Produk / Paket Aktif</td>
+                            <td>:</td>
+                            <td><?= esc($data->product_name) ?></td>
+                        </tr>
+                        <tr>
+                            <td>Tagihan</td>
+                            <td>:</td>
+                            <td>Rp. <?= format_number($data->product_price) ?></td>
+                        </tr>
+                        <?php else: ?>
+                            <tr>
+                                <td>Paket Produk</td>
+                                <td>:</td>
+                                <td><a href="<?= base_url("customers/activate-product/$data->id") ?>">Aktifkan Paket</a></td>
+                            </tr>
+                        <?php endif ?>
+                    </tbody>
+                </table>
+                <h5>Info Rekaman</h5>
+                <?php if ($data->created_at): ?>
+                    <p>Dibuat oleh <?= esc($data->created_by) ?> pada <?= format_datetime($data->created_at) ?></p>
+                <?php endif ?>
+                <?php if ($data->updated_at): ?>
+                    <p>Diperbarui oleh <?= esc($data->updated_by) ?> pada <?= format_datetime($data->updated_at) ?></p>
+                <?php endif ?>
+                <?php if ($data->deleted_at): ?>
+                    <p>Dihapus oleh <?= esc($data->deleted_by) ?> pada <?= format_datetime($data->deleted_at) ?></p>
+                <?php endif ?>
                     </tbody>
                 </table>
             </div>
@@ -67,28 +95,47 @@ $this->extend('_layouts/default')
                             <tr class="text-center">
                                 <th>No Invoice</th>
                                 <th>Tanggal</th>
-                                <th>Jenis Transaksi</th>
+                                <th>Produk</th>
                                 <th>Total</th>
+                                <th>Status</th>
                                 <th>Catatan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($salesOrders)) : ?>
+                            <?php if (empty($item->bills)) : ?>
                                 <tr>
-                                    <td colspan="5" class="text-center font-italic text-muted">Belum ada rekaman penjualan.</td>
+                                    <td colspan="6" class="text-center font-italic text-muted">Belum ada rekaman tagihan.</td>
                                 </tr>
                             <?php else: ?>
-                            <?php foreach ($salesOrders as $item) : ?>
+                            <?php foreach ($bills as $item) : ?>
+                                
+                            <?php endforeach ?>
+                            <?php endif ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabcontent3" role="tabpanel" aria-labelledby="tabcontent3-tab">
+                <div class="overlay-wrapper table-responsive">
+                    <table class="table table-bordered table-condensed table-striped">
+                        <thead>
+                            <tr class="text-center">
+                            <th>Tanggal</th>
+                            <th>Produk / Paket</th>
+                            <th>Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($data->productActivations)) : ?>
                                 <tr>
-                                    <td class="text-center">
-                                        <a href="<?= base_url("sales-orders/view/$item->id") ?>">
-                                            <?= format_stock_update_code($item->type, $item->code) ?>
-                                        </a>
-                                    </td>
-                                    <td class="text-center"><?= format_date($item->datetime) ?></td>
-                                    <td class="text-center"><?= format_stock_update_type($item->type) ?></td>
-                                    <td class="text-right"><?= format_number($item->total_price) ?></td>
-                                    <td><?= esc($item->notes) ?></td>
+                                    <td colspan="5" class="text-center font-italic text-muted">Belum ada rekaman aktivasi.</td>
+                                </tr>
+                            <?php else: ?>
+                            <?php foreach ($data->productActivations as $item) : ?>
+                                <tr>
+                                    <td class="text-center"><?= format_date($item->date) ?></td>
+                                    <td><?= esc($item->product_name) ?></td>
+                                    <td class="text-right"><?= format_number($item->price) ?></td>
                                 </tr>
                             <?php endforeach ?>
                             <?php endif ?>
@@ -100,7 +147,8 @@ $this->extend('_layouts/default')
     </div>
     <div class="card-footer">
         <a href="<?= base_url('/customers') ?>" class="btn btn-default mr-2"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
-        <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
+        <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default mr-2"><i class="fas fa-edit mr-2"></i>Edit</a>
+        <a href="<?= base_url("/customers/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
     </div>
 </div>
 <?= $this->endSection() ?>
