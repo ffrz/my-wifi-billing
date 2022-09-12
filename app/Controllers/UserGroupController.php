@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Entities\Acl;
 use App\Entities\UserGroup;
+use CodeIgniter\Database\Exceptions\DataException;
 
 class UserGroupController extends BaseController
 {
@@ -65,7 +66,7 @@ class UserGroupController extends BaseController
                 try {
                     $model->save($item);
                 }
-                catch (\CodeIgniter\Database\Exceptions\DataException $ex) {
+                catch (DataException $ex) {
                 }
 
                 $this->db->transCommit();

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Entities\User;
+use CodeIgniter\Database\Exceptions\DataException;
 
 class UserController extends BaseController
 {
@@ -79,8 +80,13 @@ class UserController extends BaseController
                     // user ga mengganti password maka reset dengan password lama
                     $item->password = $oldPassword;
                 }
-                
-                $model->save($item);
+
+                try {
+                    $model->save($item);
+                } catch (DataException $ex) {
+                    if ($ex->getMessage() == 'There is no data to update. ') {
+                    }
+                }
                 return redirect()->to(base_url('users'))->with('info', 'Berhasil disimpan.');
             }
         }
@@ -121,7 +127,12 @@ class UserController extends BaseController
 
             if (empty($errors)) {
                 $item->password = sha1($item->password1);
-                $model->save($item);
+                try {
+                    $model->save($item);
+                } catch (DataException $ex) {
+                    if ($ex->getMessage() == 'There is no data to update. ') {
+                    }
+                }
                 return redirect()->to(base_url('users'))->with('info', 'Berhasil disimpan.');
             }
         }
@@ -152,7 +163,12 @@ class UserController extends BaseController
 
         if ($this->request->getMethod() == 'post') {
             $user->active = 0;
-            $model->save($user);
+            try {
+                $model->save($user);
+            } catch (DataException $ex) {
+                if ($ex->getMessage() == 'There is no data to update. ') {
+                }
+            }
             if ($model->delete($user->id)) {
                 return redirect()->to(base_url('users'))->with('info', 'Pengguna ' . esc($user->username) . ' telah dihapus.');
             }
