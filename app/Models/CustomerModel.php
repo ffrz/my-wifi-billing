@@ -67,6 +67,15 @@ class CustomerModel extends Model
             )->getResultObject();
     }
 
+    public function getAllActive()
+    {
+        return $this->db->query('
+            select c.*
+                from customers c where status=1
+                order by c.username asc'
+            )->getResultObject();
+    }
+
     /**
      * @return \stdClass
      */

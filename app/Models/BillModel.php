@@ -11,6 +11,9 @@ class BillModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\Bill::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['date', 'customer_id', 'product_id', 'total', 'due_date', 'description'];
+    protected $allowedFields    = [
+        'code', 'date', 'due_date', 'customer_id', 'product_id', 'amount',
+        'date_paid', 'status', 'type', 'description', 'notes'
+    ];
 
 }

@@ -47,13 +47,13 @@
           </ul>
           <?php
         </li>
-        <?php endif ?>
+        <?php endif ?> */ ?>
         <li class="nav-item">
           <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
             <i class="nav-icon fas fa-money-bills"></i>
             <p>Tagihan</p>
           </a>
-        </li> */ ?>
+        </li>
         <li class="nav-item">
           <a href="<?= base_url('/customers') ?>" class="nav-link <?= nav_active($this, 'customer') ?>">
             <i class="nav-icon fas fa-users"></i>

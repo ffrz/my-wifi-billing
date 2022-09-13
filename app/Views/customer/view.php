@@ -1,9 +1,9 @@
 <?php
-$this->title = 'Rincian Pelanggan';
-$this->titleIcon = 'fa-user';
-$this->navActive = 'customer';
-$this->menuActive = 'customer';
-$this->extend('_layouts/default')
+    $this->title = 'Rincian Pelanggan';
+    $this->titleIcon = 'fa-user';
+    $this->navActive = 'customer';
+    $this->menuActive = 'customer';
+    $this->extend('_layouts/default')
 ?>
 <?= $this->section('content') ?>
 <div class="card card-primary card-tabs">
