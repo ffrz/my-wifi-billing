@@ -92,14 +92,62 @@ class BillController extends BaseController
 
     public function edit($id)
     {
-        $data = new Bill();
-        $data->date = date('Y-m-d');
-        $data->due_date = date('Y-m-d');
+        $model = $this->getBillModel();
+
+        if ($id) {
+            $data = $model->find($id);
+            if (!$data) {
+                return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
+            }
+        }
+        else {
+            $data = new Bill();
+            $data->date = date('Y-m-d');
+            $data->due_date = date('Y-m-d');
+        }
+
+        if ($this->request->getMethod() == 'post') {
+            $data->date = datetime_from_input($this->request->getPost('date'));
+            $data->due_date = datetime_from_input($this->request->getPost('due_date'));
+            $data->amount = $this->request->getPost('amount');
+            $data->description = trim($this->request->getPost('description'));
+            $data->notes = trim($this->request->getPost('notes'));
+
+            try {
+                $model->save($data);
+            } catch (DataException $ex) {
+            }
+
+            return redirect()->to(base_url('bills/view/' . $data->id))->with('info', 'Tagihan telah diperbarui.');
+        }
         
         return view('bill/edit', [
             'data' => $data,
+            'products' => $this->getProductModel()->getAllActive(),
             'customers' => $this->getCustomerModel()->getAllActive()
         ]);
+    }
+
+    public function process()
+    {
+        $id = $this->request->getPost('id');
+        $action = $this->request->getPost('action');        
+        $model = $this->getBillModel();
+        $bill = $model->find($id);
+        if (!$bill) {
+            return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
+        }
+
+        if ($action == 'fully_paid') {
+            $bill->status = 1;
+        }
+        else {
+            $bill->status = 2;
+        }
+
+        $bill->date_complete = date('Y-m-d H:i:s');
+        $model->save($bill);
+        return redirect()->to(base_url('bills'))->with('info', 'Tagihan ' . $bill->code . ' telah dibayar.');
     }
 
     public function delete($id)
@@ -119,6 +167,10 @@ class BillController extends BaseController
     {
         $model = $this->getBillModel();
         $bill = $model->find($id);
+        $product = null;
+        if ($bill->product_id) {
+            $product = $this->getProductModel()->find($bill->product_id);
+        }
         $customer = $this->getCustomerModel()->find($bill->customer_id);
         if (!$bill) {
             return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
@@ -126,7 +178,8 @@ class BillController extends BaseController
 
         return view('bill/view', [
             'bill' => $bill,
-            'data' => $customer
+            'data' => $customer,
+            'product' => $product,
         ]);
     }
 }

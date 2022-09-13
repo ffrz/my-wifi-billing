@@ -38,7 +38,7 @@ class ProductModel extends Model
      * Get all products
      * @return Array
      */
-    public function getAll()
+    public function getAllActive()
     {
         return $this->db->query('
             select c.*

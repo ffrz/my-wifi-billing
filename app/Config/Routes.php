@@ -57,6 +57,7 @@ $routes->group('products', function($routes) {
 $routes->group('bills', function($routes) {
     $routes->get('', 'BillController::index');
     $routes->match(['get', 'post'], 'generate', 'BillController::generate');
+    $routes->match(['post'], 'process', 'BillController::process');
     $routes->match(['get', 'post'], 'add', 'BillController::edit/0');
     $routes->match(['get', 'post'], 'edit/(:num)', 'BillController::edit/$1');
     $routes->match(['get', 'post'], 'delete/(:num)', 'BillController::delete/$1');
