@@ -11,7 +11,7 @@ class UserGroupModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\UserGroup::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['name', 'description'];
+    protected $allowedFields    = ['name', 'description', 'company_id'];
 
     /**
      * Periksa duplikat rekaman berdasarkan name dan id
@@ -21,8 +21,11 @@ class UserGroupModel extends Model
      */
     public function exists($name, $id)
     {
-        $sql = 'select count(0) as count from user_groups where name = :name:';
-        $params = ['name' => $name];
+        $sql = 'select count(0) as count from user_groups where name=:name: and company_id=:company_id:';
+        $params = [
+            'name' => $name,
+            'company_id' => current_user()->company_id
+        ];
 
         if ($id) {
             $sql .= ' and id <> :id:';
@@ -34,7 +37,11 @@ class UserGroupModel extends Model
 
     public function getAll()
     {
-        return $this->db->query('select * from user_groups order by name asc')
+        return $this->db->query('
+            select * from user_groups
+            where company_id=' . current_user()->company_id . '
+            order by name asc
+            ')
             ->getResultObject();
     }
 

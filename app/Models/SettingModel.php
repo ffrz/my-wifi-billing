@@ -8,7 +8,7 @@ class SettingModel extends Model
 {
     protected $table      = 'settings';
     protected $primaryKey = 'key';
-    protected $allowedFields = ['key', 'value'];
+    protected $allowedFields = ['key', 'value', 'company_id'];
 
     public function get($key, $default = null)
     {

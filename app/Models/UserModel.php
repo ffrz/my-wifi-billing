@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Entities\User;
 use CodeIgniter\Model;
 
 class UserModel extends Model
@@ -12,7 +11,7 @@ class UserModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\User::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['username', 'password', 'fullname', 'active', 'is_admin', 'group_id'];
+    protected $allowedFields    = ['username', 'password', 'fullname', 'active', 'is_admin', 'group_id', 'company_id'];
 
     /**
      * Periksa duplikat rekaman berdasarkan username dan id
@@ -22,7 +21,11 @@ class UserModel extends Model
      */
     public function exists($username, $id)
     {
-        $sql = 'select count(0) as count from users where username = :username:';
+        $sql = 'select count(0) as count
+            from users
+            where
+            company_id=' . current_user()->company_id . '
+            username = :username:';
         $params = ['username' => $username];
 
         if ($id) {
@@ -39,6 +42,7 @@ class UserModel extends Model
             select u.*, g.name group_name
                 from users u
                 left join user_groups g on g.id = u.group_id
+                where u.company_id=' . current_user()->company_id . '
                 order by u.username asc'
             )->getResultObject();
     }
@@ -48,7 +52,12 @@ class UserModel extends Model
      */
     public function findByUsername($username)
     {
-        $data = $this->db->query('select * from users where username=:username:', ['username' => $username])->getResultObject();
+        $data = $this->db->query('
+            select * from users
+            where
+            username=:username:', [
+                'username' => $username
+            ])->getResultObject();
         if (empty($data)) {
             return null;
         }

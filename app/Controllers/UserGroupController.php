@@ -28,9 +28,17 @@ class UserGroupController extends BaseController
         else {
             $item = $model->find($id);
             if (!$item) {
-                return redirect()->to(base_url('user-groups'))->with('warning', 'Grup Pengguna tidak ditemukan.');
+                return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
             }
-            $acl = $this->db->query("select resource, allowed from user_group_acl where group_id=$id")->getResultObject();
+            if ($item->company_id != current_user()->company_id) {
+                return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
+            }
+
+            $acl = $this->db->query("
+                select resource, allowed
+                from user_group_acl
+                where group_id=$id"
+            )->getResultObject();
             foreach ($acl as $a) {
                 $acl_by_resouces[$a->resource] = $a->allowed;
             }
@@ -51,9 +59,23 @@ class UserGroupController extends BaseController
                 $errors['name'] = 'Nama sudah digunakan, harap gunakan nama lain.';
             }
 
-            if (empty($errors)) {
+            if (empty($errors)) {                
                 $this->db->transBegin();
-                $this->db->query('delete from user_group_acl where group_id=' . (int)$item->id);
+                
+                try {
+                    if (!$item->company_id) {
+                        $item->company_id = current_user()->company_id;
+                    }
+                    $model->save($item);
+                }
+                catch (DataException $ex) {
+                }
+
+                if (!$item->id) {
+                    $item->id = $this->db->insertID();
+                }
+
+                $this->db->query('delete from user_group_acl where group_id=' . $item->id);
                 foreach ($item->acl as $k => $v) {
                     if (!in_array($k, Acl::getResources())) {
                         continue;
@@ -61,12 +83,6 @@ class UserGroupController extends BaseController
                     $this->db->query("insert into
                         user_group_acl (group_id, resource, allowed)
                         values ($item->id,'$k',1)");
-                }
-
-                try {
-                    $model->save($item);
-                }
-                catch (DataException $ex) {
                 }
 
                 $this->db->transCommit();
@@ -84,6 +100,13 @@ class UserGroupController extends BaseController
     {
         $model = $this->getUserGroupModel();
         $userGroup = $model->find($id);
+        if (!$userGroup) {
+            return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
+        }
+
+        if ($userGroup->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
+        }
 
         // TODO: cek jumlah pengguna, jika ada tidak boleh dihapus
 

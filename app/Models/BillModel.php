@@ -13,7 +13,8 @@ class BillModel extends Model
     protected $useSoftDeletes   = false;
     protected $allowedFields    = [
         'code', 'date', 'due_date', 'customer_id', 'product_id', 'amount',
-        'date_complete', 'status', 'type', 'description', 'notes'
+        'date_complete', 'status', 'type', 'description', 'notes',
+        'company_id'
     ];
 
 }

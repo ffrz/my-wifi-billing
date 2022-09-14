@@ -70,7 +70,7 @@ $this->extend('_layouts/default')
                 <?php foreach ($resource as $name => $label) : ?>
                     <div class="form-row">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="<?= $name ?>" name="acl[<?= $name ?>]" value="1" <?= $data->acl[$name] ? 'checked="checked"' : '' ?>>
+                            <input type="checkbox" class="custom-control-input" id="<?= $name ?>" name="acl[<?= $name ?>]" value="1" <?= isset($data->acl[$name]) ? 'checked="checked"' : '' ?>>
                             <label class="custom-control-label" style="font-weight:normal; white-space: nowrap;" for="<?= $name ?>"><?= $label ?></label>
                         </div>
                     </div>

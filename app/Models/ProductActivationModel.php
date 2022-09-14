@@ -11,5 +11,5 @@ class ProductActivationModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\ProductActivation::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['customer_id', 'product_id', 'date', 'price', 'bill_period'];
+    protected $allowedFields    = ['customer_id', 'product_id', 'date', 'price', 'bill_period', 'company_id'];
 }
