@@ -138,7 +138,7 @@ class UserController extends BaseController
                     if ($ex->getMessage() == 'There is no data to update. ') {
                     }
                 }
-                return redirect()->to(base_url('users'))->with('info', 'Berhasil disimpan.');
+                return redirect()->to(base_url('users/profile'))->with('info', 'Berhasil disimpan.');
             }
         }
         else {
