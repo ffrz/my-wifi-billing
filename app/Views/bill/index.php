@@ -6,7 +6,6 @@ $this->navActive = 'bill';
 <?= $this->section('right-menu') ?>
 <li class="nav-item">
 <a href="<?= base_url('bills/generate') ?>" class="btn btn-primary btn-xs mr-1" title="Generate Tagihan"><i class="fa fa-money-bill-1-wave mr-2"></i> GENERATE</a>
-    <a href="<?= base_url('bills/add') ?>" class="btn plus-btn btn-primary mr-1" title="Baru"><i class="fa fa-plus"></i></a>
     <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm" title="Saring"><i class="fa fa-filter"></i></button>
 </li>
 <?= $this->endSection() ?>
