@@ -111,7 +111,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?= base_url('auth/logout') ?>" class="nav-link">
+          <a href="<?= base_url('logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-right-from-bracket"></i>
               <p>Keluar</p>
             </a>

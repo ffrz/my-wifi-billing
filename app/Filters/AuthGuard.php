@@ -14,12 +14,12 @@ class AuthGuard implements FilterInterface
 
         // check if the current path is auth path, just return true
         // don't forget to use named routes to simplify the call
-        if ($currentURIPath ==route_to('auth/login')) {
+        if ($currentURIPath ==route_to('login')) {
             return;
         } 
 
         if (!session()->get('current_user')) {
-            return redirect()->to(base_url('auth/login'));
+            return redirect()->to(base_url('login'));
         }
     }
     

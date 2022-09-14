@@ -36,6 +36,8 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'DashboardController::index');
+$routes->match(['get', 'post'], 'login', 'AuthController::login');
+$routes->get('logout', 'AuthController::logout');
 
 $routes->group('customers', function($routes) {
     $routes->get('', 'CustomerController::index');
@@ -76,11 +78,6 @@ $routes->group('user-groups', function($routes) {
     $routes->get('', 'UserGroupController::index');
     $routes->match(['get', 'post'], 'edit/(:num)', 'UserGroupController::edit/$1');
     $routes->get('delete/(:num)', 'UserGroupController::delete/$1');
-});
-
-$routes->group('auth', function($routes) {
-    $routes->match(['get', 'post'], 'login', 'AuthController::login');
-    $routes->get('logout', 'AuthController::logout');
 });
 
 $routes->group('system', function($routes) {

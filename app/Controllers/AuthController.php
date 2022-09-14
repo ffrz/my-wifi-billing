@@ -70,6 +70,6 @@ class AuthController extends BaseController
     {
         $session = session();
         $session->destroy();
-        return redirect()->to(base_url('auth/login'));
+        return redirect()->to(base_url('login'));
     }
 }
