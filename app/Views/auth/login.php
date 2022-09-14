@@ -17,7 +17,6 @@
       <div>
          <span>Masuk <b><?= APP_NAME ?></b><sup><small> v<?= APP_VERSION_STR ?></sup></small></span>
       </div>
-      <div class="h1"><b><?= esc($storeName) ?></b></div>
     </div>
     <div class="card-body">
       <?php if ($error): ?>

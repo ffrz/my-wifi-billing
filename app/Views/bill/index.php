@@ -1,6 +1,6 @@
 <?php
 $this->title = 'Tagihan';
-$this->navActive = 'customer';
+$this->navActive = 'bill';
 ?>
 <?= $this->extend('_layouts/default') ?>
 <?= $this->section('right-menu') ?>
@@ -23,12 +23,26 @@ $this->navActive = 'customer';
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
+                        <label for="daterange" class="col-sm-3 col-form-label">Tanggal</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="daterange" class="form-control float-right" id="daterange" value="<?= format_date($filter->dateStart) . ' - ' . format_date($filter->dateEnd) ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="status" class="col-form-label col-sm-3">Status</label>
                         <div class="col-sm-9">
                             <select class="custom-select" id="status" name="status">
                                 <option value="all" <?= $filter->status == 'all' ? 'selected' : '' ?>>Semua Status</option>
-                                <option value="1" <?= $filter->status == 1 ? 'selected' : '' ?>>Lunas</option>
                                 <option value="0" <?= $filter->status == 0 ? 'selected' : '' ?>>Belum Dibayar</option>
+                                <option value="1" <?= $filter->status == 1 ? 'selected' : '' ?>>Lunas</option>                                
+                                <option value="2" <?= $filter->status == 2 ? 'selected' : '' ?>>Dibatalkan</option>
                             </select>
                         </div>
                     </div>
@@ -44,35 +58,40 @@ $this->navActive = 'customer';
     <div class="card-body">
         <div class="row">
             <div class="col-md-12 table-responsive" >
-                <table class="data-table display table table-bordered table-striped table-condensed center-th" style="width:100%">
+                <table class="data-table display valign-top table table-bordered table-striped table-condensed center-th" style="width:100%">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Pelanggan</th>
-                            <th>Deskripsi</th>
                             <th>Tagihan</th>
-                            <th>Jatuh Tempo</th>
-                            <th></th>
+                            <th>Pelanggan</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item) : ?>
                             <tr>
-                                <td><?= $item->code ?></td>
+                                <td>
+                                    <a href="<?= base_url("/bills/view/$item->id") ?>">
+                                        <?= $item->code ?>
+                                    </a>
+                                    <?php if ($item->due_date > date('Y-m-d') && $item->status == 0): ?>
+                                        <span class="badge badge-warning">Jatuh Tempo</span>
+                                    <?php endif ?>
+                                    <?php if ($item->status == 1): ?>
+                                        <span class="badge badge-success">Lunas</span>
+                                    <?php elseif ($item->status == 2): ?>
+                                        <span class="badge badge-danger">Dibatalkan</span>
+                                    <?php endif ?>
+                                    <?php if ($item->product_id): ?>
+                                        <br><span><?= esc($item->product_name) ?></span>
+                                    <?php endif ?>
+                                    <?php if ($item->description): ?>
+                                        <br><?= esc($item->description) ?>
+                                    <?php endif ?>
+                                    <br>Rp. <?= format_number($item->amount) ?>
+                                </td>
                                 <td>
                                     <?= esc($item->username) ?> - <?= esc($item->fullname) ?>
                                     <br>WA: <?= esc($item->wa) ?>
                                     <br><?= nl2br(esc($item->address)) ?>
-                                </td>
-                                <td><?= esc($item->description) ?></td>
-                                <td class="text-right"><?= format_number($item->amount) ?></td>
-                                <td><?= format_date($item->due_date) ?></td>
-                                <td class="text-center">
-                                    <div class="btn-group mr-2">
-                                        <a href="<?= base_url("/bills/view/$item->id") ?>" class="btn btn-default btn-sm" title="Lihat rincian"><i class="fa fa-eye"></i></a>
-                                        <a href="<?= base_url("/bills/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-                                    </div>
-                                    <a onclick="return confirm('Hapus Tagihan?')" href="<?= base_url("/bills/delete/$item->id") ?>" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -86,9 +105,13 @@ $this->navActive = 'customer';
 <?= $this->section('footscript') ?>
 <script>
     DATATABLES_OPTIONS.order = [[0, 'asc']];
-    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 5 }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
+        $('#daterange').daterangepicker({
+            locale: {
+                format: DATE_FORMAT
+            }
+        });
     });
 </script>
 <?= $this->endSection() ?>

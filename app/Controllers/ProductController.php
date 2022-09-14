@@ -17,6 +17,7 @@ class ProductController extends BaseController
         }
 
         $where = [];
+        $where[] = 'p.company_id=' . current_user()->company_id;
         if ($filter->active != 'all') {
             $where[] = 'p.active=' . (int)$filter->active;
         }

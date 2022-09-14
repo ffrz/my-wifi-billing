@@ -42,6 +42,7 @@ class AuthController extends BaseController
                 $currentUser->username = $username;
                 $currentUser->is_admin = $user->is_admin;
                 $currentUser->group_id = $user->group_id;
+                $currentUser->company_id = $user->company_id;
                 $currentUser->acl = [];
                 
                 $acl = [];
@@ -61,7 +62,6 @@ class AuthController extends BaseController
             'username' => $username,
             'password' => $password,
             'remember' => $remember,
-            'storeName' => $this->getSettings()->storeName,
             'error' => $error,
         ]);
     }

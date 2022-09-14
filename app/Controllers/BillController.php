@@ -12,14 +12,35 @@ class BillController extends BaseController
     {
         $filter = new stdClass;
         $filter->status = $this->request->getGet('status');
+        $filter->daterange = (string)$this->request->getGet('daterange');
+        
         if ($filter->status == null) {
-            $filter->status = 1;
+            $filter->status = 0;
         }
 
-        $where = '';
+        if (null == $filter->daterange) {
+            $filter->dateStart = date('Y-m-01');
+            $filter->dateEnd = date('Y-m-t');
+        }
+        
+        if (strlen($filter->daterange) == 23) {
+            $daterange = explode(' - ', $filter->daterange);
+            $filter->dateStart = datetime_from_input($daterange[0]);
+            $filter->dateEnd = datetime_from_input($daterange[1]);
+        }
+
+        $where = [];
+        if ($filter->status != 'all') {
+            $where[] = 'b.status=' . (int)$filter->status;
+        }
+
+        $where = implode(' and ', $where);
+        if (!empty($where)) {
+            $where = ' where ' . $where;
+        }
 
         $sql = "select
-            b.*, c.fullname, c.wa, c.address, c.username
+            b.*, c.fullname, c.wa, c.address, c.username, p.name product_name
             from bills b
             inner join customers c on b.customer_id = c.id
             left join products p on b.product_id = p.id 
@@ -176,10 +197,16 @@ class BillController extends BaseController
             return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
         }
 
-        return view('bill/view', [
+        $view = 'view';
+        if ($this->request->getGet('print')) {
+            $view = 'print';
+        }
+
+        return view("bill/$view", [
             'bill' => $bill,
             'data' => $customer,
             'product' => $product,
+            'settings' => $this->getSettingModel()
         ]);
     }
 }

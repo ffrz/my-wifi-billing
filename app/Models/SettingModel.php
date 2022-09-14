@@ -12,7 +12,12 @@ class SettingModel extends Model
 
     public function get($key, $default = null)
     {
-        $row = $this->db->query('select ifnull(`value`, "") as `value` from settings where `key`=:key:', [
+        $row = $this->db->query('
+            select ifnull(`value`, "") as `value`
+            from settings
+            where
+            company_id=' . current_user()->company_id . '
+            and `key`=:key:', [
             'key' => $key
         ])->getRow();
         return $row ? $row->value : $default;
@@ -22,10 +27,13 @@ class SettingModel extends Model
     {
         $this->db->query('
             INSERT INTO
-            settings (`key`, `value`)
-            VALUES   (:key:, :value:)
+            settings (`company_id`, `key`, `value`)
+            VALUES   (:company_id:, :key:, :value:)
             ON DUPLICATE KEY UPDATE
-            `key`=:key:, `value`=:value:', [
+            `company_id`=:company_id:,
+            `key`=:key:,
+            `value`=:value:', [
+                'company_id' => current_user()->company_id,
                 'key' => $key,
                 'value' => $value,
         ]);
