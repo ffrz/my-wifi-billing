@@ -103,7 +103,7 @@
           </ul>
         </li>
         <?php endif ?>
-        <li class="nav-item"><hr></li>
+        <li class="nav-item nav-separator"><hr></li>
         <li class="nav-item">
           <a href="<?= base_url('/users/profile/') ?>" class="nav-link <?= nav_active($this, 'profile') ?>">
             <i class="nav-icon fas fa-user"></i>

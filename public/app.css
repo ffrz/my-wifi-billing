@@ -4,12 +4,25 @@
     padding-bottom: 0.25rem;
     vertical-align: middle;
 }
+
 .table.center-th th {
     text-align: center;
 }
+
 .form-error {
     color: red;
 }
+
 .plus-btn {
     border-radius: 100%;
+}
+
+.nav-separator {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.nav-separator hr {
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
