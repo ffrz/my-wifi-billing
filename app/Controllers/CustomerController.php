@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Entities\Customer;
 use App\Entities\ProductActivation;
-use App\Models\ProductActivationModel;
 use CodeIgniter\Database\Exceptions\DataException;
 use stdClass;
 
@@ -33,11 +32,16 @@ class CustomerController extends BaseController
             $item = new Customer();
             $item->status = 1;
             $item->installation_date = date('Y-m-d');
-            $next_id = $this->db->query('select ifnull(max(id), 0)+1 id from customers limit 1')->getRow()->id;
-            $item->username = 'P' . str_pad($next_id, 3, '0', STR_PAD_LEFT);
+
+            $next_id = $this->db->query('
+                select ifnull(max(cid), 0)+1 id
+                from customers
+                where company_id=' . current_user()->company_id . ' limit 1')
+                ->getRow()->id;
+            $item->cid = $next_id;
         } else {
             $item = $model->find($id);
-            if (!$item) {
+            if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('customers'))->with('warning', 'Pelanggan tidak ditemukan.');
             }
         }
@@ -45,17 +49,7 @@ class CustomerController extends BaseController
         $errors = [];
 
         if ($this->request->getMethod() === 'post') {
-            if (!$id) {
-                $item->username = trim($this->request->getPost('username'));
-            }
-
             $item->fill($this->request->getPost());
-
-            if ($item->username == '') {
-                $errors['username'] = 'ID Pelanggan harus diisi.';
-            } else if ($model->exists($item->username, $item->id)) {
-                $errors['username'] = 'ID Pelanggan sudah digunakan, harap gunakan ID yang lain.';
-            }
 
             if ($item->fullname == '') {
                 $errors['fullname'] = 'Nama lengkap harus diisi.';
@@ -71,6 +65,10 @@ class CustomerController extends BaseController
                     } else {
                         $item->created_at = date('Y-m-d H:i:s');
                         $item->created_by = current_user()->username;
+                    }
+
+                    if (!$item->company_id) {
+                        $item->company_id = current_user()->company_id;
                     }
                     $model->save($item);
                 } catch (DataException $ex) {
@@ -96,6 +94,10 @@ class CustomerController extends BaseController
         where c.id=$id
         ")->getRow();
 
+        if (!$item || $item->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('customers'))->with('warning', 'Pelanggan tidak ditemukan.');
+        }
+
         $item->productActivations = $this->db->query("
             select a.*, p.name product_name from product_activations a
             inner join products p on p.id = a.product_id
@@ -112,6 +114,10 @@ class CustomerController extends BaseController
     {
         $model = $this->getCustomerModel();
         $item = $model->find($id);
+        if (!$item || $item->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('customers'))->with('warning', 'Pelanggan tidak ditemukan.');
+        }
+
         $item->status = 0;
         $item->deleted_at = date('Y-m-d H:i:s');
         $item->deleted_by = current_user()->username;
@@ -128,6 +134,10 @@ class CustomerController extends BaseController
     {
         $customerModel = $this->getCustomerModel();
         $customer = $customerModel->find($id);
+        if (!$customer || $customer->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('customers'))->with('warning', 'Pelanggan tidak ditemukan.');
+        }
+
         $item = new ProductActivation();
         $item->date = date('Y-m-d');
         $item->product_id = 0;
@@ -174,7 +184,7 @@ class CustomerController extends BaseController
             'errors' => $errors,
             'current_product' => $current_product,
             'customer' => $customer,
-            'products' => $this->getProductModel()->getAll()
+            'products' => $this->getProductModel()->getAllActive()
         ]);
     }
 }

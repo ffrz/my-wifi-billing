@@ -27,10 +27,7 @@ class UserGroupController extends BaseController
         }
         else {
             $item = $model->find($id);
-            if (!$item) {
-                return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
-            }
-            if ($item->company_id != current_user()->company_id) {
+            if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
             }
 
@@ -100,11 +97,7 @@ class UserGroupController extends BaseController
     {
         $model = $this->getUserGroupModel();
         $userGroup = $model->find($id);
-        if (!$userGroup) {
-            return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
-        }
-
-        if ($userGroup->company_id != current_user()->company_id) {
+        if (!$userGroup || $userGroup->company_id != current_user()->company_id) {
             return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
         }
 

@@ -25,7 +25,7 @@ $this->title = '#' . $bill->code;
                         <tr>
                             <td style="width:10rem;">ID Pelanggan</td>
                             <td style="width:1rem;">:</td>
-                            <td><?= esc($data->username) ?></td>
+                            <td><?= format_customer_id($data->cid) ?></td>
                         </tr>
                         <tr>
                             <td>Nama Pelanggan</td>

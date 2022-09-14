@@ -12,9 +12,9 @@ $this->extend('_layouts/default')
                 <?= csrf_field() ?>
                 <input type="hidden" name="id" value="<?= $customer->id ?>" />
                 <div class="form-group row">
-                    <label for="username" class="col-sm-3 col-form-label">ID Pelanggan</label>
+                    <label for="cid" class="col-sm-3 col-form-label">ID Pelanggan</label>
                     <div class="col-sm-3">
-                        <input type="text" readonly class="form-control" id="username" placeholder="ID Pelanggan" name="username" value="<?= esc($customer->username) ?>">
+                        <input type="text" readonly class="form-control" id="cid" placeholder="ID Pelanggan" name="cid" value="<?= format_customer_id($customer->cid) ?>">
                     </div>
                 </div>
                 <div class="form-group row">

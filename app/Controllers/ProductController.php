@@ -54,7 +54,7 @@ class ProductController extends BaseController
             $item->notify_before = 7; // belum dipakai
         } else {
             $item = $model->find($id);
-            if (!$item) {
+            if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('products'))->with('warning', 'Produk tidak ditemukan.');
             }
 
@@ -80,6 +80,9 @@ class ProductController extends BaseController
                 try {
                     $item->updated_at = date('Y-m-d H:i:s');
                     $item->updated_by = current_user()->username;
+                    if (!$item->company_id) {
+                        $item->company_id = current_user()->company_id;
+                    }
                     $model->save($item);
                 } catch (DataException $ex) {
                     if ($ex->getMessage() == 'There is no data to update. ') {
@@ -101,6 +104,10 @@ class ProductController extends BaseController
     {
         $model = $this->getProductModel();
         $product = $model->find($id);
+
+        if (!$product || $product->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('products'))->with('warning', 'Produk tidak ditemukan.');
+        }
 
         $product->active = false;
         $product->deleted_at = date('Y-m-d H:i:s');

@@ -72,7 +72,7 @@ $this->navActive = 'bill';
                                     <a href="<?= base_url("/bills/view/$item->id") ?>">
                                         <?= $item->code ?>
                                     </a>
-                                    <?php if ($item->due_date > date('Y-m-d') && $item->status == 0): ?>
+                                    <?php if (strtotime(date('Y-m-d')) > strtotime($item->due_date) && $item->status == 0): ?>
                                         <span class="badge badge-warning">Jatuh Tempo</span>
                                     <?php endif ?>
                                     <?php if ($item->status == 1): ?>
@@ -89,7 +89,7 @@ $this->navActive = 'bill';
                                     <br>Rp. <?= format_number($item->amount) ?>
                                 </td>
                                 <td>
-                                    <?= esc($item->username) ?> - <?= esc($item->fullname) ?>
+                                    <?= format_customer_id($item->cid) ?> - <?= esc($item->fullname) ?>
                                     <br>WA: <?= esc($item->wa) ?>
                                     <br><?= nl2br(esc($item->address)) ?>
                                 </td>

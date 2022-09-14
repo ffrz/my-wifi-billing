@@ -58,7 +58,7 @@ $this->navActive = 'customer';
                         <?php foreach ($items as $item) : ?>
                             <tr>
                                 <td>
-                                    <?= esc($item->username) ?>
+                                    <?= format_customer_id($item->cid) ?>
                                     <?php if ($item->status == 0): ?>
                                         <sup><span class="badge badge-danger">Non Aktif</span></sup>
                                     <?php endif ?>

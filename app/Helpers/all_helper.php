@@ -127,3 +127,8 @@ function wa_send($contact, $message) {
     }
     return '#';
 }
+
+function format_customer_id($id)
+{
+    return 'P' . str_pad($id, 3, '0', STR_PAD_LEFT);
+}

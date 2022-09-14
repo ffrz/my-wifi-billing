@@ -25,7 +25,7 @@ class UserModel extends Model
             from users
             where
             company_id=' . current_user()->company_id . '
-            username = :username:';
+            and username = :username:';
         $params = ['username' => $username];
 
         if ($id) {

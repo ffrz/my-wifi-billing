@@ -18,7 +18,7 @@ class SystemController extends BaseController
             $data['store_address'] = trim($this->request->getPost('store_address'));
 
             if (strlen($data['store_name']) == 0) {
-                $errors['store_name'] = 'Nama toko harus diisi.';
+                $errors['store_name'] = 'Nama usaha harus diisi.';
             }
 
             if (empty($errors)) {

@@ -12,7 +12,7 @@ $this->extend('_layouts/default');
         <div class="card-body">
             <?= csrf_field() ?>
             <div class="form-group row">
-                <label for="store_name" class="col-sm-2 col-form-label">Nama Toko</label>
+                <label for="store_name" class="col-sm-2 col-form-label">Nama Usaha</label>
                 <div class="col-sm-10">
                     <input type="text" autofocus class="form-control <?= !empty($errors['store_name']) ? 'is-invalid' : '' ?>"
                         id="store_name" placeholder="Nama Toko" name="store_name" value="<?= esc($data['store_name']) ?>">

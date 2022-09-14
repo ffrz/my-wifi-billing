@@ -20,7 +20,7 @@
                         <tr>
                             <td style="width:10rem;">ID Pelanggan</td>
                             <td style="width:1rem;">:</td>
-                            <td><?= esc($data->username) ?></td>
+                            <td><?= format_customer_id($data->cid) ?></td>
                         </tr>
                         <tr>
                             <td>Nama Pelanggan</td>
@@ -90,7 +90,7 @@
             <button type="submit" name="action" value="fully_paid" onclick="return confirm('Bayar?');" class="btn btn-primary"><i class="fas fa-check mr-2"></i>Bayar Lunas</button>
             <button type="submit" name="action" value="cancel" onclick="return confirm('Batalkan Tagihan?');" class="btn btn-warning mr-2"><i class="fas fa-cancel mr-2"></i>Batalkan Tagihan</button>
         </div>
-        <a onclick="return confirm('Hapus?');" href="<?= base_url("/bills/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
+        <a onclick="return confirm('Hapus?');" href="<?= base_url("/bills/delete/$bill->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
         <?php endif ?>
     </form>
     </div>

@@ -30,6 +30,7 @@ class BillController extends BaseController
         }
 
         $where = [];
+        $where[] = 'b.company_id=' . current_user()->company_id;
         if ($filter->status != 'all') {
             $where[] = 'b.status=' . (int)$filter->status;
         }
@@ -40,7 +41,7 @@ class BillController extends BaseController
         }
 
         $sql = "select
-            b.*, c.fullname, c.wa, c.address, c.username, p.name product_name
+            b.*, c.fullname, c.wa, c.address, c.cid, p.name product_name
             from bills b
             inner join customers c on b.customer_id = c.id
             left join products p on b.product_id = p.id 
@@ -69,7 +70,9 @@ class BillController extends BaseController
             //TODO: VALIDASI
 
             // check duplikat tagihan
-            $result = $this->db->query('select * from bills where date=:date:', [
+            $result = $this->db->query('
+                select * from bills
+                where date=:date: and company_id=' . current_user()->company_id, [
                 'date' => $data->date
             ])->getResultObject();
 
@@ -84,7 +87,7 @@ class BillController extends BaseController
                 if (!$customer->product_id)
                     continue;
                 
-                $code = 'INV-' . date('Ymd', strtotime($data->date)) . '-' . $customer->username;
+                $code = 'INV-' . current_user()->company_id . '-' . date('Ym', strtotime($data->date)) . '-' . $customer->cid;
 
                 // cek duplikat tagihan berdasarkan bulan tertentu dan id pelanggan
                 if (isset($itemsByCodes[$code])) {
@@ -99,6 +102,7 @@ class BillController extends BaseController
                 $bill->product_id = $customer->product_id;
                 $bill->amount = $customer->product_price;
 
+                $bill->company_id = current_user()->company_id;
                 $billModel->save($bill);
             }
             $this->db->transCommit();
@@ -117,7 +121,7 @@ class BillController extends BaseController
 
         if ($id) {
             $data = $model->find($id);
-            if (!$data) {
+            if (!$data || $data->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
             }
         }
@@ -155,7 +159,7 @@ class BillController extends BaseController
         $action = $this->request->getPost('action');        
         $model = $this->getBillModel();
         $bill = $model->find($id);
-        if (!$bill) {
+        if (!$bill || $bill->company_id != current_user()->company_id) {
             return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
         }
 
@@ -175,7 +179,7 @@ class BillController extends BaseController
     {
         $model = $this->getBillModel();
         $bill = $model->find($id);
-        if (!$bill) {
+        if (!$bill || $bill->company_id != current_user()->company_id) {
             return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
         }
 
@@ -188,6 +192,9 @@ class BillController extends BaseController
     {
         $model = $this->getBillModel();
         $bill = $model->find($id);
+        if (!$bill || $bill->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
+        }
         $product = null;
         if ($bill->product_id) {
             $product = $this->getProductModel()->find($bill->product_id);

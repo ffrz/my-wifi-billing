@@ -25,13 +25,15 @@ class UserController extends BaseController
         }
         else {
             $item = $model->find($id);
-            if (!$item) {
+            if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('users'))->with('warning', 'Pengguna tidak ditemukan.');
             }
+
             $oldPassword = $item->password;
         }
 
-        if ($item->username == 'admin') {
+        // ga boleh edit akun sendiri
+        if ($item->username == current_user()->username) {
             return redirect()->to(base_url('users'))->with('error', 'Akun ini tidak dapat diubah.');
         }
 
@@ -82,6 +84,9 @@ class UserController extends BaseController
                 }
 
                 try {
+                    if (!$item->company_id) {
+                        $item->company_id = current_user()->company_id;
+                    }
                     $model->save($item);
                 } catch (DataException $ex) {
                     if ($ex->getMessage() == 'There is no data to update. ') {
@@ -151,6 +156,10 @@ class UserController extends BaseController
     {
         $model = $this->getUserModel();
         $user = $model->find($id);
+
+        if (!$user || $user->company_id != current_user()->company_id) {
+            return redirect()->to(base_url('users'))->with('warning', 'Rekaman tidak ditemukan.');
+        }
 
         if ($user->username == 'admin') {
             return redirect()->to(base_url('users'))

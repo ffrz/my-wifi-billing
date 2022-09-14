@@ -11,15 +11,10 @@ $this->extend('_layouts/default')
             <div class="card-body">
                 <?= csrf_field() ?>
                 <div class="form-group row">
-                    <label for="username" class="col-sm-3 col-form-label">ID Pelanggan</label>
+                    <label for="cid" class="col-sm-3 col-form-label">ID Pelanggan</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control <?= !empty($errors['username']) ? 'is-invalid' : '' ?>"
-                            id="username" readonly placeholder="ID Pelanggan" name="username" value="<?= esc($data->username) ?>">
-                        <?php if (!empty($errors['username'])) : ?>
-                            <span class="error form-error">
-                                <?= $errors['username'] ?>
-                            </span>
-                        <?php endif ?>
+                        <input type="text" class="form-control <?= !empty($errors['cid']) ? 'is-invalid' : '' ?>"
+                            id="cid" readonly placeholder="ID Pelanggan" value="<?= format_customer_id($data->cid) ?>">
                     </div>
                 </div>
                 <div class="form-group row">

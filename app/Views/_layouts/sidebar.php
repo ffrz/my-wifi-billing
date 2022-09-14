@@ -67,6 +67,15 @@
           </a>
         </li>
         <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)): ?>
+          <li class="nav-item">
+            <a href="<?= base_url('/system/settings') ?>" class="nav-link <?= nav_active($this, 'system-settings') ?>">
+              <i class="nav-icon fas fa-gear"></i>
+              <p>Pengaturan</p>
+            </a>
+          </li>
+          <?php endif ?>
+          <?php /*
+        <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)): ?>
         <li class="nav-item <?= menu_open($this, 'system') ?>">
           <a href="#" class="nav-link <?= menu_active($this, 'system') ?>">
             <i class="nav-icon fas fa-gears"></i>
@@ -92,17 +101,10 @@
               </a>
             </li>
             <?php endif ?>
-            <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)): ?>
-            <li class="nav-item">
-              <a href="<?= base_url('/system/settings') ?>" class="nav-link <?= nav_active($this, 'system-settings') ?>">
-                <i class="nav-icon fas fa-gear"></i>
-                <p>Pengaturan</p>
-              </a>
-            </li>
-            <?php endif ?>
           </ul>
         </li>
         <?php endif ?>
+        */ ?>
         <li class="nav-item nav-separator"><hr></li>
         <li class="nav-item">
           <a href="<?= base_url('/users/profile/') ?>" class="nav-link <?= nav_active($this, 'profile') ?>">

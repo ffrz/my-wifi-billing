@@ -11,34 +11,16 @@ class CustomerModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\Customer::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['username', 'password', 'status', 'fullname', 'email', 'address', 'wa', 'phone',
+    protected $allowedFields    = ['cid', 'password', 'status', 'fullname', 'email', 'address', 'wa', 'phone',
         'installation_date', 'id_card_number', 'map_location', 'notes', 'product_id', 'product_price',
         'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by',
         'company_id'
     ];
 
-    /**
-     * Periksa duplikat rekaman berdasarkan username dan id
-     * @var $username nama pengguna
-     * @var $id id pengguna
-     * @return bool true jika ada duplikat, false jika tidak ada duplikat 
-     */
-    public function exists($username, $id)
-    {
-        $sql = 'select count(0) as count from customers where username = :username:';
-        $params = ['username' => $username];
-
-        if ($id) {
-            $sql .= ' and id <> :id:';
-            $params['id'] = $id;
-        }
-
-        return $this->db->query($sql, $params)->getRow()->count != 0;
-    }
-
     public function getAllWithFilter($filter)
     {
         $where = [];
+        $where[] = 'c.company_id='.current_user()->company_id;
         if ($filter->status != 'all') {
             $where[] = 'c.status=' . (int)$filter->status;
         }
@@ -55,7 +37,7 @@ class CustomerModel extends Model
             from customers c
             left join products p on p.id = c.product_id
             $where
-            order by c.username asc
+            order by c.cid asc
         ")->getResultObject();
     }
 
@@ -64,7 +46,8 @@ class CustomerModel extends Model
         return $this->db->query('
             select c.*
                 from customers c
-                order by c.username asc'
+                where company_id=' . current_user()->company_id . '
+                order by c.cid asc'
             )->getResultObject();
     }
 
@@ -72,17 +55,24 @@ class CustomerModel extends Model
     {
         return $this->db->query('
             select c.*
-                from customers c where status=1
-                order by c.username asc'
+                from customers c
+                where
+                company_id=' . current_user()->company_id . '
+                and status=1
+                order by c.cid asc'
             )->getResultObject();
     }
 
     /**
      * @return \stdClass
      */
-    public function findByUsername($username)
+    public function findByCustomerId($cid)
     {
-        $data = $this->db->query('select * from customers where username=:username:', ['username' => $username])->getResultObject();
+        $data = $this->db->query('
+            select * from customers
+            where
+            company_id=' . current_user()->company_id . '
+            and cid=:cid:', ['cid' => $cid])->getResultObject();
         if (empty($data)) {
             return null;
         }
