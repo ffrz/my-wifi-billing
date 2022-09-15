@@ -53,7 +53,7 @@ $this->title = 'Daftar Tagihan';
                             <td><?= format_customer_id($item->cid) ?> - <?= $item->fullname ?></td>
                             <td><?= $item->product_name ?> - <?= format_date($item->date, 'MMMM yyyy') ?></td>
                             <td class="text-right"><?= format_number($item->amount) ?></td>
-                            <td class="text-center"><?= fromat_bill_status($item->status) ?></td>
+                            <td class="text-center"><?= format_bill_status($item->status) ?></td>
                             <td class="text-center"><?= $item->wa ?></td>
                             <td><?= $item->address ?></td>
                         </tr>

@@ -105,6 +105,14 @@ class CustomerController extends BaseController
             order by a.id desc
         ")->getResultObject();
 
+        $item->bills = $this->db->query("
+            select b.*, p.name product_name
+            from bills b
+            inner join products p on p.id = b.product_id
+            where b.customer_id=$id
+            order by id desc
+        ")->getResultObject();
+
         return view('customer/view', [
             'data' => $item,
         ]);

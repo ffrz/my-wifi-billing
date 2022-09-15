@@ -68,12 +68,14 @@ $this->navActive = 'bill';
                                 <td>
                                     <a href="<?= base_url("/bills/view/$item->id") ?>"><?= $item->code ?></a>
                                     <?php if (strtotime(date('Y-m-d')) > strtotime($item->due_date) && $item->status == 0) : ?>
-                                        <span class="badge badge-warning">Jatuh Tempo</span>
+                                        <span class="badge badge-danger">Jatuh Tempo</span>
                                     <?php endif ?>
                                     <?php if ($item->status == 1) : ?>
                                         <span class="badge badge-success">Lunas</span>
                                     <?php elseif ($item->status == 2) : ?>
                                         <span class="badge badge-danger">Dibatalkan</span>
+                                        <?php elseif ($item->status == 0) : ?>
+                                        <span class="badge badge-warning">Belum Dibayar</span>
                                     <?php endif ?>
                                     <?php if ($item->product_id) : ?>
                                         <br><span><?= esc($item->product_name) ?></span>

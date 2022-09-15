@@ -1,9 +1,7 @@
 <?php
     $this->title = 'Rincian Pelanggan';
-    $this->titleIcon = 'fa-user';
     $this->navActive = 'customer';
-    $this->menuActive = 'customer';
-    $this->extend('_layouts/default')
+    $this->extend('_layouts/default');
 ?>
 <?= $this->section('content') ?>
 <div class="card card-primary card-tabs">
@@ -22,7 +20,7 @@
     </div>
     <div class="card-body">
         <div class="tab-content" id="customer-tabContent">
-            <div class="tab-pane fade show active table-responsive" id="tabcontent1" role="tabpanel" aria-labelledby="tabcontent1-tab1">
+            <div class="tab-pane show active fade table-responsive" id="tabcontent1" role="tabpanel" aria-labelledby="tabcontent1-tab1">
                 <table class="table table-condensed table-striped">
                     <tbody>
                         <tr>
@@ -94,7 +92,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>No Invoice</th>
-                                <th>Tanggal</th>
+                                <th>Bulan</th>
                                 <th>Produk</th>
                                 <th>Total</th>
                                 <th>Status</th>
@@ -102,13 +100,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($item->bills)) : ?>
+                            <?php if (empty($data->bills)) : ?>
                                 <tr>
                                     <td colspan="6" class="text-center font-italic text-muted">Belum ada rekaman tagihan.</td>
                                 </tr>
                             <?php else: ?>
-                            <?php foreach ($bills as $item) : ?>
-                                
+                            <?php foreach ($data->bills as $item) : ?>
+                                <tr>
+                                    <td><?= $item->code ?></td>
+                                    <td><?= format_date($item->date, 'MMMM yyyy') ?></td>
+                                    <td><?= $item->product_name ?></td>
+                                    <td><?= format_number($item->amount) ?></td>
+                                    <td><?= format_bill_status($item->status) ?></td>
+                                    <td><?= $item->notes ?></td>
+                                </tr>
                             <?php endforeach ?>
                             <?php endif ?>
                         </tbody>
