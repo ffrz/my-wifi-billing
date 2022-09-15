@@ -132,3 +132,14 @@ function format_customer_id($id)
 {
     return 'P' . str_pad($id, 3, '0', STR_PAD_LEFT);
 }
+
+function fromat_bill_status($status)
+{
+    switch ($status) {
+        case 0: return "Belum Lunas";
+        case 1: return "Lunas";
+        case 2: return "Dibatalkan";
+    }
+
+    return "";
+}

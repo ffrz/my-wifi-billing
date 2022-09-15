@@ -5,8 +5,6 @@
 ?>
 <?= $this->section('content') ?>
 <div class="card card-primary">
-    <div class="card-header p-0 pt-1">
-    </div>
     <div class="card-body">
         <div class="tab-content" id="customer-tabContent">
             <div class="tab-pane fade show active table-responsive" id="tabcontent1" role="tabpanel" aria-labelledby="tabcontent1-tab1">
@@ -88,9 +86,9 @@
         <?php if ($bill->status == 0): ?>
         <div class="btn-group mr-2">
             <button type="submit" name="action" value="fully_paid" onclick="return confirm('Bayar?');" class="btn btn-primary"><i class="fas fa-check mr-2"></i>Bayar Lunas</button>
-            <button type="submit" name="action" value="cancel" onclick="return confirm('Batalkan Tagihan?');" class="btn btn-warning mr-2"><i class="fas fa-cancel mr-2"></i>Batalkan Tagihan</button>
+            <button type="submit" name="action" value="cancel" onclick="return confirm('Batalkan Tagihan?');" class="btn btn-warning"><i class="fas fa-cancel mr-2"></i>Batalkan Tagihan</button>
         </div>
-        <a onclick="return confirm('Hapus?');" href="<?= base_url("/bills/delete/$bill->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
+        <a onclick="return confirm('Hapus?');" href="<?= base_url("/bills/delete/$bill->id") ?>" class="btn btn-danger float-right"><i class="fas fa-trash mr-2"></i>Hapus</a>
         <?php endif ?>
     </form>
     </div>

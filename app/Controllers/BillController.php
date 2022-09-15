@@ -10,27 +10,32 @@ class BillController extends BaseController
 {
     public function index()
     {
+        $print = (int)$this->request->getGet('print');
+
         $filter = new stdClass;
         $filter->status = $this->request->getGet('status');
         $filter->daterange = (string)$this->request->getGet('daterange');
+        $filter->year = (int)$this->request->getGet('year');
+        $filter->month = (int)$this->request->getGet('month');
         
+        if ($filter->year == 0) {
+            $filter->year = date('Y');
+        }
+
+        if ($filter->month < 0 || $filter->month > 12) {
+            $filter->month = 0;
+        }
+
         if ($filter->status == null) {
             $filter->status = 0;
         }
 
-        if (null == $filter->daterange) {
-            $filter->dateStart = date('Y-m-01');
-            $filter->dateEnd = date('Y-m-t');
-        }
-        
-        if (strlen($filter->daterange) == 23) {
-            $daterange = explode(' - ', $filter->daterange);
-            $filter->dateStart = datetime_from_input($daterange[0]);
-            $filter->dateEnd = datetime_from_input($daterange[1]);
-        }
-
         $where = [];
         $where[] = 'b.company_id=' . current_user()->company_id;
+        $where[] = 'year(date)=' . $filter->year;
+        if ($filter->month != 0) {
+            $where[] = 'month(date)=' . $filter->month;
+        }
         if ($filter->status != 'all') {
             $where[] = 'b.status=' . (int)$filter->status;
         }
@@ -46,10 +51,15 @@ class BillController extends BaseController
             inner join customers c on b.customer_id = c.id
             left join products p on b.product_id = p.id 
             $where
-            order by b.code asc";
+            order by c.cid asc";
         $items = $this->db->query($sql)->getResultObject();
 
-        return view('bill/index', [
+        $view = 'index';
+        if ($print) {
+            $view = 'print-list';
+        }
+
+        return view("bill/$view", [
             'items' => $items,
             'filter' => $filter,
         ]);
@@ -58,22 +68,28 @@ class BillController extends BaseController
     public function generate()
     {
         $data = new stdClass;
-        $data->date = date('Y-m-01');
-        $data->due_date = date('Y-m-20');
+        $data->year = date('Y');
+        $data->month = date('m');
+        $data->due_date = 20;
 
         if ($this->request->getMethod() == 'post') {
             $billModel = $this->getBillModel();
 
-            $data->date = datetime_from_input($this->request->getPost('date'));
-            $data->due_date = datetime_from_input($this->request->getPost('due_date'));
+            $data->year = (int)$this->request->getPost('year');
+            $data->month = (int)$this->request->getPost('month');
+            $data->due_date = (int)$this->request->getPost('due_date');
 
             //TODO: VALIDASI
+
+            $data->month = str_pad($data->month, 2, '0', STR_PAD_LEFT);
+            $date = "$data->year-$data->month-01";
+            $due_date = "$data->year-$data->month-$data->due_date";
 
             // check duplikat tagihan
             $result = $this->db->query('
                 select * from bills
                 where date=:date: and company_id=' . current_user()->company_id, [
-                'date' => $data->date
+                'date' => $date
             ])->getResultObject();
 
             $itemsByCodes = [];
@@ -87,7 +103,7 @@ class BillController extends BaseController
                 if (!$customer->product_id)
                     continue;
                 
-                $code = 'INV-' . current_user()->company_id . '-' . date('Ym', strtotime($data->date)) . '-' . $customer->cid;
+                $code = 'INV-' . current_user()->company_id . '-' . date('Ym', strtotime($date)) . '-' . $customer->cid;
 
                 // cek duplikat tagihan berdasarkan bulan tertentu dan id pelanggan
                 if (isset($itemsByCodes[$code])) {
@@ -96,8 +112,8 @@ class BillController extends BaseController
 
                 $bill = new Bill();
                 $bill->code = $code;
-                $bill->date = $data->date;
-                $bill->due_date = $data->due_date;
+                $bill->date = $date;
+                $bill->due_date = $due_date;
                 $bill->customer_id = $customer->id;
                 $bill->product_id = $customer->product_id;
                 $bill->amount = $customer->product_price;

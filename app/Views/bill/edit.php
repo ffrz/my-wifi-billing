@@ -23,7 +23,7 @@ $this->extend('_layouts/default')
                             <?php foreach ($customers as $customer) : ?>
                                 <option value="<?= $customer->id ?>" <?= $data->customer_id == $customer->id ? 'selected' : '' ?>
                                     data-product_id="<?= $customer->product_id ?>">
-                                    <?= esc($customer->username) ?> - <?= esc($customer->fullname) ?>
+                                    <?= format_customer_id($customer->cid) ?> - <?= esc($customer->fullname) ?>
                                 </option>
                             <?php endforeach ?>
                         </select>
