@@ -5,7 +5,8 @@
     vertical-align: middle;
 }
 
-table.table-pad-xs td, table.table-pad-xs th {
+table.table-pad-xs td,
+table.table-pad-xs th {
     padding: 2px 5px;
 }
 
@@ -34,9 +35,11 @@ table.table-pad-xs td, table.table-pad-xs th {
 .card-body {
     padding: 1rem;
 }
+
 .card {
     border-top: 3px solid #007bff;
 }
+
 .card,
 .card-header,
 .card-footer,
@@ -55,19 +58,29 @@ select.custom-select,
     border-radius: 100%;
 }
 
-*, .invoice {
-    -webkit-filter: none !important; 
-    filter: none !important; 
+*,
+.invoice {
+    -webkit-filter: none !important;
+    filter: none !important;
 }
 
 .table-print {
     border-collapse: collapse;
     width: 100%;
 }
-.table-print td, .table-print th {
+
+.table-print td,
+.table-print th {
     border: 1px solid black;
     padding: 2px 5px;
 }
-.no-border tr, .no-border td {
+
+.no-border tr,
+.no-border td {
     border: none;
+}
+
+.pad-xs tbody th,
+.pad-xs tbody td {
+    padding: 1px;
 }

@@ -18,9 +18,6 @@
   <link rel="stylesheet" href="<?= base_url('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') ?>">
   <link rel="stylesheet" href="<?= base_url('dist/css/adminlte.min.css') ?>">
   <link rel="stylesheet" href="<?= base_url('app.css?v=202209151141') ?>">
-  <style>
-    .pad-xs tbody th, .pad-xs tbody td { padding: 1px; }
-  </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed">
