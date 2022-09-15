@@ -29,7 +29,7 @@ $this->extend('_layouts/default')
             <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-money-bills"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Tagihan</span>
-                <span class="info-box-number">Rp. <?= format_number($data->unpaidBill) ?></span>
+                <span class="info-box-number"><?= format_number($data->unpaidBillCount) ?> / Rp. <?= format_number($data->unpaidBill) ?></span>
             </div>
         </div>
     </div>

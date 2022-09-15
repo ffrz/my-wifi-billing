@@ -31,6 +31,12 @@ class DashboardController extends BaseController
             and status=0
         ')->getRowObject()->total;
 
+        $data->unpaidBillCount = $this->db->query('
+        select ifnull(count(0), 0) as total from bills
+        where company_id= ' . current_user()->company_id . ' 
+        and status=0
+        ')->getRowObject()->total;
+
         $data->paidBill = $this->db->query('
             select ifnull(sum(amount), 0) as total from bills
             where company_id= ' . current_user()->company_id . ' 
