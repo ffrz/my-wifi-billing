@@ -24,7 +24,10 @@ class ProductModel extends Model
      */
     public function exists($name, $id)
     {
-        $sql = 'select count(0) as count from products where name = :name:';
+        $sql = 'select count(0) as count
+            from products
+            where name = :name:
+            and c.company_id=' . current_user()->company_id;
         $params = ['name' => $name];
 
         if ($id) {
@@ -45,6 +48,7 @@ class ProductModel extends Model
             select c.*
                 from products c
                 where active=1
+                and c.company_id=' . current_user()->company_id . '
                 order by c.name asc'
             )->getResultObject();
     }

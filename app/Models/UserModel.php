@@ -23,9 +23,7 @@ class UserModel extends Model
     {
         $sql = 'select count(0) as count
             from users
-            where
-            company_id=' . current_user()->company_id . '
-            and username = :username:';
+            where username = :username:';
         $params = ['username' => $username];
 
         if ($id) {

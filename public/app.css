@@ -45,11 +45,14 @@ table.table-pad-xs th {
 .card-footer,
 .btn,
 select.custom-select,
+.select2-container--default .select2-selection--single,
+.select2-search--dropdown .select2-search__field,
 .custom-select,
 .form-control,
 .form-control-sm,
 .page-item:first-child .page-link,
 .page-item:last-child .page-link,
+.input-group-text,
 .custom-checkbox .custom-control-label::before {
     border-radius: 0;
 }

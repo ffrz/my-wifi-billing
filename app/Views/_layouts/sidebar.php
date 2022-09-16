@@ -1,4 +1,6 @@
-<?php use App\Entities\Acl; ?>
+<?php
+
+use App\Entities\Acl; ?>
 <aside class="main-sidebar sidebar-light-primary elevation-4">
   <a href="<?= base_url('/') ?>" class="brand-link">
     <img src="<?= base_url('dist/img/logo.png') ?>" alt="App Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -6,14 +8,14 @@
   </a>
   <div class="sidebar">
     <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-flat nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">    
+      <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-flat nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
           <a href="<?= base_url() ?>" class="nav-link <?= nav_active($this, 'dashboard') ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Dashboard</p>
           </a>
         </li>
-        
+
         <?php /*
         <?php if (current_user_can(Acl::VIEW_REPORTS)): ?>
         <li class="nav-item <?= menu_open($this, 'report') ?>">
@@ -66,15 +68,21 @@
             <p>Produk</p>
           </a>
         </li>
-        <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)): ?>
+        <li class="nav-item">
+          <a href="<?= base_url('/costs') ?>" class="nav-link <?= nav_active($this, 'cost') ?>">
+            <i class="nav-icon fas fa-receipt"></i>
+            <p>Biaya Operasional</p>
+          </a>
+        </li>
+        <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)) : ?>
           <li class="nav-item">
             <a href="<?= base_url('/system/settings') ?>" class="nav-link <?= nav_active($this, 'system-settings') ?>">
               <i class="nav-icon fas fa-gear"></i>
               <p>Pengaturan</p>
             </a>
           </li>
-          <?php endif ?>
-          <?php /*
+        <?php endif ?>
+        <?php /*
         <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)): ?>
         <li class="nav-item <?= menu_open($this, 'system') ?>">
           <a href="#" class="nav-link <?= menu_active($this, 'system') ?>">
@@ -105,7 +113,9 @@
         </li>
         <?php endif ?>
         */ ?>
-        <li class="nav-item nav-separator"><hr></li>
+        <li class="nav-item nav-separator">
+          <hr>
+        </li>
         <li class="nav-item">
           <a href="<?= base_url('/users/profile/') ?>" class="nav-link <?= nav_active($this, 'profile') ?>">
             <i class="nav-icon fas fa-user"></i>
@@ -114,9 +124,9 @@
         </li>
         <li class="nav-item">
           <a href="<?= base_url('logout') ?>" class="nav-link">
-              <i class="nav-icon fas fa-right-from-bracket"></i>
-              <p>Keluar</p>
-            </a>
+            <i class="nav-icon fas fa-right-from-bracket"></i>
+            <p>Keluar</p>
+          </a>
         </li>
       </ul>
     </nav>

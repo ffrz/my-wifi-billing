@@ -3,8 +3,6 @@ $this->title = 'Tagihan';
 $this->navActive = 'bill';
 ?>
 <?= $this->extend('_layouts/default') ?>
-<?= $this->section('right-menu') ?>
-<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <div class="card card-primary">
     <div class="card-body">

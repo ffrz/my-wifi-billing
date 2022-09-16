@@ -14,7 +14,6 @@ class BillController extends BaseController
 
         $filter = new stdClass;
         $filter->status = $this->request->getGet('status');
-        $filter->daterange = (string)$this->request->getGet('daterange');
         $filter->year = (int)$this->request->getGet('year');
         $filter->month = (int)$this->request->getGet('month');
         

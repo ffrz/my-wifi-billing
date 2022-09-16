@@ -167,4 +167,31 @@ abstract class BaseController extends Controller
         
         return $this->settings;
     }
+
+    public function getCompanyModel()
+    {
+        if (!isset($this->models['company'])) {
+            $this->models['company'] = new \App\Models\CompanyModel($this->db);
+        }
+
+        return $this->models['company'];
+    }
+
+    public function getCostModel()
+    {
+        if (!isset($this->models['cost'])) {
+            $this->models['cost'] = new \App\Models\CostModel($this->db);
+        }
+
+        return $this->models['cost'];
+    }
+
+    public function getCostCategoryModel()
+    {
+        if (!isset($this->models['cost-category'])) {
+            $this->models['cost-category'] = new \App\Models\CostCategoryModel($this->db);
+        }
+
+        return $this->models['cost-category'];
+    }
 }
