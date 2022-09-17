@@ -42,8 +42,8 @@ $this->navActive = 'bill';
         <div class="row">
             <div class="col-md-12 mt-2">
                 <div class="btn-group">
-                    <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" class="btn btn-default"><i class="fa fa-print mr-2"></i> CETAK DAFTAR TAGIHAN</a>
-                    <a href="<?= base_url('bills/generate') ?>" class="btn btn-warning" title="Generate Tagihan"><i class="fa fa-bolt mr-2"></i> GENERATE</a>
+                    <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" class="btn btn-default"><i class="fa fa-print mr-2"></i> Cetak</a>
+                    <a href="<?= base_url('bills/generate') ?>" class="btn btn-warning" title="Generate Tagihan"><i class="fa fa-bolt mr-2"></i> Generate</a>
                 </div>
             </div>
         </div>

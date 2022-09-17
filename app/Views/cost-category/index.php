@@ -48,7 +48,7 @@ $this->extend('_layouts/default')
         ];
         DATATABLES_OPTIONS.columnDefs = [{
             orderable: false,
-            targets: 2
+            targets: 1
         }];
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });

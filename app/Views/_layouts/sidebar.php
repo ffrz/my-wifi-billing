@@ -15,8 +15,6 @@ use App\Entities\Acl; ?>
             <p>Dashboard</p>
           </a>
         </li>
-
-        <?php /*
         <?php if (current_user_can(Acl::VIEW_REPORTS)): ?>
         <li class="nav-item <?= menu_open($this, 'report') ?>">
           <a href="#" class="nav-link <?= menu_active($this, 'report') ?>">
@@ -26,30 +24,28 @@ use App\Entities\Acl; ?>
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
-          
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('/reports/income-statement') ?>" class="nav-link <?= nav_active($this, 'income-statement-report') ?>">
+              <a href="<?= base_url('/reports/unpaid-bills') ?>" class="nav-link <?= nav_active($this, 'report/unpaid-bills') ?>">
                 <i class="nav-icon fas fa-file-contract"></i>
-                <p>Lap. Laba Rugi</p>
+                <p><small>Lap. Penagihan</small></p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('/reports/sales-by-category') ?>" class="nav-link <?= nav_active($this, 'sales-by-category') ?>">
+              <a href="<?= base_url('/reports/paid-bills') ?>" class="nav-link <?= nav_active($this, 'report/paid-bills') ?>">
                 <i class="nav-icon fas fa-file-contract"></i>
-                <p><small>Lap. Penjualan per Kategori</small></p>
+                <p><small>Lap. Pembayaran Tagihan</small></p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('/reports/stock-assets') ?>" class="nav-link <?= nav_active($this, 'stock-report') ?>">
+              <a href="<?= base_url('/reports/cost') ?>" class="nav-link <?= nav_active($this, 'report/cost') ?>">
                 <i class="nav-icon fas fa-file-contract"></i>
-                <p>Lap. Stok</p>
+                <p><small>Lap. Biaya Operasional</small></p>
               </a>
             </li>
           </ul>
-          <?php
         </li>
-        <?php endif ?> */ ?>
+        <?php endif ?>
         <li class="nav-item">
           <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
             <i class="nav-icon fas fa-money-bills"></i>

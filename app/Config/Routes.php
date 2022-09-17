@@ -90,6 +90,11 @@ $routes->group('bills', function($routes) {
     $routes->get('view/(:num)', 'BillController::view/$1');
 });
 
+$routes->group('reports', function($routes) {
+    $routes->get('cost', 'ReportController::cost');
+    $routes->get('paid-bills', 'ReportController::paidBills');
+    $routes->get('unpaid-bills', 'ReportController::unpaidBills');
+});
 
 $routes->group('users', function($routes) {
     $routes->get('', 'UserController::index');
