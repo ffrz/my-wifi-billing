@@ -41,8 +41,8 @@ class DashboardController extends BaseController
             select ifnull(sum(amount), 0) as total from bills
             where company_id= ' . current_user()->company_id . ' 
             and status=1
-            and year(date)=' . date('Y') . '
-            and month(date)=' . date('m') . '
+            and year(date_complete)=' . date('Y') . '
+            and month(date_complete)=' . date('m') . '
         ')->getRowObject()->total;
 
         $data->incomes = [];
