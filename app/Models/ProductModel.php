@@ -27,7 +27,7 @@ class ProductModel extends Model
         $sql = 'select count(0) as count
             from products
             where name = :name:
-            and c.company_id=' . current_user()->company_id;
+            and company_id=' . current_user()->company_id;
         $params = ['name' => $name];
 
         if ($id) {
