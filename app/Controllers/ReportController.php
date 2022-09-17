@@ -11,13 +11,12 @@ class ReportController extends BaseController
         $print = $this->request->getGet('print');
         $filter = $this->initFilter();
 
+        $date = "$filter->year-$filter->month-01";
+
         $where = [];
         $where[] = 'b.company_id=' . current_user()->company_id;
-        $where[] = 'year(date)=' . $filter->year;
+        $where[] = "date<='$date'";
         $where[] = 'b.status=0';
-        if ($filter->month != 0) {
-            $where[] = 'month(date)=' . $filter->month;
-        }
 
         $where = implode(' and ', $where);
         if (!empty($where)) {
@@ -46,10 +45,10 @@ class ReportController extends BaseController
 
         $where = [];
         $where[] = 'b.company_id=' . current_user()->company_id;
-        $where[] = 'year(date)=' . $filter->year;
         $where[] = 'b.status=1';
+        $where[] = 'year(date_complete)=' . $filter->year;
         if ($filter->month != 0) {
-            $where[] = 'month(date)=' . $filter->month;
+            $where[] = 'month(date_complete)=' . $filter->month;
         }
 
         $where = implode(' and ', $where);
