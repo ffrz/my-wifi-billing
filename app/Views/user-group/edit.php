@@ -3,31 +3,44 @@
 use \App\Entities\Acl;
 
 $acl_resources = [
-    'Laporan' => [
-        Acl::VIEW_REPORTS => 'Melihat Laporan'
-    ],
     'Tagihan' => [
-        Acl::VIEW_BILLS => 'Melihat daftar tagihan',
-        Acl::VIEW_BILL => 'Melihat rincian tagihan',
+        Acl::VIEW_BILLS => 'Mengakses daftar tagihan',
+        Acl::VIEW_BILL => 'Mengakses rincian tagihan',
         Acl::GENERATE_BILLS => 'Men-generate daftar tagihan',
+        Acl::ADD_BILL => 'Membuat tagihan',
+        Acl::EDIT_BILL => 'Mengubah tagihan',
+        Acl::COMPLETE_BILL => 'Menyelesaikan pembayaran tagihan',
+        Acl::CANCEL_BILL => 'Membatalkan tagihan',
+        Acl::DELETE_BILL => 'Menghapus tagihan',
     ],
     'Pelanggan' => [
-        Acl::VIEW_CUSTOMERS => 'Melihat daftar pelanggan',
+        Acl::VIEW_CUSTOMERS => 'Mengakses daftar pelanggan',
+        Acl::VIEW_CUSTOMER => 'Mengakses rincian pelanggan',
+        Acl::ADD_CUSTOMER => 'Menambah pelanggan',
+        Acl::EDIT_CUSTOMER => 'Mengubah pelanggan',
+        Acl::DELETE_CUSTOMER => 'Menghapus pelanggan',
+        Acl::CHANGE_CUSTOMER_PRODUCT => 'Mengubah paket produk',
     ],
     'Produk' => [
-        Acl::VIEW_PRODUCTS => 'Melihat daftar produk',
+        Acl::VIEW_PRODUCTS => 'Mengakses daftar produk',
+        Acl::ADD_PRODUCT => 'Menambah produk',
+        Acl::EDIT_PRODUCT => 'Mengubah produk',
+        Acl::DELETE_PRODUCT => 'Menghapus produk',
     ],
     'Biaya Operasional' => [
-        Acl::VIEW_COSTS => 'Melihat daftar biaya operasional',
+        Acl::VIEW_COSTS => 'Mengakses daftar biaya operasional',
         Acl::ADD_COST => 'Menambah biaya operasional',
         Acl::EDIT_COST => 'Mengubah biaya operasional',
         Acl::DELETE_COST => 'Menghapus biaya operasional',
     ],
     'Kategori Biaya Operasional' => [        
-        Acl::VIEW_COST_CATEGORIES => 'Melihat daftar kategori biaya operasional',
+        Acl::VIEW_COST_CATEGORIES => 'Mengakses daftar kategori biaya operasional',
         Acl::ADD_COST_CATEGORY => 'Menambah kategori biaya operasional',
         Acl::EDIT_COST_CATEGORY => 'Mengubah kategori biaya operasional',
         Acl::DELETE_COST_CATEGORY => 'Menghapus kategori biaya operasional',
+    ],
+    'Laporan' => [
+        Acl::VIEW_REPORTS => 'Mengakses Laporan'
     ],
 ];
 

@@ -30,7 +30,7 @@ class Acl
     const EDIT_CUSTOMER = '403';
     const DELETE_CUSTOMER = '404';
     const VIEW_CUSTOMER = '405';
-    const CHANGE_CUSTOMER_PRODUCT = '405';
+    const CHANGE_CUSTOMER_PRODUCT = '406';
 
     const VIEW_PRODUCTS = '301';
     const ADD_PRODUCT = '302';
@@ -42,7 +42,6 @@ class Acl
     const EDIT_COST = '203';
     const DELETE_COST = '204';
 
-
     const VIEW_COST_CATEGORIES = '211';
     const ADD_COST_CATEGORY = '212';
     const EDIT_COST_CATEGORY = '213';
@@ -51,17 +50,26 @@ class Acl
     const VIEW_REPORTS = '901';
 
     protected static $_resources = [
-        self::CHANGE_SYSTEM_SETTINGS,
         self::VIEW_BILLS,
         self::GENERATE_BILLS,
         self::VIEW_BILL,
+        self::ADD_BILL,
         self::EDIT_BILL,
         self::DELETE_BILL,
         self::COMPLETE_BILL,
         self::CANCEL_BILL,
 
         self::VIEW_CUSTOMERS,
+        self::ADD_CUSTOMER,
+        self::EDIT_CUSTOMER,
+        self::DELETE_CUSTOMER,
+        self::VIEW_CUSTOMER,
+        self::CHANGE_CUSTOMER_PRODUCT,
+
         self::VIEW_PRODUCTS,
+        self::ADD_PRODUCT,
+        self::EDIT_PRODUCT,
+        self::DELETE_PRODUCT,
 
         self::VIEW_COSTS,
         self::ADD_COST,
