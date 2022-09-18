@@ -24,6 +24,11 @@ class UserGroupController extends BaseController
         $acl_by_resouces = Acl::createResources();
 
         if ($id == 0) {
+            $count = $this->db->query('select count(0) as count from user_groups where company_id=' . current_user()->company_id)
+                ->getRowObject()->count;
+            if ($count >= MAX_USER_GROUP) {
+                return redirect()->to(base_url('user-groups'))->with('error', 'Anda telah mencapai batas maksimum pembuatan grup pengguna.');
+            }
             $data = new UserGroup();
         } else {
             $data = $model->find($id);

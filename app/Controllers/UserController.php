@@ -21,6 +21,12 @@ class UserController extends BaseController
         $oldPassword = '';
         $model = $this->getUserModel();
         if ($id == 0) {
+            $count = $this->db->query('select count(0) as count from users where company_id=' . current_user()->company_id)
+                ->getRowObject()->count;
+            if ($count >= MAX_USER) {
+                return redirect()->to(base_url('users'))->with('error', 'Anda telah mencapai batas maksimum pembuatan akun pengguna.');
+            }
+
             $data = new User();
             $data->active = true;
             $data->is_admin = false;

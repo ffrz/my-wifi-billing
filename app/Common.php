@@ -17,3 +17,7 @@
 define('APP_NAME', 'WifiKu');
 define('APP_VERSION', 0x010000);
 define('APP_VERSION_STR', '1.0.0');
+
+define('MAX_USER_GROUP', 2);
+define('MAX_USER', 5);
+define('MAX_COST_CATEGORY', 10);

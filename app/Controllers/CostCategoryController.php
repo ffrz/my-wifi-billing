@@ -20,6 +20,11 @@ class CostCategoryController extends BaseController
     {
         $model = $this->getCostCategoryModel();
         if ($id == 0) {
+            $count = $this->db->query('select count(0) as count from cost_categories where company_id=' . current_user()->company_id)
+                ->getRowObject()->count;
+            if ($count >= MAX_COST_CATEGORY) {
+                return redirect()->to(base_url('cost-categories'))->with('error', 'Anda telah mencapai batas maksimum pembuatan kategori biaya oprasional.');
+            }
             $item = new CostCategory();
         } else {
             $item = $model->find($id);
