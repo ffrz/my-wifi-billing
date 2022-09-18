@@ -58,6 +58,7 @@ class AuthController extends BaseController
             }
         }
 
+        $password = '';
         return view('auth/login', [
             'username' => $username,
             'password' => $password,
