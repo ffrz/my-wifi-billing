@@ -22,8 +22,7 @@ class UserController extends BaseController
         $model = $this->getUserModel();
         if ($id == 0) {
             $item = new User();
-        }
-        else {
+        } else {
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('users'))->with('warning', 'Pengguna tidak ditemukan.');
@@ -57,27 +56,22 @@ class UserController extends BaseController
 
             if ($item->username == '') {
                 $errors['username'] = 'Username harus diisi.';
-            }
-            else if ($model->exists($item->username, $item->id)) {
+            } else if ($model->exists($item->username, $item->id)) {
                 $errors['username'] = 'Username sudah digunakan, harap gunakan nama lain.';
-            }
-            else if ($item->fullname == '') {
+            } else if ($item->fullname == '') {
                 $errors['fullname'] = 'Nama lengkap harus diisi.';
-            }
-            else if (!$item->id) {
+            } else if (!$item->id) {
                 if ($item->password == '') {
                     $errors['password'] = 'Kata sandi harus diisi.';
-                }
-                else {
+                } else {
                     $item->password = sha1($item->password);
                 }
-            }
-            else if ($item->password != '') {
+            } else if ($item->password != '') {
                 $item->password = sha1($item->password);
             }
 
             if (empty($errors)) {
-                
+
                 if ($item->password === '' && $oldPassword !== '') {
                     // user ga mengganti password maka reset dengan password lama
                     $item->password = $oldPassword;
@@ -94,11 +88,10 @@ class UserController extends BaseController
                 }
                 return redirect()->to(base_url('users'))->with('info', 'Berhasil disimpan.');
             }
-        }
-        else {
+        } else {
             $item->password = '';
         }
-        
+
         return view('user/edit', [
             'data' => $item,
             'userGroups' => $this->getUserGroupModel()->getAll(),
@@ -111,27 +104,49 @@ class UserController extends BaseController
         $id = current_user()->id;
         $errors = [];
 
-        $model = $this->getUserModel(); 
+        $model = $this->getUserModel();
         $item = $model->find($id);
 
         if ($this->request->getMethod() === 'post') {
             $item->fullname = trim($this->request->getPost('fullname'));
             $item->password1 = $this->request->getPost('password1');
             $item->password2 = $this->request->getPost('password2');
-            
+            $input_current_password = $this->request->getPost('current_password');
+            $change_password = false;
+
             if ($item->fullname == '') {
-                $errors['fullname'] = 'Nama lengkap harus diisi.';
+                $errors['fullname'] = 'Nama harus diisi.';
+            } elseif (strlen($item->fullname) > 100) {
+                $errors['fullname'] = 'Nama terlalu panjang, maksimal 100 karakter.';
+            } else if (!preg_match('/^[a-zA-Z\d ]+$/i', $item->fullname)) {
+                $errors['fullname'] = 'Nama tidak valid, gunakan huruf alfabet, angka dan spasi.';
+            }
+
+            if ($input_current_password == '') {
+                $errors['current_password'] = 'Anda harus mengisi kata sandi.';
+            } else if (sha1($input_current_password) != $item->password) {
+                $errors['current_password'] = 'Kata sandi salah.';
             }
 
             if ($item->password1 != '') {
+                $change_password = true;
                 // user ingin mengganti password
-                if ($item->password1 != $item->password2) {
-                    $errors['password2'] = 'Kata sandi tidak cocok.';
+                if (strlen($item->password1) < 3) {
+                    $errors['password1'] = 'Kata sandi anda terlalu pendek, minimal 3 karakter.';
+                }
+                else if (strlen($item->password1) > 40) {
+                    $errors['password1'] = 'Kata sandi anda terlalu panjang, maksimal 40 karakter.';
+                }
+                else if ($item->password1 != $item->password2) {
+                    $errors['password2'] = 'Kata sandi yang anda konfirmasi tidak cocok.';
                 }
             }
 
             if (empty($errors)) {
-                $item->password = sha1($item->password1);
+                if ($change_password) {
+                    $item->password = sha1($item->password1);
+                }
+                
                 try {
                     $model->save($item);
                 } catch (DataException $ex) {
@@ -140,8 +155,7 @@ class UserController extends BaseController
                 }
                 return redirect()->to(base_url('users/profile'))->with('info', 'Berhasil disimpan.');
             }
-        }
-        else {
+        } else {
             $item->password1 = '';
             $item->password2 = '';
         }
@@ -164,10 +178,9 @@ class UserController extends BaseController
         if ($user->username == 'admin') {
             return redirect()->to(base_url('users'))
                 ->with('error', 'Akun <b>' . esc($user->username) . '</b> tidak dapat dihapus.');
-        }
-        else if ($user->id == current_user()->id) {
+        } else if ($user->id == current_user()->id) {
             return redirect()->to(base_url('users'))
-            ->with('error', 'Anda tidak dapat menghapus akun sendiri.');
+                ->with('error', 'Anda tidak dapat menghapus akun sendiri.');
         }
 
         if ($this->request->getMethod() == 'post') {
