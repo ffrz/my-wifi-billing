@@ -32,6 +32,9 @@ class CustomerController extends BaseController
             $item = new Customer();
             $item->status = 1;
             $item->installation_date = date('Y-m-d');
+            $item->created_at = date('Y-m-d H:i:s');
+            $item->created_by = current_user()->username;
+            $item->company_id = current_user()->company_id;
 
             $next_id = $this->db->query('
                 select ifnull(max(cid), 0)+1 id
@@ -50,35 +53,28 @@ class CustomerController extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $item->fill($this->request->getPost());
+            $item->installation_date = datetime_from_input($item->installation_date);
 
-            if ($item->fullname == '') {
-                $errors['fullname'] = 'Nama lengkap harus diisi.';
-            } else if ($item->fullname == '') {
-                $errors['fullname'] = 'Nama lengkap harus diisi.';
+            $item->fullname = trim($item->fullname);
+            if (strlen($item->fullname) < 3) {
+                $errors['fullname'] = 'Nama harus diisi, minimal 3 karakter.';
+            } elseif (strlen($item->fullname) > 100) {
+                $errors['fullname'] = 'Nama terlalu panjang, maksimal 100 karakter.';
+            } else if (!preg_match('/^[a-zA-Z\d ]+$/i', $item->fullname)) {
+                $errors['fullname'] = 'Nama tidak valid, gunakan huruf alfabet, angka dan spasi.';
+            } else if ($model->exists($item->fullname, $item->id)) {
+                $errors['fullname'] = 'Nama sudah digunakan, silahkan gunakan nama lain.';
             }
 
             if (empty($errors)) {
-                try {
-                    if ($item->id) {
-                        $item->updated_at = date('Y-m-d H:i:s');
-                        $item->updated_by = current_user()->username;
-                    } else {
-                        $item->created_at = date('Y-m-d H:i:s');
-                        $item->created_by = current_user()->username;
-                    }
-
-                    if (!$item->company_id) {
-                        $item->company_id = current_user()->company_id;
-                    }
-                    $model->save($item);
-                } catch (DataException $ex) {
-                }
+                $item->updated_at = date('Y-m-d H:i:s');
+                $item->updated_by = current_user()->username;
+                $model->save($item);
                 $id = $item->id ? $item->id : $this->db->insertID();
                 return redirect()->to(base_url("customers/view/{$id}"))->with('info', 'Data Pelanggan telah disimpan.');
             }
         }
 
-        $item->password = '';
         return view('customer/edit', [
             'data' => $item,
             'errors' => $errors,

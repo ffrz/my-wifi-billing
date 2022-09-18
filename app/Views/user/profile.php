@@ -10,7 +10,7 @@ $this->extend('_layouts/default')
             <div class="card-body">
                 <?= csrf_field() ?>
                 <div class="form-group row">
-                    <label for="username" class="col-form-label col-sm-4">Username</label>
+                    <label for="username" class="col-form-label col-sm-4 required">Username *</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="username" readonly value="<?= esc($data->username) ?>">
                     </div>
@@ -24,7 +24,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="fullname" class="col-form-label col-sm-4">Nama Lengkap</label>
+                    <label for="fullname" class="col-form-label col-sm-4 required">Nama Lengkap *</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" autofocus id="fullname" placeholder="Nama Lengkap" name="fullname" value="<?= esc($data->fullname) ?>">
                         <?php if (!empty($errors['fullname'])) : ?>
@@ -35,7 +35,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="current_password" class="col-form-label col-sm-4">Kata Sandi Sekarang</label>
+                    <label for="current_password" class="col-form-label col-sm-4 required">Kata Sandi Sekarang *</label>
                     <div class="col-sm-4">
                         <input type="password" class="form-control <?= !empty($errors['current_password']) ? 'is-invalid' : '' ?>" id="current_password" name="current_password" value="<?= esc($data->current_password) ?>">
                         <?php if (!empty($errors['current_password'])) : ?>

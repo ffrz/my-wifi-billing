@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Entities\Product;
 use CodeIgniter\Database\Exceptions\DataException;
+use Exception;
 use stdClass;
 
 class ProductController extends BaseController
@@ -49,6 +50,7 @@ class ProductController extends BaseController
             $item = new Product();
             $item->created_at = date('Y-m-d H:i:s');
             $item->created_by = current_user()->username;
+            $item->company_id = current_user()->company_id;
             $item->active = 1;
             $item->bill_cycle = 1; // fixed, belum bisa selain 1 bulan
             $item->notify_before = 7; // belum dipakai
@@ -70,25 +72,21 @@ class ProductController extends BaseController
             $item->active = (int)$this->request->getPost('active');
             $item->price = str_to_double($item->price);
 
-            if ($item->name == '') {
-                $errors['name'] = 'Nama Produk harus diisi.';
+            $item->name = trim($item->name);
+            if (strlen($item->name) < 3) {
+                $errors['name'] = 'Nama harus diisi, minimal 3 karakter.';
+            } elseif (strlen($item->name) > 100) {
+                $errors['name'] = 'Nama terlalu panjang, maksimal 100 karakter.';
+            } else if (!preg_match('/^[a-zA-Z\d ]+$/i', $item->name)) {
+                $errors['name'] = 'Nama tidak valid, gunakan huruf alfabet, angka dan spasi.';
             } else if ($model->exists($item->name, $item->id)) {
-                $errors['name'] = 'Nama Produk sudah digunakan, harap gunakan nama yang lain.';
+                $errors['name'] = 'Nama sudah digunakan, silahkan gunakan nama lain.';
             }
 
             if (empty($errors)) {
-                try {
-                    $item->updated_at = date('Y-m-d H:i:s');
-                    $item->updated_by = current_user()->username;
-                    if (!$item->company_id) {
-                        $item->company_id = current_user()->company_id;
-                    }
-                    $model->save($item);
-                } catch (DataException $ex) {
-                    if ($ex->getMessage() == 'There is no data to update. ') {
-                    }
-                }
-
+                $item->updated_at = date('Y-m-d H:i:s');
+                $item->updated_by = current_user()->username;
+                $model->save($item);
                 return redirect()->to(base_url("products"))->with('info', 'Data Produk telah disimpan.');
             }
         }
@@ -115,7 +113,7 @@ class ProductController extends BaseController
 
         try {
             $model->save($product);
-        } catch (DataException $ex) {
+        } catch (Exception $ex) {
         }
 
         return redirect()->to(base_url('products'))->with('info', 'Produk telah dinonaktifkan.');

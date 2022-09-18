@@ -11,7 +11,7 @@ class ProductModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\Product::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['name', 'description', 'active', 'price', 'bill_period', 'nottify_before',
+    protected $allowedFields    = ['name', 'description', 'active', 'price', 'bill_period', 'notify_before',
         'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by',
         'company_id'
     ];

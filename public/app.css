@@ -12,6 +12,8 @@ table.table-pad-xs th {
 
 .table.center-th th {
     text-align: center;
+    color: #555;
+    text-shadow: 1px 1px #fff;
 }
 
 .form-error {
@@ -86,4 +88,12 @@ select.custom-select,
 .pad-xs tbody th,
 .pad-xs tbody td {
     padding: 1px;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight:normal;
+}
+
+label.required {
+    font-weight:bold !important;
 }

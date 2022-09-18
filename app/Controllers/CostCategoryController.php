@@ -43,6 +43,7 @@ class CostCategoryController extends BaseController
             } else if ($model->exists($item->name, $item->id)) {
                 $errors['name'] = 'Nama Kategori sudah digunakan, silahkan gunakan nama lain.';
             }
+            
             if (empty($errors)) {
                 try {
                     if (!$item->id) {

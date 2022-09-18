@@ -18,7 +18,7 @@ $this->navActive = 'product';
             <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= $data->id ?>">
             <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label">Nama Produk</label>
+                <label for="name" class="col-sm-3 col-form-label required">Nama Produk *</label>
                 <div class="col-sm-5">
                     <input type="text" autofocus class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama Produk" name="name" value="<?= esc($data->name) ?>">
                 </div>
@@ -35,7 +35,7 @@ $this->navActive = 'product';
                 </div>
             </div>
             <div class="form-group row">
-                <label for="price" class="col-sm-3 col-form-label">Harga</label>
+                <label for="price" class="col-sm-3 col-form-label">Harga (Rp.)</label>
                 <div class="col-sm-3">
                     <input type="text" class="form-control text-right select-all-on-focus <?= !empty($errors['price']) ? 'is-invalid' : '' ?>" id="price" placeholder="Harga" name="price" value="<?= format_number((float)$data->price) ?>">
                 </div>
@@ -50,7 +50,7 @@ $this->navActive = 'product';
                 <div class="col-sm-3">
                     <select class="custom-select" id="bill_period" name="bill_period"
                     title="Periode tagihan">
-                        <option value="1" <?= $data->cycle == 1 ? 'selected' : '' ?>>Setiap Bulan</option>
+                        <option value="1" <?= $data->bill_period == 1 ? 'selected' : '' ?>>Setiap Bulan</option>
                     </select>
                 </div>
             </div>
@@ -64,7 +64,6 @@ $this->navActive = 'product';
             </div>
         </div>
         <div class="card-footer">
-            <a href="<?= base_url('/products') ?>" class="btn btn-default mr-2"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
             <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Simpan</button>
         </div>
     </form>

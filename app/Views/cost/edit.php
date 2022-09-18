@@ -11,7 +11,7 @@ $this->extend('_layouts/default')
             <?= csrf_field() ?>
             <div class="card-body">
                 <div class="form-group row">
-                    <label for="date" class=" col-form-label col-sm-3">Tanggal</label>
+                    <label for="date" class=" col-form-label col-sm-3 required">Tanggal *</label>
                     <div class="col-sm-3">
                         <div class="input-group date" id="date" data-target-input="nearest">
                             <input autofocus type="text" class="form-control datetimepicker-input<?= !empty($errors['date']) ? 'is-invalid' : '' ?>"
@@ -41,7 +41,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-sm-3 col-form-label">Deskripsi</label>
+                    <label for="description" class="col-sm-3 col-form-label required">Deskripsi *</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control <?= !empty($errors['description']) ? 'is-invalid' : '' ?>"
                             id="description" placeholder="Deskripsi" name="description" value="<?= esc($data->description) ?>">
@@ -53,9 +53,9 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="amount" class="col-sm-3 col-form-label">Jumlah Biaya (Rp.)</label>
+                    <label for="amount" class="col-sm-3 col-form-label required">Jumlah Biaya (Rp.) *</label>
                     <div class="col-sm-3">
-                        <input type="number" class="form-control text-right <?= !empty($errors['amount']) ? 'is-invalid' : '' ?>" id="amount" name="amount" value="<?= $data->amount ?>">
+                        <input type="number" class="form-control text-right <?= !empty($errors['amount']) ? 'is-invalid' : '' ?>" id="amount" name="amount" value="<?= (float)$data->amount ?>">
                         <?php if (!empty($errors['amount'])) : ?>
                             <span class="error form-error">
                                 <?= $errors['amount'] ?>

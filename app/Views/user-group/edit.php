@@ -34,7 +34,7 @@ $this->extend('_layouts/default')
             <input type="hidden" name="id" value="<?= $data->id ?>">
             <div class="card-body">
                 <div class="form-group row">
-                    <label for="name" class="col-form-label col-sm-3">Nama Grup</label>
+                    <label for="name" class="col-form-label col-sm-3 required">Nama Grup *</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" autofocus id="name" placeholder="Masukkan Nama Grup" name="name" value="<?= esc($data->name) ?>">
                         <?php if (!empty($errors['name'])) : ?>

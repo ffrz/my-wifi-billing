@@ -11,7 +11,7 @@ $this->extend('_layouts/default');
             <?= csrf_field() ?>
             <div class="card-body">
                 <div class="form-group row">
-                    <label for="name" class="col-sm-3 col-form-label">Nama Kategori</label>
+                    <label for="name" class="col-sm-3 col-form-label required">Nama Kategori *</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" autofocus id="name" placeholder="Nama Kategori Biaya" name="name" value="<?= esc($data->name) ?>">
                         <?php if (!empty($errors['name'])) : ?>

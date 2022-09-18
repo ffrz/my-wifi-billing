@@ -13,7 +13,7 @@ class CostController extends BaseController
         $filter = new stdClass;
         $filter->year = (int)$this->request->getGet('year');
         $filter->month = $this->request->getGet('month');
-        
+
         if ($filter->year == 0) {
             $filter->year = date('Y');
         }
@@ -57,6 +57,9 @@ class CostController extends BaseController
         if ($id == 0) {
             $item = new Cost();
             $item->date = date('Y-m-d');
+            $item->created_at = date('Y-m-d H:i:s');
+            $item->created_by = current_user()->username;
+            $item->company_id = current_user()->company_id;
         } else {
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
@@ -78,24 +81,15 @@ class CostController extends BaseController
             if ($item->amount == 0.) {
                 $errors['amount'] = 'Masukkan Jumlah Biaya.';
             }
-            
+
             if (strlen($item->description) == 0) {
                 $errors['description'] = 'Masukkan deskripsi.';
             }
 
             if (empty($errors)) {
-                //try {
-                if (!$item->id) {
-                    $item->created_at = date('Y-m-d H:i:s');
-                    $item->created_by = current_user()->username;
-                    $item->company_id = current_user()->company_id;
-                } else {
-                    $item->updated_at = date('Y-m-d H:i:s');
-                    $item->updated_by = current_user()->username;
-                }
+                $item->updated_at = date('Y-m-d H:i:s');
+                $item->updated_by = current_user()->username;
                 $model->save($item);
-                //} catch (DataException $ex) {
-                //}
                 return redirect()->to(base_url("costs"))->with('info', 'Biaya operasional telah disimpan.');
             }
         }

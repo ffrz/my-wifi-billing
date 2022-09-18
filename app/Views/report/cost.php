@@ -6,7 +6,7 @@ $this->navActive = 'report/cost';
 <?= $this->extend('_layouts/default') ?>
 <?= $this->section('right-menu') ?>
 <li class="nav-item">
-    <a href="<?= "?year=$filter->year&month=$filter->month&print=1" ?>" target="_blank" class="btn plus-btn btn-warning mr-2"><i class="fa fa-print"></i></a>
+    <a href="<?= "?year=$filter->year&month=$filter->month&print=1" ?>" target="_blank" class="btn plus-btn btn-primary mr-2"><i class="fa fa-print"></i></a>
 </li>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>

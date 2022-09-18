@@ -1,7 +1,6 @@
 <?php
 $this->title = 'Aktivasi Paket Produk';
-$this->titleIcon = 'fa-user-plus';
-$this->navActive = 'edit-customer';
+$this->navActive = 'customer';
 $this->extend('_layouts/default')
 ?>
 <?= $this->section('content') ?>
@@ -12,19 +11,19 @@ $this->extend('_layouts/default')
                 <?= csrf_field() ?>
                 <input type="hidden" name="id" value="<?= $customer->id ?>" />
                 <div class="form-group row">
-                    <label for="cid" class="col-sm-3 col-form-label">ID Pelanggan</label>
+                    <label for="cid" class="col-sm-3 col-form-label required">ID Pelanggan *</label>
                     <div class="col-sm-3">
                         <input type="text" readonly class="form-control" id="cid" placeholder="ID Pelanggan" name="cid" value="<?= format_customer_id($customer->cid) ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="fullname" class="col-sm-3 col-form-label">Nama Lengkap</label>
+                    <label for="fullname" class="col-sm-3 col-form-label required">Nama Lengkap *</label>
                     <div class="col-sm-9">
                         <input type="text" readonly class="form-control" id="fullname" placeholder="Nama Lengkap" name="fullname" value="<?= esc($customer->fullname) ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="datetime" class=" col-form-label col-sm-3">Berlaku mulai</label>
+                    <label for="datetime" class=" col-form-label col-sm-3 required">Berlaku mulai *</label>
                     <div class="col-sm-3">
                         <div class="input-group date" id="datetime" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" data-target="#datetime" name="date" value="<?= esc(format_date($data->date)) ?>" />
@@ -47,7 +46,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="product" class=" col-form-label col-sm-3">Paket Produk Baru</label>
+                    <label for="product" class=" col-form-label col-sm-3 required">Paket Produk Baru *</label>
                     <div class="col-sm-9">
                         <select class="form-control custom-select select2" id="product" name="product_id">
                             <option value="" <?= !$data->product_id ? 'selected' : '' ?>>--------</option>
@@ -65,7 +64,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="price" class=" col-form-label col-sm-3">Biaya</label>
+                    <label for="price" class=" col-form-label col-sm-3 required">Biaya *</label>
                     <div class="col-sm-3">
                         <input type="number" class="form-control text-right" id="price" name="price" value="<?= esc($data->price) ?>">
                     </div>
