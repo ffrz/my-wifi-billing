@@ -12,7 +12,7 @@ $this->extend('_layouts/default');
             <div class="form-group row">
                 <label for="store_name" class="col-sm-2 col-form-label required">Nama Usaha *</label>
                 <div class="col-sm-10">
-                    <input type="text" autofocus class="form-control <?= !empty($errors['store_name']) ? 'is-invalid' : '' ?>"
+                    <input type="text" autocomplete="off" autofocus class="form-control <?= !empty($errors['store_name']) ? 'is-invalid' : '' ?>"
                         id="store_name" placeholder="Nama Toko" name="store_name" value="<?= esc($data['store_name']) ?>">
                 </div>
                 <?php if (!empty($errors['store_name'])) : ?>
@@ -22,7 +22,7 @@ $this->extend('_layouts/default');
                 <?php endif ?>
             </div>
             <div class="form-group row">
-                <label for="store_address   " class="col-sm-2 col-form-label">Alamat</label>
+                <label for="store_address" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
                     <textarea class="form-control" id="store_address" name="store_address"><?= esc($data['store_address']) ?></textarea>
                 </div>

@@ -26,7 +26,7 @@ $this->extend('_layouts/default')
                     <label for="datetime" class=" col-form-label col-sm-3 required">Berlaku mulai *</label>
                     <div class="col-sm-3">
                         <div class="input-group date" id="datetime" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#datetime" name="date" value="<?= esc(format_date($data->date)) ?>" />
+                            <input type="text" autocomplete="off" class="form-control datetimepicker-input" data-target="#datetime" name="date" value="<?= esc(format_date($data->date)) ?>" />
                             <div class="input-group-append" data-target="#datetime" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -66,7 +66,7 @@ $this->extend('_layouts/default')
                 <div class="form-group row">
                     <label for="price" class=" col-form-label col-sm-3 required">Biaya *</label>
                     <div class="col-sm-3">
-                        <input type="number" class="form-control text-right" id="price" name="price" value="<?= esc($data->price) ?>">
+                        <input type="number" autocomplete="off" class="form-control text-right" id="price" name="price" value="<?= esc($data->price) ?>">
                     </div>
                 </div>
 

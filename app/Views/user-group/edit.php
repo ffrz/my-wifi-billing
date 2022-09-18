@@ -59,7 +59,8 @@ $this->extend('_layouts/default')
                 <div class="form-group row">
                     <label for="name" class="col-form-label col-sm-3 required">Nama Grup *</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" autofocus id="name" placeholder="Masukkan Nama Grup" name="name" value="<?= esc($data->name) ?>">
+                        <input type="text" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>"
+                            autofocus autocomplete="off" id="name" placeholder="Masukkan Nama Grup" name="name" value="<?= esc($data->name) ?>">
                         <?php if (!empty($errors['name'])) : ?>
                             <span class="error form-error">
                                 <?= $errors['name'] ?>
@@ -70,7 +71,7 @@ $this->extend('_layouts/default')
                 <div class="form-group row">
                     <label for="description" class="col-sm-3">Deskripsi</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control <?= !empty($errors['description']) ? 'is-invalid' : '' ?>" id="description" placeholder="Masukkan deskripsi grup" name="description" value="<?= esc($data->description) ?>">
+                        <input type="text" autocomplete="off" class="form-control <?= !empty($errors['description']) ? 'is-invalid' : '' ?>" id="description" placeholder="Masukkan deskripsi grup" name="description" value="<?= esc($data->description) ?>">
                         <?php if (!empty($errors['description'])) : ?>
                             <span class="error form-error">
                                 <?= $errors['description'] ?>

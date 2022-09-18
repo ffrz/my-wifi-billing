@@ -13,7 +13,7 @@ $this->extend('_layouts/default')
                 <div class="form-group row">
                     <label for="username" class="col-sm-4 col-form-label required">Username (*)</label>
                     <div class="col-sm-8">
-                        <input type="text" <?= $data->id ? 'readonly' : '' ?> class="form-control <?= !empty($errors['username']) ? 'is-invalid' : '' ?>" autofocus id="username" placeholder="Username" name="username" value="<?= esc($data->username) ?>">
+                        <input type="text" autocomplete="off" <?= $data->id ? 'readonly' : '' ?> class="form-control <?= !empty($errors['username']) ? 'is-invalid' : '' ?>" autofocus id="username" placeholder="Username" name="username" value="<?= esc($data->username) ?>">
                         <?php if (!$data->id) : ?>
                             <div class="text-muted">Setelah disimpan username tidak bisa diganti.</div>
                             <?php if (!empty($errors['username'])) : ?>
@@ -27,7 +27,7 @@ $this->extend('_layouts/default')
                 <div class="form-group row">
                     <label for="fullname" class="col-sm-4 col-form-label required">Nama Lengkap *</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" id="fullname" placeholder="Nama Lengkap" name="fullname" value="<?= esc($data->fullname) ?>">
+                        <input type="text" autocomplete="off" class="form-control <?= !empty($errors['fullname']) ? 'is-invalid' : '' ?>" id="fullname" placeholder="Nama Lengkap" name="fullname" value="<?= esc($data->fullname) ?>">
                         <?php if (!empty($errors['fullname'])) : ?>
                             <span class="error form-error">
                                 <?= $errors['fullname'] ?>
@@ -51,7 +51,7 @@ $this->extend('_layouts/default')
                 <div class="form-group row">
                     <label for="password" class="col-sm-4 col-form-label required">Kata Sandi *</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control <?= !empty($errors['password']) ? 'is-invalid' : '' ?>" id="password" placeholder="Kata Sandi" name="password" value="<?= esc($data->password) ?>">
+                        <input type="password" autocomplete="off" class="form-control <?= !empty($errors['password']) ? 'is-invalid' : '' ?>" id="password" placeholder="Kata Sandi" name="password" value="<?= esc($data->password) ?>">
                         <div class="text-muted">Isi untuk mengganti kata sandi.</div>
                         <?php if (!empty($errors['password'])) : ?>
                             <span class="error form-error">

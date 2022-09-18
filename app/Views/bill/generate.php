@@ -43,7 +43,7 @@ $this->extend('_layouts/default')
                     <label for="due_date" class=" col-form-label col-sm-3">Tanggal Jatuh Tempo</label>
                     <div class="col-sm-3">
                         <div class="input-group date" id="due_date" data-target-input="nearest">
-                            <input type="number" min="1" max="25" class="form-control" name="due_date" value="<?= 20 ?>" />
+                            <input type="number" autocomplete="off" min="1" max="25" class="form-control" name="due_date" value="<?= 20 ?>" />
                         </div>
                     </div>
                 </div>

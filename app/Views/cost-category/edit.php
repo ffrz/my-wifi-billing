@@ -13,7 +13,7 @@ $this->extend('_layouts/default');
                 <div class="form-group row">
                     <label for="name" class="col-sm-3 col-form-label required">Nama Kategori *</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" autofocus id="name" placeholder="Nama Kategori Biaya" name="name" value="<?= esc($data->name) ?>">
+                        <input type="text" autocomplete="off" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" autofocus id="name" placeholder="Nama Kategori Biaya" name="name" value="<?= esc($data->name) ?>">
                         <?php if (!empty($errors['name'])) : ?>
                             <span class="error form-error">
                                 <?= $errors['name'] ?>

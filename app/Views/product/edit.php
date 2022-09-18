@@ -20,7 +20,7 @@ $this->navActive = 'product';
             <div class="form-group row">
                 <label for="name" class="col-sm-3 col-form-label required">Nama Produk *</label>
                 <div class="col-sm-5">
-                    <input type="text" autofocus class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama Produk" name="name" value="<?= esc($data->name) ?>">
+                    <input type="text" autofocus autocomplete="off" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama Produk" name="name" value="<?= esc($data->name) ?>">
                 </div>
                 <?php if (!empty($errors['name'])) : ?>
                     <span class="offset-sm-3 col-sm-9 error form-error">
@@ -31,13 +31,13 @@ $this->navActive = 'product';
             <div class="form-group row">
                 <label for="description" class="col-sm-3 col-form-label">Deskripsi</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="description" placeholder="Deskripsi" name="description" value="<?= esc($data->description) ?>">
+                    <input type="text" autocomplete="off" class="form-control" id="description" placeholder="Deskripsi" name="description" value="<?= esc($data->description) ?>">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="price" class="col-sm-3 col-form-label">Harga (Rp.)</label>
                 <div class="col-sm-3">
-                    <input type="text" class="form-control text-right select-all-on-focus <?= !empty($errors['price']) ? 'is-invalid' : '' ?>" id="price" placeholder="Harga" name="price" value="<?= format_number((float)$data->price) ?>">
+                    <input type="text" autocomplete="off" class="form-control text-right select-all-on-focus <?= !empty($errors['price']) ? 'is-invalid' : '' ?>" id="price" placeholder="Harga" name="price" value="<?= format_number((float)$data->price) ?>">
                 </div>
                 <?php if (!empty($errors['price'])) : ?>
                     <span class="offset-sm-3 col-sm-9 error form-error">
