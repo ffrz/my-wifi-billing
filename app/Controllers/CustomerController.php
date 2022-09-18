@@ -75,9 +75,10 @@ class CustomerController extends BaseController
                 $errors['fullname'] = 'Nama terlalu panjang, maksimal 100 karakter.';
             } else if (!preg_match('/^[a-zA-Z\d ]+$/i', $item->fullname)) {
                 $errors['fullname'] = 'Nama tidak valid, gunakan huruf alfabet, angka dan spasi.';
-            } else if ($model->exists($item->fullname, $item->id)) {
-                $errors['fullname'] = 'Nama sudah digunakan, silahkan gunakan nama lain.';
             }
+            // else if ($model->exists($item->fullname, $item->id)) {
+            //     $errors['fullname'] = 'Nama sudah digunakan, silahkan gunakan nama lain.';
+            // }
 
             if (empty($errors)) {
                 $item->updated_at = date('Y-m-d H:i:s');
