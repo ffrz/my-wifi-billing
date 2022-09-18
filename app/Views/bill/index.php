@@ -6,12 +6,9 @@ $this->navActive = 'bill';
 <?= $this->extend('_layouts/default') ?>
 <?= $this->section('right-menu') ?>
 <li class="nav-item">
-    <a href="<?= base_url('products/add') ?>" class="btn plus-btn btn-primary mr-1"
-        title="Baru"><i class="fa fa-plus"></i></a>
-    <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>"
-        title="Cetak" class="btn plus-btn btn-default mr-1"><i class="fa fa-print mr"></i></a>
-    <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm"
-        title="Saring"><i class="fa fa-filter"></i></button>
+    <a href="<?= base_url('products/add') ?>" class="btn plus-btn btn-primary mr-1" title="Baru"><i class="fa fa-plus"></i></a>
+    <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" title="Cetak" class="btn plus-btn btn-default mr-1"><i class="fa fa-print mr"></i></a>
+    <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm" title="Saring"><i class="fa fa-filter"></i></button>
 </li>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
@@ -84,6 +81,7 @@ $this->navActive = 'bill';
                         <tr>
                             <th>Tagihan</th>
                             <th>Pelanggan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,6 +113,13 @@ $this->navActive = 'bill';
                                     <br>WA: <?= esc($item->wa) ?>
                                     <br><?= nl2br(esc($item->address)) ?>
                                 </td>
+                                <td class="text-center">
+                                    <div class="btn-group mr-2">
+                                        <?php if ($item->status == 0) : ?>
+                                            <a href="<?= base_url("bills/view/$item->id") ?>" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+                                        <?php endif ?>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -129,6 +134,7 @@ $this->navActive = 'bill';
     DATATABLES_OPTIONS.order = [
         [0, 'asc']
     ];
+    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 2 }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
         $('#daterange').daterangepicker({

@@ -97,3 +97,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 label.required {
     font-weight:bold !important;
 }
+
+.dataTables_length {
+    display: none;
+}

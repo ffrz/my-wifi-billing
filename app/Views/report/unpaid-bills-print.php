@@ -58,7 +58,7 @@ $this->title = 'Laporan Biaya Opr.';
     </div>
     <p><small>Dicetak: <?= current_user()->username ?> | <?= date('Y-m-d H:i:s') ?> - <?= APP_NAME . ' v' . APP_VERSION_STR ?></small></p>
     <script>
-        //window.addEventListener("load", window.print());
+        window.addEventListener("load", window.print());
     </script>
 </section>
 <?= $this->endSection() ?>

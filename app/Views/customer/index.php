@@ -42,45 +42,40 @@ $this->navActive = 'customer';
 <div class="card card-primary">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-12 table-responsive" >
-                <table class="data-table display table table-bordered table-striped table-condensed center-th" style="width:100%">
+            <div class="col-md-12 table-responsive">
+                <table class="data-table display valign-top table table-bordered table-striped table-condensed center-th" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
+                            <th>Pelanggan</th>
                             <th>Paket</th>
-                            <th>Biaya (Rp.)</th>
-                            <th>WA</th>
-                            <th></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item) : ?>
                             <tr>
                                 <td>
-                                    <?= format_customer_id($item->cid) ?>
-                                    <?php if ($item->status == 0): ?>
+                                    <?= format_customer_id($item->cid) ?> - <?= esc($item->fullname) ?>
+                                    <?php if ($item->status == 0) : ?>
                                         <sup><span class="badge badge-danger">Non Aktif</span></sup>
                                     <?php endif ?>
+                                    <?php if ($item->wa) : ?>
+                                        <br>WA: <?= esc($item->wa) ?>
+                                    <?php endif ?>
+                                    <br><?= nl2br(esc($item->address)) ?>
                                 </td>
-                                <td><?= esc($item->fullname) ?></td>
-                                <td class="text-center">
-                                    <?php if ($item->product_id): ?>
-                                        <?= esc($item->product_name) ?>
-                                    <?php elseif ($item->status == 1): ?>
-                                        <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-primary btn-sm">Aktifkan Paket</a>
-                                    <?php else: ?>
-                                        <span class="text-muted font-italic">Tidak Ada</span>
+                                <td>
+                                    <?php if ($item->product_id) : ?>
+                                        <?= esc($item->product_name) ?><br>
+                                        Rp. <?= format_number($item->product_price) ?> / <?= $item->bill_period ?> bulan
                                     <?php endif ?>
                                 </td>
-                                <td class="text-right"><?= format_number($item->product_price) ?></td>
-                                <td><?= esc($item->wa) ?></td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a href="<?= base_url("/customers/view/$item->id") ?>" class="btn btn-default btn-sm" title="Lihat rincian"><i class="fa fa-eye"></i></a>
                                         <a href="<?= base_url("/customers/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-                                        <?php if ($item->status == 1): ?>
-                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-warning btn-sm" title="Ubah paket produk"><i class="fa fa-satellite-dish"></i></a>
+                                        <?php if ($item->status == 1) : ?>
+                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-warning btn-sm" title="Ubah paket produk"><i class="fa fa-satellite-dish mr-1"></i> Aktivasi</a>
                                         <?php endif ?>
                                         <a onclick="return confirm('Hapus pelanggan?')" href="<?= base_url("/customers/delete/$item->id") ?>" title="Hapus / nonaktifkan" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                     </div>
@@ -96,8 +91,13 @@ $this->navActive = 'customer';
 <?= $this->endSection() ?>
 <?= $this->section('footscript') ?>
 <script>
-    DATATABLES_OPTIONS.order = [[0, 'asc']];
-    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 5 }];
+    DATATABLES_OPTIONS.order = [
+        [0, 'asc']
+    ];
+    DATATABLES_OPTIONS.columnDefs = [{
+        orderable: false,
+        targets: 4
+    }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });

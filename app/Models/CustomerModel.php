@@ -33,7 +33,7 @@ class CustomerModel extends Model
         }
 
         return $this->db->query("
-        select c.*, p.name product_name
+        select c.*, p.name product_name, p.bill_period
             from customers c
             left join products p on p.id = c.product_id
             $where

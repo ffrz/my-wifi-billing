@@ -49,7 +49,7 @@ $this->extend('_layouts/default')
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-bolt mr-2"></i> Generate</button>
+                <button type="submit" class="btn btn-warning"><i class="fas fa-bolt mr-2"></i> Generate</button>
             </div>
         </form>
     </div>

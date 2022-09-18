@@ -55,7 +55,7 @@
                         </tr>
                         <?php if ($data->product_id): ?>
                         <tr>
-                            <td>Paket Produk Aktif</td>
+                            <td>Produk Aktif</td>
                             <td>:</td>
                             <td><?= esc($data->product_name) ?></td>
                         </tr>
@@ -68,7 +68,7 @@
                             <tr>
                                 <td>Paket Produk</td>
                                 <td>:</td>
-                                <td><a href="<?= base_url("customers/activate-product/$data->id") ?>">Aktifkan Paket</a></td>
+                                <td>Silahkan aktifkan produk</td>
                             </tr>
                         <?php endif ?>
                     </tbody>
@@ -154,9 +154,9 @@
         <div class="btn-group mr-2">
             <a href="<?= base_url('/customers') ?>" class="btn btn-default"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
             <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
-            <a href="<?= base_url("/customers/activate-product/$data->id") ?>" class="btn btn-warning"><i class="fas fa-satellite-dish mr-2"></i>Ubah Paket</a>
+            <a href="<?= base_url("/customers/activate-product/$data->id") ?>" class="btn btn-warning"><i class="fas fa-satellite-dish mr-2"></i>Ganti Produk</a>
+            <a href="<?= base_url("/customers/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
         </div>
-        <a href="<?= base_url("/customers/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
     </div>
 </div>
 <?= $this->endSection() ?>

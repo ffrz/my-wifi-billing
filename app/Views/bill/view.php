@@ -63,12 +63,12 @@ $this->extend('_layouts/default')
                             <td>:</td>
                             <td><?= format_bill_status($bill->status) ?></td>
                         </tr>
-                        <?php if ($bill->status == 1): ?>
-                        <tr>
-                            <td>Tanggal Pembayaran</td>
-                            <td>:</td>
-                            <td><?= format_datetime($bill->date_complete) ?></td>
-                        </tr>
+                        <?php if ($bill->status == 1) : ?>
+                            <tr>
+                                <td>Tanggal Pembayaran</td>
+                                <td>:</td>
+                                <td><?= format_datetime($bill->date_complete) ?></td>
+                            </tr>
                         <?php endif ?>
                         <tr>
                             <td>Catatan</td>
@@ -90,11 +90,9 @@ $this->extend('_layouts/default')
                     <a href="<?= base_url("/bills/edit/$bill->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
                     <button type="submit" name="action" value="fully_paid" onclick="return confirm('Bayar?');" class="btn btn-primary"><i class="fas fa-check mr-2"></i>Bayar</button>
                     <button type="submit" name="action" value="cancel" onclick="return confirm('Batalkan Tagihan?');" class="btn btn-warning"><i class="fas fa-cancel mr-2"></i>Batalkan</button>
+                    <a onclick="return confirm('Hapus?');" href="<?= base_url("/bills/delete/$bill->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
                 <?php endif ?>
             </div>
-            <?php if ($bill->status == 0) : ?>
-                <a onclick="return confirm('Hapus?');" href="<?= base_url("/bills/delete/$bill->id") ?>" class="btn btn-danger mb-2"><i class="fas fa-trash mr-2"></i>Hapus</a>
-            <?php endif ?>
         </form>
     </div>
 </div>
