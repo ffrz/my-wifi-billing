@@ -39,7 +39,7 @@ $this->navActive = 'bill';
                         <label for="month" class="col-form-label col-sm-4">Bulan</label>
                         <div class="col-sm-8">
                             <select class="custom-select mt-2" name="month">
-                                <option value="all" <?= $filter->month == 'all' ? 'selected' : '' ?>>Bulan:</option>
+                                <option value="all" <?= $filter->month == 'all' ? 'selected' : '' ?>>Semua Bulan</option>
                                 <option value="1" <?= $filter->month == 1 ? 'selected' : '' ?>>Januari</option>
                                 <option value="2" <?= $filter->month == 2 ? 'selected' : '' ?>>Februari</option>
                                 <option value="3" <?= $filter->month == 3 ? 'selected' : '' ?>>Maret</option>
@@ -59,7 +59,7 @@ $this->navActive = 'bill';
                         <label for="status" class="col-form-label col-sm-4">Status</label>
                         <div class="col-sm-8">
                             <select class="custom-select mt-2" id="status" name="status">
-                                <option value="all" <?= $filter->status == 'all' ? 'selected' : '' ?>>Status:</option>
+                                <option value="all" <?= $filter->status == 'all' ? 'selected' : '' ?>>Semua Status</option>
                                 <option value="0" <?= $filter->status == 0 ? 'selected' : '' ?>>Belum Dibayar</option>
                                 <option value="1" <?= $filter->status == 1 ? 'selected' : '' ?>>Lunas</option>
                                 <option value="2" <?= $filter->status == 2 ? 'selected' : '' ?>>Dibatalkan</option>

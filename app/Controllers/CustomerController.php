@@ -15,12 +15,23 @@ class CustomerController extends BaseController
         if (!current_user_can(Acl::VIEW_CUSTOMERS)) {
             return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
-        
-        $filter = new stdClass;
-        $filter->status = $this->request->getGet('status');
-        if ($filter->status == null) {
+
+        $session = session();
+        $filter = $session->get('customer_filter');
+
+        if (!$filter) {
+            $filter = new stdClass;
+        }
+
+        if (!isset($filter->status)) {
             $filter->status = 1;
         }
+
+        if (($status = $this->request->getGet('status')) != null) {
+            $filter->status = $status;
+        }
+        
+        $session->set('customer_filter', $filter);
 
         $items = $this->getCustomerModel()->getAllWithFilter($filter);
 

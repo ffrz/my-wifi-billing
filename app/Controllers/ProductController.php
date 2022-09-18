@@ -15,11 +15,20 @@ class ProductController extends BaseController
             return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
 
-        $filter = new stdClass;
-        $filter->active = $this->request->getGet('active');
-        if ($filter->active == null) {
+        $session = session();
+        $filter = $session->get('product_filter');
+        if (!$filter) {
+            $filter = new stdClass;
+        }
+
+        if (!isset($filter->active)) {
             $filter->active = 1;
         }
+
+        if (($active = $this->request->getGet('active')) != null) {
+            $filter->active = $active;
+        }
+        $session->set('product_filter', $filter);
 
         $where = [];
         $where[] = 'p.company_id=' . current_user()->company_id;

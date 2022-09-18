@@ -17,22 +17,38 @@ class BillController extends BaseController
         
         $print = (int)$this->request->getGet('print');
 
-        $filter = new stdClass;
-        $filter->status = $this->request->getGet('status');
-        $filter->year = (int)$this->request->getGet('year');
-        $filter->month = (int)$this->request->getGet('month');
-        
-        if ($filter->year == 0) {
+        $session = session();
+        $filter = $session->get('bill_filter');
+        if (!$filter) {
+            $filter = new stdClass;
+        }
+        if (!isset($filter->status)) {
+            $filter->status = 0;
+        }
+        if (!isset($filter->year)) {
             $filter->year = date('Y');
+        }
+        if (!isset($filter->month)) {
+            $filter->month = 0;
+        }
+        
+        if (($year = $this->request->getGet('year')) != null) {
+            $filter->year = $year;
+        }
+
+        if (($month = $this->request->getGet('month')) != null) {
+            $filter->month = $month;
         }
 
         if ($filter->month < 0 || $filter->month > 12) {
             $filter->month = 0;
         }
 
-        if ($filter->status == null) {
-            $filter->status = 0;
+        if (($status = $this->request->getGet('status')) != null) {
+            $filter->status = $status;
         }
+
+        $session->set('bill_filter', $filter);
 
         $where = [];
         $where[] = 'b.company_id=' . current_user()->company_id;

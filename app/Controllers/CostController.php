@@ -13,21 +13,33 @@ class CostController extends BaseController
         if (!current_user_can(Acl::VIEW_COSTS)) {
             return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
+     
+        $session = session();
+        $filter = $session->get('cost_filter');
+        if (!$filter) {
+            $filter = new stdClass;
+        }
         
-        $filter = new stdClass;
-        $filter->year = (int)$this->request->getGet('year');
-        $filter->month = $this->request->getGet('month');
-
-        if ($filter->year == 0) {
+        if (!isset($filter->year)) {
             $filter->year = date('Y');
         }
-        if ($filter->month == null) {
+        
+        if (!isset($filter->month)) {
             $filter->month = date('m');
         }
 
+        if ($year = $this->request->getGet('year')) {
+            $filter->year = $year;
+        }
+        
+        if ($month = $this->request->getGet('month')) {
+            $filter->month = (int)$month;
+        }
+        
         if ($filter->month < 0 || $filter->month > 12) {
             $filter->month = date('m');
         }
+        $session->set('cost_filter', $filter);
 
         $where = [];
         $where[] = 'c.company_id=' . current_user()->company_id;
