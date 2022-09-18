@@ -1,13 +1,17 @@
 <?php
 $this->title = 'Tagihan';
+$this->menuActive = 'bill';
 $this->navActive = 'bill';
 ?>
 <?= $this->extend('_layouts/default') ?>
 <?= $this->section('right-menu') ?>
 <li class="nav-item">
-<a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" class="btn btn-default mr-2"><i class="fa fa-print mr-2"></i> Cetak</a>
-    <a href="<?= base_url('products/add') ?>" class="btn plus-btn btn-primary mr-1" title="Baru"><i class="fa fa-plus"></i></a>
-    <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm" title="Saring"><i class="fa fa-filter"></i></button>
+    <a href="<?= base_url('products/add') ?>" class="btn plus-btn btn-primary mr-1"
+        title="Baru"><i class="fa fa-plus"></i></a>
+    <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>"
+        title="Cetak" class="btn plus-btn btn-default mr-1"><i class="fa fa-print mr"></i></a>
+    <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm"
+        title="Saring"><i class="fa fa-filter"></i></button>
 </li>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>

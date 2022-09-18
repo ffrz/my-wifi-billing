@@ -1,6 +1,7 @@
 <?php
 $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Tagihan';
-$this->navActive = 'bill';
+$this->menuActive = 'bill';
+$this->navActive = 'generate-bill';
 $this->extend('_layouts/default')
 ?>
 <?= $this->section('content') ?>

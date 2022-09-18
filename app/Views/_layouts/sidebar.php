@@ -62,7 +62,7 @@ use App\Entities\Acl; ?>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('/bills/generate') ?>" class="nav-link <?= nav_active($this, 'generate') ?>">
+              <a href="<?= base_url('/bills/generate') ?>" class="nav-link <?= nav_active($this, 'generate-bill') ?>">
                 <i class="nav-icon fas fa-bolt"></i>
                 <p>Generate</p>
               </a>

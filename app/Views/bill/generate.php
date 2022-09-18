@@ -1,6 +1,7 @@
 <?php
 $this->title = ' Generate Tagihan';
-$this->navActive = 'bill';
+$this->menuActive = 'bill';
+$this->navActive = 'generate-bill';
 $this->extend('_layouts/default')
 ?>
 <?= $this->section('content') ?>
