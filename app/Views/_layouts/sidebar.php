@@ -46,41 +46,51 @@ use App\Entities\Acl; ?>
             </ul>
           </li>
         <?php endif ?>
-        <li class="nav-item <?= menu_open($this, 'bill') ?>">
-          <a href="#" class="nav-link <?= menu_active($this, 'bill') ?>">
-            <i class="nav-icon fas fa-money-bills"></i>
-            <p>
-              Tagihan
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
-                <i class="nav-icon fas fa-money-bills"></i>
-                <p>Tagihan</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('/bills/generate') ?>" class="nav-link <?= nav_active($this, 'generate-bill') ?>">
-                <i class="nav-icon fas fa-bolt"></i>
-                <p>Generate</p>
-              </a>
-            </li>
-          </ul>
-        </li>
+        <?php if (current_user_can(Acl::VIEW_BILLS) || current_user_can(Acl::GENERATE_BILLS)) : ?>
+          <li class="nav-item <?= menu_open($this, 'bill') ?>">
+            <a href="#" class="nav-link <?= menu_active($this, 'bill') ?>">
+              <i class="nav-icon fas fa-money-bills"></i>
+              <p>
+                Tagihan
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <?php if (current_user_can(Acl::VIEW_BILLS)) : ?>
+                <li class="nav-item">
+                  <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
+                    <i class="nav-icon fas fa-money-bills"></i>
+                    <p>Tagihan</p>
+                  </a>
+                </li>
+              <?php endif ?>
+              <?php if (current_user_can(Acl::GENERATE_BILLS)) : ?>
+              <li class="nav-item">
+                <a href="<?= base_url('/bills/generate') ?>" class="nav-link <?= nav_active($this, 'generate-bill') ?>">
+                  <i class="nav-icon fas fa-bolt"></i>
+                  <p>Generate</p>
+                </a>
+              </li>
+              <?php endif ?>
+            </ul>
+          </li>
+        <?php endif ?>
+        <?php if (current_user_can(Acl::VIEW_CUSTOMERS)) : ?>
         <li class="nav-item">
           <a href="<?= base_url('/customers') ?>" class="nav-link <?= nav_active($this, 'customer') ?>">
             <i class="nav-icon fas fa-users"></i>
             <p>Pelanggan</p>
           </a>
         </li>
+        <?php endif ?>
+        <?php if (current_user_can(Acl::VIEW_PRODUCTS)) : ?>
         <li class="nav-item">
           <a href="<?= base_url('/products') ?>" class="nav-link <?= nav_active($this, 'product') ?>">
             <i class="nav-icon fas fa-satellite-dish"></i>
             <p>Produk</p>
           </a>
         </li>
+        <?php endif ?>
         <?php if (current_user_can(Acl::VIEW_COSTS) || current_user_can(Acl::VIEW_COST_CATEGORIES)) : ?>
           <li class="nav-item <?= menu_open($this, 'cost') ?>">
             <a href="#" class="nav-link <?= menu_active($this, 'cost') ?>">

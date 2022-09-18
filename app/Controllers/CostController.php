@@ -2,14 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use App\Entities\Cost;
-use CodeIgniter\Database\Exceptions\DataException;
 use stdClass;
 
 class CostController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_COSTS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        
         $filter = new stdClass;
         $filter->year = (int)$this->request->getGet('year');
         $filter->month = $this->request->getGet('month');
@@ -55,12 +59,18 @@ class CostController extends BaseController
     {
         $model = $this->getCostModel();
         if ($id == 0) {
+            if (!current_user_can(Acl::ADD_COST)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
             $item = new Cost();
             $item->date = date('Y-m-d');
             $item->created_at = date('Y-m-d H:i:s');
             $item->created_by = current_user()->username;
             $item->company_id = current_user()->company_id;
         } else {
+            if (!current_user_can(Acl::EDIT_COST)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('costs'))->with('warning', 'Biaya tidak ditemukan.');
@@ -103,6 +113,9 @@ class CostController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_COST)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $model = $this->getCostModel();
         $item = $model->find($id);
         if (!$item || $item->company_id != current_user()->company_id) {

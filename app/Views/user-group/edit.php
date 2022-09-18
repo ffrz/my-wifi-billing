@@ -8,6 +8,8 @@ $acl_resources = [
     ],
     'Tagihan' => [
         Acl::VIEW_BILLS => 'Melihat daftar tagihan',
+        Acl::VIEW_BILL => 'Melihat rincian tagihan',
+        Acl::GENERATE_BILLS => 'Men-generate daftar tagihan',
     ],
     'Pelanggan' => [
         Acl::VIEW_CUSTOMERS => 'Melihat daftar pelanggan',
@@ -17,7 +19,15 @@ $acl_resources = [
     ],
     'Biaya Operasional' => [
         Acl::VIEW_COSTS => 'Melihat daftar biaya operasional',
+        Acl::ADD_COST => 'Menambah biaya operasional',
+        Acl::EDIT_COST => 'Mengubah biaya operasional',
+        Acl::DELETE_COST => 'Menghapus biaya operasional',
+    ],
+    'Kategori Biaya Operasional' => [        
         Acl::VIEW_COST_CATEGORIES => 'Melihat daftar kategori biaya operasional',
+        Acl::ADD_COST_CATEGORY => 'Menambah kategori biaya operasional',
+        Acl::EDIT_COST_CATEGORY => 'Mengubah kategori biaya operasional',
+        Acl::DELETE_COST_CATEGORY => 'Menghapus kategori biaya operasional',
     ],
 ];
 

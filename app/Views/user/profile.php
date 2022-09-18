@@ -10,11 +10,18 @@ $this->extend('_layouts/default')
             <div class="card-body">
                 <?= csrf_field() ?>
                 <div class="form-group row">
-                    <label for="username" class="col-form-label col-sm-4 required">Username *</label>
+                    <label for="username" class="col-form-label col-sm-4">Username</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="username" readonly value="<?= esc($data->username) ?>">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="group_name" class="col-form-label col-sm-4">Grup Pengguna</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="group_name" readonly value="<?= esc($data->group_name) ?>">
+                    </div>
+                </div>
+                <?php if (current_user()->is_admin): ?>
                 <div class="form-group row">
                     <div class="col-sm-8 offset-sm-4">
                     <div class="custom-control custom-checkbox">
@@ -23,6 +30,7 @@ $this->extend('_layouts/default')
                     </div>
                     </div>
                 </div>
+                <?php endif ?>
                 <div class="form-group row">
                     <label for="fullname" class="col-form-label col-sm-4 required">Nama Lengkap *</label>
                     <div class="col-sm-8">

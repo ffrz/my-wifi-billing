@@ -2,11 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
+
 class SystemController extends BaseController
 {
 
     public function settings()
     {
+        if (!current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $settings = $this->getSettingModel();
         $data = [];
         $errors = [];

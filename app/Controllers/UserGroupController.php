@@ -11,6 +11,10 @@ class UserGroupController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_USER_GROUPS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $items = $this->getUserGroupModel()->getAll();
 
         return view('user-group/index', [
@@ -24,6 +28,10 @@ class UserGroupController extends BaseController
         $acl_by_resouces = Acl::createResources();
 
         if ($id == 0) {
+            if (!current_user_can(Acl::ADD_USER_GROUP)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $count = $this->db->query('select count(0) as count from user_groups where company_id=' . current_user()->company_id)
                 ->getRowObject()->count;
             if ($count >= MAX_USER_GROUP) {
@@ -31,6 +39,10 @@ class UserGroupController extends BaseController
             }
             $data = new UserGroup();
         } else {
+            if (!current_user_can(Acl::EDIT_USER_GROUP)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $data = $model->find($id);
             if (!$data || $data->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('user-groups'))->with('warning', 'Rekaman tidak ditemukan');
@@ -90,7 +102,7 @@ class UserGroupController extends BaseController
                 }
 
                 $this->db->transCommit();
-                return redirect()->to(base_url('user-groups'))->with('info', 'Grup pengguna telah disimpan.');
+                return redirect()->to(base_url('user-groups/edit/' . $data->id))->with('info', 'Grup pengguna telah disimpan.');
             }
         }
 
@@ -102,6 +114,10 @@ class UserGroupController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_USER_GROUP)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $model = $this->getUserGroupModel();
         $data = $model->find($id);
         if (!$data || $data->company_id != current_user()->company_id) {

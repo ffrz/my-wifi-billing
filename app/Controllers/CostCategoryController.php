@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use App\Entities\CostCategory;
 use CodeIgniter\Database\Exceptions\DataException;
 
@@ -9,6 +10,10 @@ class CostCategoryController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_COST_CATEGORIES)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $items = $this->getCostCategoryModel()->getAll();
 
         return view('cost-category/index', [
@@ -20,6 +25,10 @@ class CostCategoryController extends BaseController
     {
         $model = $this->getCostCategoryModel();
         if ($id == 0) {
+            if (!current_user_can(Acl::ADD_COST_CATEGORY)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $count = $this->db->query('select count(0) as count from cost_categories where company_id=' . current_user()->company_id)
                 ->getRowObject()->count;
             if ($count >= MAX_COST_CATEGORY) {
@@ -27,6 +36,10 @@ class CostCategoryController extends BaseController
             }
             $item = new CostCategory();
         } else {
+            if (!current_user_can(Acl::EDIT_COST_CATEGORY)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('cost-categories'))->with('warning', 'Kategori tidak ditemukan.');
@@ -69,6 +82,10 @@ class CostCategoryController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_COST_CATEGORY)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $model = $this->getCostCategoryModel();
         $item = $model->find($id);
         if (!$item || $item->company_id != current_user()->company_id) {

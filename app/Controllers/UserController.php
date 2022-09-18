@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use App\Entities\User;
 use CodeIgniter\Database\Exceptions\DataException;
 
@@ -9,6 +10,10 @@ class UserController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_USERS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $items = $this->getUserModel()->getAll();
 
         return view('user/index', [
@@ -21,6 +26,10 @@ class UserController extends BaseController
         $oldPassword = '';
         $model = $this->getUserModel();
         if ($id == 0) {
+            if (!current_user_can(Acl::ADD_USER)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $count = $this->db->query('select count(0) as count from users where company_id=' . current_user()->company_id)
                 ->getRowObject()->count;
             if ($count >= MAX_USER) {
@@ -31,6 +40,10 @@ class UserController extends BaseController
             $data->active = true;
             $data->is_admin = false;
         } else {
+            if (!current_user_can(Acl::EDIT_USER)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $data = $model->find($id);
             if (!$data || $data->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('users'))->with('warning', 'Pengguna tidak ditemukan.');
@@ -184,6 +197,9 @@ class UserController extends BaseController
             $data->password2 = '';
         }
 
+        if ($data->group_id) {
+            $data->group_name = $this->getUserGroupModel()->find($data->group_id)->name;
+        }
         return view('user/profile', [
             'data' => $data,
             'errors' => $errors,
@@ -192,6 +208,9 @@ class UserController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_USER)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $model = $this->getUserModel();
         $user = $model->find($id);
 

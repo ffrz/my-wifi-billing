@@ -2,12 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use stdClass;
 
 class ReportController extends BaseController
 {
     public function unpaidBills()
     {
+        if (!current_user_can(Acl::VIEW_REPORTS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        
         $print = $this->request->getGet('print');
         $filter = $this->initFilter();
 
@@ -40,6 +45,10 @@ class ReportController extends BaseController
 
     public function paidBills()
     {
+        if (!current_user_can(Acl::VIEW_REPORTS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $print = $this->request->getGet('print');
         $filter = $this->initFilter();
 
@@ -73,6 +82,10 @@ class ReportController extends BaseController
 
     public function cost()
     {
+        if (!current_user_can(Acl::VIEW_REPORTS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        
         $print = $this->request->getGet('print');
         $filter = $this->initFilter();
 

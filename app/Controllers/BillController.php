@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use App\Entities\Bill;
 use CodeIgniter\Database\Exceptions\DataException;
 use stdClass;
@@ -10,6 +11,10 @@ class BillController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_BILLS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        
         $print = (int)$this->request->getGet('print');
 
         $filter = new stdClass;
@@ -66,6 +71,10 @@ class BillController extends BaseController
 
     public function generate()
     {
+        if (!current_user_can(Acl::GENERATE_BILLS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $data = new stdClass;
         $data->year = date('Y');
         $data->month = date('m');
@@ -135,12 +144,19 @@ class BillController extends BaseController
         $model = $this->getBillModel();
 
         if ($id) {
+            if (!current_user_can(Acl::EDIT_BILL)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $data = $model->find($id);
             if (!$data || $data->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('bills'))->with('warning', 'Tagihan tidak ditemukan.');
             }
         }
         else {
+            if (!current_user_can(Acl::ADD_BILL)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
             $data = new Bill();
             $data->date = date('Y-m-d');
             $data->due_date = date('Y-m-d');
@@ -179,9 +195,15 @@ class BillController extends BaseController
         }
 
         if ($action == 'fully_paid') {
+            if (!current_user_can(Acl::COMPLETE_BILL)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
             $bill->status = 1;
         }
         else {
+            if (!current_user_can(Acl::CANCEL_BILL)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
             $bill->status = 2;
         }
 
@@ -192,6 +214,9 @@ class BillController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_BILL)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $model = $this->getBillModel();
         $bill = $model->find($id);
         if (!$bill || $bill->company_id != current_user()->company_id) {
@@ -205,6 +230,9 @@ class BillController extends BaseController
 
     public function view($id)
     {
+        if (!current_user_can(Acl::VIEW_BILL)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
         $model = $this->getBillModel();
         $bill = $model->find($id);
         if (!$bill || $bill->company_id != current_user()->company_id) {

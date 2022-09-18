@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use App\Entities\Customer;
 use App\Entities\ProductActivation;
 use CodeIgniter\Database\Exceptions\DataException;
@@ -11,6 +12,10 @@ class CustomerController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_CUSTOMERS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+        
         $filter = new stdClass;
         $filter->status = $this->request->getGet('status');
         if ($filter->status == null) {
@@ -29,6 +34,10 @@ class CustomerController extends BaseController
     {
         $model = $this->getCustomerModel();
         if ($id == 0) {
+            if (!current_user_can(Acl::ADD_CUSTOMER)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $item = new Customer();
             $item->status = 1;
             $item->installation_date = date('Y-m-d');
@@ -43,6 +52,10 @@ class CustomerController extends BaseController
                 ->getRow()->id;
             $item->cid = $next_id;
         } else {
+            if (!current_user_can(Acl::EDIT_CUSTOMER)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('customers'))->with('warning', 'Pelanggan tidak ditemukan.');
@@ -83,6 +96,10 @@ class CustomerController extends BaseController
 
     public function view($id)
     {
+        if (!current_user_can(Acl::VIEW_CUSTOMER)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $item = $this->db->query("
         select c.*, p.name product_name
         from customers c
@@ -116,6 +133,10 @@ class CustomerController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_CUSTOMER)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $model = $this->getCustomerModel();
         $item = $model->find($id);
         if (!$item || $item->company_id != current_user()->company_id) {
@@ -136,6 +157,10 @@ class CustomerController extends BaseController
 
     public function activateProduct($id)
     {
+        if (!current_user_can(Acl::CHANGE_CUSTOMER_PRODUCT)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $customerModel = $this->getCustomerModel();
         $customer = $customerModel->find($id);
         if (!$customer || $customer->company_id != current_user()->company_id) {

@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Entities\Acl;
 use App\Entities\Product;
-use CodeIgniter\Database\Exceptions\DataException;
 use Exception;
 use stdClass;
 
@@ -11,6 +11,10 @@ class ProductController extends BaseController
 {
     public function index()
     {
+        if (!current_user_can(Acl::VIEW_PRODUCTS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $filter = new stdClass;
         $filter->active = $this->request->getGet('active');
         if ($filter->active == null) {
@@ -47,6 +51,10 @@ class ProductController extends BaseController
         $duplicate = $this->request->getGet('duplicate');
 
         if ($id == 0) {
+            if (!current_user_can(Acl::ADD_PRODUCT)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $item = new Product();
             $item->created_at = date('Y-m-d H:i:s');
             $item->created_by = current_user()->username;
@@ -55,6 +63,10 @@ class ProductController extends BaseController
             $item->bill_cycle = 1; // fixed, belum bisa selain 1 bulan
             $item->notify_before = 7; // belum dipakai
         } else {
+            if (!current_user_can(Acl::EDIT_PRODUCT)) {
+                return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            }
+
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('products'))->with('warning', 'Produk tidak ditemukan.');
@@ -100,6 +112,10 @@ class ProductController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user_can(Acl::DELETE_PRODUCT)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
         $model = $this->getProductModel();
         $product = $model->find($id);
 

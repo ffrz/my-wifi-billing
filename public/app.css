@@ -101,3 +101,7 @@ label.required {
 .dataTables_length {
     display: none;
 }
+
+.toast-top-right {
+    top: 65px;
+}
