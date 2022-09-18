@@ -46,11 +46,28 @@ use App\Entities\Acl; ?>
             </ul>
           </li>
         <?php endif ?>
-        <li class="nav-item">
-          <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
+        <li class="nav-item <?= menu_open($this, 'bill') ?>">
+          <a href="#" class="nav-link <?= menu_active($this, 'bill') ?>">
             <i class="nav-icon fas fa-money-bills"></i>
-            <p>Tagihan</p>
+            <p>
+              Tagihan
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?= base_url('/bills') ?>" class="nav-link <?= nav_active($this, 'bill') ?>">
+                <i class="nav-icon fas fa-money-bills"></i>
+                <p>Tagihan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('/bills/generate') ?>" class="nav-link <?= nav_active($this, 'generate') ?>">
+                <i class="nav-icon fas fa-bolt"></i>
+                <p>Generate</p>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a href="<?= base_url('/customers') ?>" class="nav-link <?= nav_active($this, 'customer') ?>">
@@ -65,33 +82,33 @@ use App\Entities\Acl; ?>
           </a>
         </li>
         <?php if (current_user_can(Acl::VIEW_COSTS) || current_user_can(Acl::VIEW_COST_CATEGORIES)) : ?>
-        <li class="nav-item <?= menu_open($this, 'cost') ?>">
-          <a href="#" class="nav-link <?= menu_active($this, 'cost') ?>">
-            <i class="nav-icon fas fa-receipt"></i>
-            <p>
-              Biaya Operasional
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <?php if (current_user_can(Acl::VIEW_COSTS)): ?>
-            <li class="nav-item">
-              <a href="<?= base_url('/costs') ?>" class="nav-link <?= nav_active($this, 'cost') ?>">
-                <i class="nav-icon fas fa-receipt"></i>
-                <p>Biaya Operasional</p>
-              </a>
-            </li>
-            <?php endif ?>
-            <?php if (current_user_can(Acl::VIEW_COST_CATEGORIES)): ?>
-            <li class="nav-item">
-              <a href="<?= base_url('/cost-categories') ?>" class="nav-link <?= nav_active($this, 'cost-category') ?>">
-                <i class="nav-icon fas fa-folder-tree"></i>
-                <p>Kategori Biaya</p>
-              </a>
-            </li>
-            <?php endif ?>
-          </ul>
-        </li>
+          <li class="nav-item <?= menu_open($this, 'cost') ?>">
+            <a href="#" class="nav-link <?= menu_active($this, 'cost') ?>">
+              <i class="nav-icon fas fa-receipt"></i>
+              <p>
+                Biaya Operasional
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <?php if (current_user_can(Acl::VIEW_COSTS)) : ?>
+                <li class="nav-item">
+                  <a href="<?= base_url('/costs') ?>" class="nav-link <?= nav_active($this, 'cost') ?>">
+                    <i class="nav-icon fas fa-receipt"></i>
+                    <p>Biaya Operasional</p>
+                  </a>
+                </li>
+              <?php endif ?>
+              <?php if (current_user_can(Acl::VIEW_COST_CATEGORIES)) : ?>
+                <li class="nav-item">
+                  <a href="<?= base_url('/cost-categories') ?>" class="nav-link <?= nav_active($this, 'cost-category') ?>">
+                    <i class="nav-icon fas fa-folder-tree"></i>
+                    <p>Kategori Biaya</p>
+                  </a>
+                </li>
+              <?php endif ?>
+            </ul>
+          </li>
         <?php endif ?>
         <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)) : ?>
           <li class="nav-item <?= menu_open($this, 'system') ?>">

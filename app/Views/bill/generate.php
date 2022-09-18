@@ -48,7 +48,6 @@ $this->extend('_layouts/default')
                 </div>
             </div>
             <div class="card-footer">
-                <a href="./" class="btn btn-default mr-2"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-bolt mr-2"></i> Generate</button>
             </div>
         </form>

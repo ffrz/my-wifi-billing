@@ -3,52 +3,74 @@ $this->title = 'Tagihan';
 $this->navActive = 'bill';
 ?>
 <?= $this->extend('_layouts/default') ?>
+<?= $this->section('right-menu') ?>
+<li class="nav-item">
+<a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" class="btn btn-default mr-2"><i class="fa fa-print mr-2"></i> Cetak</a>
+    <a href="<?= base_url('products/add') ?>" class="btn plus-btn btn-primary mr-1" title="Baru"><i class="fa fa-plus"></i></a>
+    <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm" title="Saring"><i class="fa fa-filter"></i></button>
+</li>
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
-<div class="card card-primary">
-    <div class="card-body">
-        <div class="row">
-            <form method="GET" class="form-horizontal">
-                <div class="form-inline col-md-12">
-                    <select class="custom-select mt-2" name="year">
-                        <?php for ($year = date('Y'); $year >= 2022; $year--) : ?>
-                            <option value="<?= $year ?>" <?= $filter->year == $year ? 'selected' : '' ?>><?= $year ?></option>
-                        <?php endfor ?>
-                    </select>
-                    <select class="custom-select mt-2" name="month">
-                        <option value="all" <?= $filter->month == 'all' ? 'selected' : '' ?>>Bulan:</option>
-                        <option value="1" <?= $filter->month == 1 ? 'selected' : '' ?>>Januari</option>
-                        <option value="2" <?= $filter->month == 2 ? 'selected' : '' ?>>Februari</option>
-                        <option value="3" <?= $filter->month == 3 ? 'selected' : '' ?>>Maret</option>
-                        <option value="4" <?= $filter->month == 4 ? 'selected' : '' ?>>April</option>
-                        <option value="5" <?= $filter->month == 5 ? 'selected' : '' ?>>Mei</option>
-                        <option value="6" <?= $filter->month == 6 ? 'selected' : '' ?>>Juni</option>
-                        <option value="7" <?= $filter->month == 7 ? 'selected' : '' ?>>Juli</option>
-                        <option value="8" <?= $filter->month == 8 ? 'selected' : '' ?>>Agustus</option>
-                        <option value="9" <?= $filter->month == 9 ? 'selected' : '' ?>>September</option>
-                        <option value="10" <?= $filter->month == 10 ? 'selected' : '' ?>>Oktober</option>
-                        <option value="11" <?= $filter->month == 11 ? 'selected' : '' ?>>November</option>
-                        <option value="12" <?= $filter->month == 12 ? 'selected' : '' ?>>Desember</option>
-                    </select>
-                    <select class="custom-select mt-2" id="status" name="status">
-                        <option value="all" <?= $filter->status == 'all' ? 'selected' : '' ?>>Status:</option>
-                        <option value="0" <?= $filter->status == 0 ? 'selected' : '' ?>>Belum Dibayar</option>
-                        <option value="1" <?= $filter->status == 1 ? 'selected' : '' ?>>Lunas</option>
-                        <option value="2" <?= $filter->status == 2 ? 'selected' : '' ?>>Dibatalkan</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary mt-2"><i class="fas fa-filter"></i></button>
+<form method="GET" class="form-horizontal">
+    <div class="modal fade" id="modal-sm">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Penyaringan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </form>
-        </div>
-        <div class="row">
-            <div class="col-md-12 mt-2">
-                <div class="btn-group">
-                    <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" class="btn btn-default"><i class="fa fa-print mr-2"></i> Cetak</a>
-                    <a href="<?= base_url('bills/generate') ?>" class="btn btn-warning" title="Generate Tagihan"><i class="fa fa-bolt mr-2"></i> Generate</a>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="year" class="col-form-label col-sm-4">Tahun</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select mt-2" id="year" name="year">
+                                <?php for ($year = date('Y'); $year >= 2022; $year--) : ?>
+                                    <option value="<?= $year ?>" <?= $filter->year == $year ? 'selected' : '' ?>><?= $year ?></option>
+                                <?php endfor ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="month" class="col-form-label col-sm-4">Bulan</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select mt-2" name="month">
+                                <option value="all" <?= $filter->month == 'all' ? 'selected' : '' ?>>Bulan:</option>
+                                <option value="1" <?= $filter->month == 1 ? 'selected' : '' ?>>Januari</option>
+                                <option value="2" <?= $filter->month == 2 ? 'selected' : '' ?>>Februari</option>
+                                <option value="3" <?= $filter->month == 3 ? 'selected' : '' ?>>Maret</option>
+                                <option value="4" <?= $filter->month == 4 ? 'selected' : '' ?>>April</option>
+                                <option value="5" <?= $filter->month == 5 ? 'selected' : '' ?>>Mei</option>
+                                <option value="6" <?= $filter->month == 6 ? 'selected' : '' ?>>Juni</option>
+                                <option value="7" <?= $filter->month == 7 ? 'selected' : '' ?>>Juli</option>
+                                <option value="8" <?= $filter->month == 8 ? 'selected' : '' ?>>Agustus</option>
+                                <option value="9" <?= $filter->month == 9 ? 'selected' : '' ?>>September</option>
+                                <option value="10" <?= $filter->month == 10 ? 'selected' : '' ?>>Oktober</option>
+                                <option value="11" <?= $filter->month == 11 ? 'selected' : '' ?>>November</option>
+                                <option value="12" <?= $filter->month == 12 ? 'selected' : '' ?>>Desember</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="status" class="col-form-label col-sm-4">Status</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select mt-2" id="status" name="status">
+                                <option value="all" <?= $filter->status == 'all' ? 'selected' : '' ?>>Status:</option>
+                                <option value="0" <?= $filter->status == 0 ? 'selected' : '' ?>>Belum Dibayar</option>
+                                <option value="1" <?= $filter->status == 1 ? 'selected' : '' ?>>Lunas</option>
+                                <option value="2" <?= $filter->status == 2 ? 'selected' : '' ?>>Dibatalkan</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check mr-2"></i> Terapkan</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 <div class="card card-primary">
     <div class="card-body">
         <div class="row">
@@ -72,7 +94,7 @@ $this->navActive = 'bill';
                                         <span class="badge badge-success">Lunas</span>
                                     <?php elseif ($item->status == 2) : ?>
                                         <span class="badge badge-danger">Dibatalkan</span>
-                                        <?php elseif ($item->status == 0) : ?>
+                                    <?php elseif ($item->status == 0) : ?>
                                         <span class="badge badge-warning">Belum Dibayar</span>
                                     <?php endif ?>
                                     <?php if ($item->product_id) : ?>
