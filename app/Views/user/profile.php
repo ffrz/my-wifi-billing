@@ -1,11 +1,8 @@
 <?php
 $this->title = 'Profil Saya';
-$this->titleIcon = 'fa-user';
-$this->menuActive = 'users';
 $this->navActive = 'profile';
 $this->extend('_layouts/default')
 ?>
-
 <?= $this->section('content') ?>
 <div class="col-md-8">
     <div class="card card-primary">
@@ -61,7 +58,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="password2" class="col-form-label col-sm-4">Ulangi Kata Sandi Baru</label>
+                    <label for="password2" class="col-form-label col-sm-4">Ulangi Kata Sandi</label>
                     <div class="col-sm-4">
                         <input type="password" class="form-control <?= !empty($errors['password2']) ? 'is-invalid' : '' ?>" id="password2" placeholder="Kata Sandi" name="password2" value="<?= esc($data->password2) ?>">
                         <?php if (!empty($errors['password2'])) : ?>

@@ -1,8 +1,7 @@
 <?php
 $this->title = 'Hapus Pengguna';
-$this->titleIcon = 'fa-user';
-$this->menuActive = 'users';
-$this->navActive = 'users';
+$this->menuActive = 'system';
+$this->navActive = 'user';
 $this->extend('_layouts/default')
 ?>
 

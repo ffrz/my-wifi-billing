@@ -12,7 +12,7 @@ $this->extend('_layouts/default')
 <?= $this->section('content') ?>
 <form method="GET" class="form-horizontal">
     <div class="modal fade" id="modal-sm">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Penyaringan</h4>
@@ -22,8 +22,8 @@ $this->extend('_layouts/default')
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="active" class="col-form-label col-sm-3">Status</label>
-                        <div class="col-sm-9">
+                        <label for="active" class="col-form-label col-sm-4">Status</label>
+                        <div class="col-sm-8">
                             <select class="custom-select" id="active" name="active">
                                 <option value="all" <?= $filter->active == 'all' ? 'selected' : '' ?>>Semua Status</option>
                                 <option value="1" <?= $filter->active == 1 ? 'selected' : '' ?>>Aktif</option>
@@ -92,7 +92,7 @@ $this->extend('_layouts/default')
     ];
     DATATABLES_OPTIONS.columnDefs = [{
         orderable: false,
-        targets: 3
+        targets: 5
     }];
     $(document).ready(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);

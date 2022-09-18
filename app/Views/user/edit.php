@@ -1,8 +1,7 @@
 <?php
 $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Pengguna';
-$this->titleIcon = 'fa-user';
-$this->menuActive = 'users';
-$this->navActive = 'users';
+$this->menuActive = 'system';
+$this->navActive = 'user';
 $this->extend('_layouts/default')
 ?>
 <?= $this->section('content') ?>
@@ -68,15 +67,6 @@ $this->extend('_layouts/default')
                             <label class="custom-control-label" for="active" title="Akun aktif dapat login">Aktif</label>
                         </div>
                         <div class="text-muted">Akun aktif dapat login.</div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-8 offset-sm-4">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input " id="is_admin" name="is_admin" value="1" <?= $data->is_admin ? 'checked="checked"' : '' ?>>
-                            <label class="custom-control-label" for="is_admin" title="Akun pengguna pengelola">Administrator</label>
-                        </div>
-                        <p class="text-muted">Akun administrator memiliki hak akses penuh pada sistem.</p>
                     </div>
                 </div>
             </div>

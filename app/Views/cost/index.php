@@ -1,5 +1,6 @@
 <?php
 $this->title = 'Biaya Operasional';
+$this->menuActive = 'cost';
 $this->navActive = 'cost';
 $this->extend('_layouts/default')
 ?>
@@ -7,45 +8,58 @@ $this->extend('_layouts/default')
 <?= $this->section('right-menu') ?>
 <li class="nav-item">
     <a href="<?= base_url('costs/add') ?>" class="btn plus-btn btn-primary mr-2" title="Baru"><i class="fa fa-plus"></i></a>
+    <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm" title="Saring"><i class="fa fa-filter"></i></button>
 </li>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
-<div class="card card-primary">
-    <div class="card-body">
-        <div class="row">
-            <form method="GET" class="form-horizontal">
-                <div class="form-inline col-md-12">
-                    <select class="custom-select mt-2" name="year">
-                        <?php for ($year = date('Y'); $year >= 2022; $year--) : ?>
-                            <option value="<?= $year ?>" <?= $filter->year == $year ? 'selected' : '' ?>><?= $year ?></option>
-                        <?php endfor ?>
-                    </select>
-                    <select class="custom-select mt-2" name="month">
-                        <option value="all" <?= $filter->month == 'all' ? 'selected' : '' ?>>Bulan:</option>
-                        <option value="1" <?= $filter->month == 1 ? 'selected' : '' ?>>Januari</option>
-                        <option value="2" <?= $filter->month == 2 ? 'selected' : '' ?>>Februari</option>
-                        <option value="3" <?= $filter->month == 3 ? 'selected' : '' ?>>Maret</option>
-                        <option value="4" <?= $filter->month == 4 ? 'selected' : '' ?>>April</option>
-                        <option value="5" <?= $filter->month == 5 ? 'selected' : '' ?>>Mei</option>
-                        <option value="6" <?= $filter->month == 6 ? 'selected' : '' ?>>Juni</option>
-                        <option value="7" <?= $filter->month == 7 ? 'selected' : '' ?>>Juli</option>
-                        <option value="8" <?= $filter->month == 8 ? 'selected' : '' ?>>Agustus</option>
-                        <option value="9" <?= $filter->month == 9 ? 'selected' : '' ?>>September</option>
-                        <option value="10" <?= $filter->month == 10 ? 'selected' : '' ?>>Oktober</option>
-                        <option value="11" <?= $filter->month == 11 ? 'selected' : '' ?>>November</option>
-                        <option value="12" <?= $filter->month == 12 ? 'selected' : '' ?>>Desember</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary mt-2"><i class="fas fa-filter"></i></button>
+<form method="GET" class="form-horizontal">
+    <div class="modal fade" id="modal-sm">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Penyaringan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </form>
-        </div>
-        <div class="row">
-            <div class="col-md-12 mt-2">
-            <a href="<?= base_url('cost-categories/') ?>" class="btn btn-default mr-2" title="Kelola Kategori"><i class="fa fa-folder mr-2"></i> Kelola Kategori</a>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4" for="year">Tahun</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select mt-2" id="year" name="year">
+                                <?php for ($year = date('Y'); $year >= 2022; $year--) : ?>
+                                    <option value="<?= $year ?>" <?= $filter->year == $year ? 'selected' : '' ?>><?= $year ?></option>
+                                <?php endfor ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4" for="month">Bulan</label>
+                        <div class="col-sm-8">
+                            <select class="custom-select mt-2" id="month"  name="month">
+                                <option value="1" <?= $filter->month == 1 ? 'selected' : '' ?>>Januari</option>
+                                <option value="2" <?= $filter->month == 2 ? 'selected' : '' ?>>Februari</option>
+                                <option value="3" <?= $filter->month == 3 ? 'selected' : '' ?>>Maret</option>
+                                <option value="4" <?= $filter->month == 4 ? 'selected' : '' ?>>April</option>
+                                <option value="5" <?= $filter->month == 5 ? 'selected' : '' ?>>Mei</option>
+                                <option value="6" <?= $filter->month == 6 ? 'selected' : '' ?>>Juni</option>
+                                <option value="7" <?= $filter->month == 7 ? 'selected' : '' ?>>Juli</option>
+                                <option value="8" <?= $filter->month == 8 ? 'selected' : '' ?>>Agustus</option>
+                                <option value="9" <?= $filter->month == 9 ? 'selected' : '' ?>>September</option>
+                                <option value="10" <?= $filter->month == 10 ? 'selected' : '' ?>>Oktober</option>
+                                <option value="11" <?= $filter->month == 11 ? 'selected' : '' ?>>November</option>
+                                <option value="12" <?= $filter->month == 12 ? 'selected' : '' ?>>Desember</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check mr-2"></i> Terapkan</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 <div class="card card-primary">
     <div class="card-body">
         <div class="row">
@@ -85,8 +99,13 @@ $this->extend('_layouts/default')
 <?= $this->section('footscript') ?>
 <script>
     $(function() {
-        DATATABLES_OPTIONS.order = [[0, 'asc']];
-        DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 4 }];
+        DATATABLES_OPTIONS.order = [
+            [0, 'asc']
+        ];
+        DATATABLES_OPTIONS.columnDefs = [{
+            orderable: false,
+            targets: 4
+        }];
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });
 </script>

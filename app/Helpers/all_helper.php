@@ -161,3 +161,13 @@ function month_names($month)
         case 12: return "Desember";
     }
 }
+
+function current_datetime()
+{
+    return date('Y-m-d H:i:s');
+}
+
+function current_date()
+{
+    return date('Y-m-d');
+}

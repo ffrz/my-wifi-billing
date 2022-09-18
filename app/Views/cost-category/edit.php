@@ -1,7 +1,7 @@
 <?php
 $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Kategori Biaya';
-$this->navActive = 'cost';
-
+$this->menuActive = 'cost';
+$this->navActive = 'cost-category';
 $this->extend('_layouts/default');
 ?>
 <?= $this->section('content') ?>

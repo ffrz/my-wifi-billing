@@ -17,8 +17,11 @@ class SystemController extends BaseController
             $data['store_name'] = trim($this->request->getPost('store_name'));
             $data['store_address'] = trim($this->request->getPost('store_address'));
 
-            if (strlen($data['store_name']) == 0) {
-                $errors['store_name'] = 'Nama usaha harus diisi.';
+            if (strlen($data['store_name']) < 2 || strlen($data['store_name']) > 100) {
+                $errors['store_name'] = 'Nama Usaha  harus diisi. Minimal 2 karakter, maksimal 100 karakter.';
+            }
+            else if (!preg_match('/^[a-zA-Z\d _-]+$/i', $data['store_name'])) {
+                $errors['store_name'] = 'Nama Usaha tidak valid, gunakan huruf alfabet, angka atau spasi.';
             }
 
             if (empty($errors)) {

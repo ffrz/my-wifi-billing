@@ -1,11 +1,9 @@
 <?php
 $this->title = 'Pengaturan';
-$this->navActive = 'system-settings';
-$this->titleIcon = 'fa-gear';
+$this->navActive = 'system-setting';
 $this->menuActive = 'system';
 $this->extend('_layouts/default');
 ?>
-
 <?= $this->section('content') ?>
 <div class="card card-primary">
     <form class="form-horizontal quick-form" method="POST">

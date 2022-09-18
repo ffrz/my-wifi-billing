@@ -64,12 +64,35 @@ use App\Entities\Acl; ?>
             <p>Produk</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="<?= base_url('/costs') ?>" class="nav-link <?= nav_active($this, 'cost') ?>">
+        <?php if (current_user_can(Acl::VIEW_COSTS) || current_user_can(Acl::VIEW_COST_CATEGORIES)) : ?>
+        <li class="nav-item <?= menu_open($this, 'cost') ?>">
+          <a href="#" class="nav-link <?= menu_active($this, 'cost') ?>">
             <i class="nav-icon fas fa-receipt"></i>
-            <p>Biaya Operasional</p>
+            <p>
+              Biaya Operasional
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            <?php if (current_user_can(Acl::VIEW_COSTS)): ?>
+            <li class="nav-item">
+              <a href="<?= base_url('/costs') ?>" class="nav-link <?= nav_active($this, 'cost') ?>">
+                <i class="nav-icon fas fa-receipt"></i>
+                <p>Biaya Operasional</p>
+              </a>
+            </li>
+            <?php endif ?>
+            <?php if (current_user_can(Acl::VIEW_COST_CATEGORIES)): ?>
+            <li class="nav-item">
+              <a href="<?= base_url('/cost-categories') ?>" class="nav-link <?= nav_active($this, 'cost-category') ?>">
+                <i class="nav-icon fas fa-folder-tree"></i>
+                <p>Kategori Biaya</p>
+              </a>
+            </li>
+            <?php endif ?>
+          </ul>
         </li>
+        <?php endif ?>
         <?php if (current_user_can(Acl::CHANGE_SYSTEM_SETTINGS)) : ?>
           <li class="nav-item <?= menu_open($this, 'system') ?>">
             <a href="#" class="nav-link <?= menu_active($this, 'system') ?>">
@@ -80,24 +103,20 @@ use App\Entities\Acl; ?>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <?php if (current_user_can(Acl::VIEW_USERS)) : ?>
-                <li class="nav-item">
-                  <a href="<?= base_url('/users') ?>" class="nav-link <?= nav_active($this, 'users') ?>">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>Pengguna</p>
-                  </a>
-                </li>
-              <?php endif ?>
-              <?php if (current_user_can(Acl::VIEW_USER_GROUPS)) : ?>
-                <li class="nav-item">
-                  <a href="<?= base_url('/user-groups') ?>" class="nav-link <?= nav_active($this, 'user-groups') ?>">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>Grup Pengguna</p>
-                  </a>
-                </li>
-              <?php endif ?>
               <li class="nav-item">
-                <a href="<?= base_url('/system/settings') ?>" class="nav-link <?= nav_active($this, 'system-settings') ?>">
+                <a href="<?= base_url('/users') ?>" class="nav-link <?= nav_active($this, 'user') ?>">
+                  <i class="nav-icon fas fa-user"></i>
+                  <p>Pengguna</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= base_url('/user-groups') ?>" class="nav-link <?= nav_active($this, 'user-group') ?>">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>Grup Pengguna</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= base_url('/system/settings') ?>" class="nav-link <?= nav_active($this, 'system-setting') ?>">
                   <i class="nav-icon fas fa-gear"></i>
                   <p>Pengaturan</p>
                 </a>

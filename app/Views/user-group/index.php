@@ -1,13 +1,7 @@
 <?php
 $this->title = 'Grup Pengguna';
-$this->titleIcon = 'fa-users';
 $this->menuActive = 'system';
-$this->navActive = 'user-groups';
-$this->addButtonLink = [
-    'url' => '/users/edit/0',
-    'icon' => 'fa-plus',
-    'text' => 'Tambah Pengguna'
-];
+$this->navActive = 'user-group';
 $this->extend('_layouts/default')
 ?>
 ?>
@@ -26,7 +20,7 @@ $this->extend('_layouts/default')
                         <tr>
                             <th>Nama Grup</th>
                             <th>Deskripsi</th>
-                            <th class="text-center"></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

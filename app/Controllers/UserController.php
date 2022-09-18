@@ -21,18 +21,20 @@ class UserController extends BaseController
         $oldPassword = '';
         $model = $this->getUserModel();
         if ($id == 0) {
-            $item = new User();
+            $data = new User();
+            $data->active = true;
+            $data->is_admin = false;
         } else {
-            $item = $model->find($id);
-            if (!$item || $item->company_id != current_user()->company_id) {
+            $data = $model->find($id);
+            if (!$data || $data->company_id != current_user()->company_id) {
                 return redirect()->to(base_url('users'))->with('warning', 'Pengguna tidak ditemukan.');
             }
 
-            $oldPassword = $item->password;
+            $oldPassword = $data->password;
         }
 
         // ga boleh edit akun sendiri
-        if ($item->username == current_user()->username) {
+        if ($data->username == current_user()->username) {
             return redirect()->to(base_url('users'))->with('error', 'Akun ini tidak dapat diubah.');
         }
 
@@ -41,59 +43,75 @@ class UserController extends BaseController
         if ($this->request->getMethod() === 'post') {
             if (!$id) {
                 // username tidak boleh diganti
-                $item->username = trim($this->request->getPost('username'));
+                $data->username = trim($this->request->getPost('username'));
             }
 
-            $item->fullname = trim($this->request->getPost('fullname'));
-            $item->password = $this->request->getPost('password');
-            $item->is_admin = (int)$this->request->getPost('is_admin');
-            $item->active = (int)$this->request->getPost('active');
-            $item->group_id = (int)$this->request->getPost('group_id');
+            $data->fullname = trim($this->request->getPost('fullname'));
+            $data->password = $this->request->getPost('password');
+            // $item->is_admin = (int)$this->request->getPost('is_admin');
+            $data->active = (int)$this->request->getPost('active');
+            $data->group_id = (int)$this->request->getPost('group_id');
 
-            if ($item->group_id == 0) {
-                $item->group_id = null;
+            if ($data->group_id == 0) {
+                $data->group_id = null;
             }
 
-            if ($item->username == '') {
-                $errors['username'] = 'Username harus diisi.';
-            } else if ($model->exists($item->username, $item->id)) {
+            if (strlen($data->username) < 3 || strlen($data->username) > 40) {
+                $errors['username'] = 'Username harus diisi. minimal 3 karakter, maksimal 40 karakter.';
+            }
+            else if (!preg_match('/^[a-zA-Z\d_]+$/i', $data->username)) {
+                $errors['username'] = 'Username tidak valid, gunakan huruf alfabet, angka dan underscore.';
+            }
+            else if ($model->exists($data->username, $data->id)) {
                 $errors['username'] = 'Username sudah digunakan, harap gunakan nama lain.';
-            } else if ($item->fullname == '') {
-                $errors['fullname'] = 'Nama lengkap harus diisi.';
-            } else if (!$item->id) {
-                if ($item->password == '') {
-                    $errors['password'] = 'Kata sandi harus diisi.';
-                } else {
-                    $item->password = sha1($item->password);
+            }
+            
+            if (strlen($data->fullname) < 3 || strlen($data->fullname) > 100) {
+                $errors['fullname'] = 'Nama harus diisi. Minimal 3 karakter, maksimal 100 karakter.';
+            }
+            else if (!preg_match('/^[a-zA-Z\d ]+$/i', $data->fullname)) {
+                $errors['fullname'] = 'Nama tidak valid, gunakan huruf alfabet, angka dan spasi.';
+            }
+            
+            $change_password = false;
+            if (!$data->id || $data->password != '') {
+                $change_password = true;
+                if (strlen($data->password) < 3 || strlen($data->password) > 40) {
+                    $errors['password'] = 'Kata sandi harus diisi. minimal 3 karakter, maksimal 40 karakter.';
                 }
-            } else if ($item->password != '') {
-                $item->password = sha1($item->password);
             }
 
             if (empty($errors)) {
-
-                if ($item->password === '' && $oldPassword !== '') {
-                    // user ga mengganti password maka reset dengan password lama
-                    $item->password = $oldPassword;
+                if ($change_password) {
+                    $data->password = sha1($data->password);
                 }
+                else {
+                    $data->password = $oldPassword;
+                }
+
+                if (!$data->id) {
+                    $data->company_id = current_user()->company_id;
+                    $data->created_by = current_user()->username;
+                    $data->created_at = current_datetime();
+                }
+
+                $data->updated_at = current_datetime();
+                $data->updated_by = current_user()->username;
 
                 try {
-                    if (!$item->company_id) {
-                        $item->company_id = current_user()->company_id;
-                    }
-                    $model->save($item);
+                    $model->save($data);
                 } catch (DataException $ex) {
-                    if ($ex->getMessage() == 'There is no data to update. ') {
-                    }
+
                 }
-                return redirect()->to(base_url('users'))->with('info', 'Berhasil disimpan.');
+
+                return redirect()->to(base_url('users'))->with('info', 'Akun pengguna telah disimpan.');
             }
         } else {
-            $item->password = '';
+            $data->password = '';
         }
 
         return view('user/edit', [
-            'data' => $item,
+            'data' => $data,
             'userGroups' => $this->getUserGroupModel()->getAll(),
             'errors' => $errors,
         ]);
@@ -101,67 +119,67 @@ class UserController extends BaseController
 
     public function profile()
     {
-        $id = current_user()->id;
+        $model = $this->getUserModel();
+        $data = $model->find(current_user()->id);
         $errors = [];
 
-        $model = $this->getUserModel();
-        $item = $model->find($id);
-
         if ($this->request->getMethod() === 'post') {
-            $item->fullname = trim($this->request->getPost('fullname'));
-            $item->password1 = $this->request->getPost('password1');
-            $item->password2 = $this->request->getPost('password2');
+            $data->fullname = trim($this->request->getPost('fullname'));
+            $data->password1 = $this->request->getPost('password1');
+            $data->password2 = $this->request->getPost('password2');
             $input_current_password = $this->request->getPost('current_password');
             $change_password = false;
 
-            if ($item->fullname == '') {
+            if ($data->fullname == '') {
                 $errors['fullname'] = 'Nama harus diisi.';
-            } elseif (strlen($item->fullname) > 100) {
+            } elseif (strlen($data->fullname) > 100) {
                 $errors['fullname'] = 'Nama terlalu panjang, maksimal 100 karakter.';
-            } else if (!preg_match('/^[a-zA-Z\d ]+$/i', $item->fullname)) {
+            } else if (!preg_match('/^[a-zA-Z\d ]+$/i', $data->fullname)) {
                 $errors['fullname'] = 'Nama tidak valid, gunakan huruf alfabet, angka dan spasi.';
             }
 
             if ($input_current_password == '') {
                 $errors['current_password'] = 'Anda harus mengisi kata sandi.';
-            } else if (sha1($input_current_password) != $item->password) {
+            } else if (sha1($input_current_password) != $data->password) {
                 $errors['current_password'] = 'Kata sandi salah.';
             }
 
-            if ($item->password1 != '') {
+            if ($data->password1 != '') {
                 $change_password = true;
                 // user ingin mengganti password
-                if (strlen($item->password1) < 3) {
+                if (strlen($data->password1) < 3) {
                     $errors['password1'] = 'Kata sandi anda terlalu pendek, minimal 3 karakter.';
                 }
-                else if (strlen($item->password1) > 40) {
+                else if (strlen($data->password1) > 40) {
                     $errors['password1'] = 'Kata sandi anda terlalu panjang, maksimal 40 karakter.';
                 }
-                else if ($item->password1 != $item->password2) {
+                else if ($data->password1 != $data->password2) {
                     $errors['password2'] = 'Kata sandi yang anda konfirmasi tidak cocok.';
                 }
             }
 
             if (empty($errors)) {
                 if ($change_password) {
-                    $item->password = sha1($item->password1);
+                    $data->password = sha1($data->password1);
                 }
+
+                $data->updated_at = current_datetime();
+                $data->updated_by = current_user()->username;
                 
                 try {
-                    $model->save($item);
+                    $model->save($data);
                 } catch (DataException $ex) {
-                    if ($ex->getMessage() == 'There is no data to update. ') {
-                    }
                 }
-                return redirect()->to(base_url('users/profile'))->with('info', 'Berhasil disimpan.');
+
+                return redirect()->to(base_url('users/profile'))->with('info', 'Profil telah diperbarui.');
             }
         } else {
-            $item->password1 = '';
-            $item->password2 = '';
+            $data->password1 = '';
+            $data->password2 = '';
         }
 
         return view('user/profile', [
-            'data' => $item,
+            'data' => $data,
             'errors' => $errors,
         ]);
     }
@@ -175,7 +193,7 @@ class UserController extends BaseController
             return redirect()->to(base_url('users'))->with('warning', 'Rekaman tidak ditemukan.');
         }
 
-        if ($user->username == 'admin') {
+        if ($user->is_admin) {
             return redirect()->to(base_url('users'))
                 ->with('error', 'Akun <b>' . esc($user->username) . '</b> tidak dapat dihapus.');
         } else if ($user->id == current_user()->id) {

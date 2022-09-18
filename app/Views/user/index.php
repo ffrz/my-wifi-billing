@@ -1,8 +1,7 @@
 <?php
 $this->title = 'Pengguna';
-$this->titleIcon = 'fa-users';
 $this->menuActive = 'system';
-$this->navActive = 'users';
+$this->navActive = 'user';
 $this->extend('_layouts/default')
 ?>
 ?>
@@ -23,7 +22,7 @@ $this->extend('_layouts/default')
                             <th>Nama Lengkap</th>
                             <th>Status</th>
                             <th>Grup</th>
-                            <th class="text-center" style="max-width:10%">Aksi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,10 +38,12 @@ $this->extend('_layouts/default')
                                 <td><?= $item->active ? 'Aktif' : 'Nonaktif' ?></td>
                                 <td><?= esc($item->group_name) ?></td>
                                 <td class="text-center">
+                                    <?php if (!$item->is_admin): ?>
                                     <div class="btn-group">
                                         <a href="<?= base_url("/users/edit/$item->id") ?>" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
                                         <a href="<?= base_url("/users/delete/$item->id") ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                     </div>
+                                    <?php endif ?>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -57,7 +58,7 @@ $this->extend('_layouts/default')
 <script>
     $(function() {
         DATATABLES_OPTIONS.order = [[0, 'asc']];
-        DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 2 }];
+        DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 4 }];
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });
 </script>

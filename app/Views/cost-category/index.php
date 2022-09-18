@@ -1,6 +1,7 @@
 <?php
 $this->title = 'Kategori Biaya Opr.';
-$this->navActive = 'cost';
+$this->menuActive = 'cost';
+$this->navActive = 'cost-category';
 $this->extend('_layouts/default')
 ?>
 ?>

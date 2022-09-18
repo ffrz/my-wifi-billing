@@ -1,5 +1,6 @@
 <?php
 $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Biaya';
+$this->menuActive = 'cost';
 $this->navActive = 'cost';
 $this->extend('_layouts/default')
 ?>
