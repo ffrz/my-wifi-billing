@@ -66,7 +66,9 @@ $phone = '62' . substr($phone, 1, strlen($phone));
             <?php if ($data->activation_code) : ?>
                 <a target="_blank" href="<?= wa_send($phone, $text_activation) ?>" class="btn btn-warning"><i class="fas fa-paper-plane mr-2"></i>Kirim Link Aktifasi</a>
             <?php endif ?>
-            <a onclick="return confirm('Hapus?')" href="<?= base_url("/companies/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
+            <?php if ($data->active) : ?>
+            <a onclick="return confirm('Nonaktifkan?')" href="<?= base_url("/companies/delete/$data->id") ?>" class="btn btn-default"><i class="fas fa-ban mr-2"></i>Nonaktifkan</a>
+            <?php endif ?>
         </div>
     </div>
 </div>
