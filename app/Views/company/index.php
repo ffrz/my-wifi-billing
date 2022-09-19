@@ -39,7 +39,7 @@ $this->navActive = 'company';
                                     <div class="btn-group mr-2">
                                         <a href="<?= base_url("/companies/view/$item->id") ?>" class="btn btn-default btn-sm" title="Rincian"><i class="fa fa-eye"></i></a>
                                         <a href="<?= base_url("/companies/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-                                        <a onclick="return confirm('Hapus Perusahaan?')" href="<?= base_url("/companies/delete/$item->id") ?>" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                        <a onclick="return confirm('Nonaktifkan Perusahaan?')" href="<?= base_url("/companies/delete/$item->id") ?>" title="Nonaktifkan" class="btn btn-default btn-sm"><i class="fa fa-ban"></i></a>
                                     </div>
                                 </td>
                             </tr>
