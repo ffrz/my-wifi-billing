@@ -54,7 +54,7 @@ $this->navActive = 'company';
 <?= $this->section('footscript') ?>
 <script>
     DATATABLES_OPTIONS.order = [[0, 'asc']];
-    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 5 }];
+    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 6 }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });
