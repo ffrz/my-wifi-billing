@@ -9,7 +9,7 @@ class AuthController extends BaseController
     public function login()
     {
         $session = session();
-        $username = '';
+        $username = (string)$this->request->getGet('username');
         $password = '';
         $remember = 1;
         $error = null;
@@ -34,6 +34,12 @@ class AuthController extends BaseController
             }
             else if ($user->password != sha1($password)) {
                 $error = 'Kata sandi anda salah.';
+            }
+            else if (!($company = $this->getCompanyModel()->find($user->company_id))) {
+                $error = 'Akun perusahaan tidak ditemukan.';
+            }
+            else if (!$company->active) {
+                $error = 'Akun perusahaan anda belum aktif.';
             }
             else {
                 

@@ -19,21 +19,28 @@ $this->navActive = 'company';
                         <tr>
                             <th>ID</th>
                             <th>Nama Perusahaan</th>
-                            <th></th>
+                            <th>Nama Pemilik</th>
+                            <th>No WA</th>
+                            <th>Alamat</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item) : ?>
                             <tr>
-                                <td>
-                                    <?= $item->id ?>
-                                </td>
+                                <td><?= $item->id ?></td>
                                 <td><?= esc($item->name) ?></td>
+                                <td><?= esc($item->owner_name) ?></td>
+                                <td><?= esc($item->phone) ?></td>
+                                <td><?= esc($item->address) ?></td>
+                                <td><?= $item->active ? 'Aktif' : 'Non Aktif' ?></td>
                                 <td class="text-center">
                                     <div class="btn-group mr-2">
+                                        <a href="<?= base_url("/companies/view/$item->id") ?>" class="btn btn-default btn-sm" title="Rincian"><i class="fa fa-eye"></i></a>
                                         <a href="<?= base_url("/companies/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+                                        <a onclick="return confirm('Hapus Perusahaan?')" href="<?= base_url("/companies/delete/$item->id") ?>" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                     </div>
-                                    <a onclick="return confirm('Hapus Perusahaan?')" href="<?= base_url("/companies/delete/$item->id") ?>" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -47,7 +54,7 @@ $this->navActive = 'company';
 <?= $this->section('footscript') ?>
 <script>
     DATATABLES_OPTIONS.order = [[0, 'asc']];
-    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 2 }];
+    DATATABLES_OPTIONS.columnDefs = [{ orderable: false, targets: 5 }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
     });

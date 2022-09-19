@@ -13,11 +13,13 @@ class SystemController extends BaseController
             return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
 
+        $company = $this->getCompanyModel()->find(current_user()->company_id);
+
         $settings = $this->getSettingModel();
         $data = [];
         $errors = [];
-        $data['store_name'] = $settings->get('app.store_name', 'Toko Saya');
-        $data['store_address'] = $settings->get('app.store_address', '');
+        $data['store_name'] = $settings->get('app.store_name', $company->name);
+        $data['store_address'] = $settings->get('app.store_address', $company->address);
         
         if ($this->request->getMethod() == 'post') {
             $data['store_name'] = trim($this->request->getPost('store_name'));

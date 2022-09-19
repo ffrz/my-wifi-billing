@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <div class="card">
     <div class="card-body register-card-body">
-        <form action="<?= base_url('activate') ?>" method="post">
+        <form action="<?= base_url("activate/$data->cid/$data->code") ?>" method="post">
             <input type="hidden" name="cid" value="<?= $data->cid ?>">
             <input type="hidden" name="code" value="<?= $data->code ?>">
             <?= csrf_field() ?>
@@ -13,8 +13,9 @@
                         <p>
                             Selamat datang pemilik akun perusahaan <b><?= esc($company->name) ?></b>.
                         </p>
-                        <p>Untuk mengaktifkan akun anda harus membuat
-                            username dan kata sandi agar bisa masuk ke sistem kami.
+                        <p>
+                            Untuk mengaktifkan akun, anda harus membuat
+                            username dan kata sandi agar bisa login ke sistem kami.
                         </p>
                         <div class="form-group row">
                             <label for="username" class="col-form-label col-sm-4">Username</label>

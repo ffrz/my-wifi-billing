@@ -17,7 +17,8 @@ class AuthGuard implements FilterInterface
         if ($currentURIPath == route_to('login')
             || $currentURIPath == route_to('register')
             || $currentURIPath == route_to('register/success')
-            || $currentURIPath == route_to('activate')) {
+            || str_starts_with($currentURIPath, route_to('activate'))
+            || $currentURIPath == route_to('activate/success')) {
             return;
         }
         

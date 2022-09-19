@@ -26,6 +26,14 @@ $this->extend('_layouts/default')
                         <?php endif ?>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-sm-9 offset-sm-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="status" name="active" value="1" <?= $data->active ? 'checked="checked"' : '' ?>>
+                            <label class="custom-control-label" for="status">Aktif</label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Simpan</button>

@@ -123,7 +123,7 @@ function wa_send($contact, $message) {
         $contact = '62' . substr($contact, 1, strlen($contact));
     }
     if (strlen($contact) > 10) {
-        return "https://web.whatsapp.com/send?phone=$contact&text=$message";
+        return "https://wa.me/$contact?text=$message";
     }
     return '#';
 }

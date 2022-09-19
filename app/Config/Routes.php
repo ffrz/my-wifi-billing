@@ -38,7 +38,8 @@ $routes->set404Override();
 $routes->get('/', 'DashboardController::index');
 $routes->match(['get', 'post'], 'register', 'CompanyController::register');
 $routes->match(['get'], 'register/success', 'CompanyController::registerSuccess');
-$routes->match(['get', 'post'], 'activate', 'CompanyController::activate');
+$routes->match(['get', 'post'], 'activate/(:num)/(:any)', 'CompanyController::activate/$1/$2');
+$routes->match(['get'], 'activate/success', 'CompanyController::activateSuccess');
 $routes->match(['get', 'post'], 'login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
 
@@ -63,6 +64,7 @@ $routes->group('companies', function($routes) {
     $routes->match(['get', 'post'], 'add', 'CompanyController::edit/0');
     $routes->match(['get', 'post'], 'edit/(:num)', 'CompanyController::edit/$1');
     $routes->match(['get', 'post'], 'delete/(:num)', 'CompanyController::delete/$1');
+    $routes->match(['get'], 'view/(:num)', 'CompanyController::view/$1');
     $routes->get('view/(:num)', 'CompanyController::view/$1');
 });
 

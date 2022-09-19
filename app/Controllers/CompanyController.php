@@ -35,6 +35,7 @@ class CompanyController extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $item->fill($this->request->getPost());
+            $item->active = (int)$this->request->getPost('active');
 
             if ($item->name == '') {
                 $errors['name'] = 'Nama Perusahaan harus diisi.';
@@ -66,8 +67,10 @@ class CompanyController extends BaseController
         }
 
         try {
+            $item->active = false;
             $model->save($item);
         } catch (DataException $ex) {
+            return redirect()->to(base_url('companies'))->with('error', 'Perusahaan tidak dapat dihapus.');
         }
 
         return redirect()->to(base_url('companies'))->with('info', 'Perusahaan telah dihapus.');
@@ -116,7 +119,7 @@ class CompanyController extends BaseController
                 $data->activation_code = sha1($data->phone . '-wifiku-' . time());
                 $model->save($data);
                 $id = $this->db->insertID();
-                return redirect()->to(base_url('register/success?cid='.$id.'&phone='.$data->phone));
+                return redirect()->to(base_url('register/success?cid=' . $id . '&phone=' . $data->phone));
             }
         }
 
@@ -129,8 +132,9 @@ class CompanyController extends BaseController
     public function registerSuccess()
     {
         $cid = (int)$this->request->getGet('cid');
+        $phone = $this->request->getGet('phone');
         $data = $this->getCompanyModel()->find($cid);
-        if (!$data || $data->active) {
+        if (!$data || $data->active || $data->phone != $phone) {
             return redirect()->to(base_url('login'));
         }
 
@@ -139,11 +143,11 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function activate()
+    public function activate($cid, $code)
     {
         $data = new stdClass;
-        $data->cid = (int)$this->request->getGetPost('cid');
-        $data->code = (string)$this->request->getGetPost('code');
+        $data->cid = (int)$cid;
+        $data->code = (string)$code;
         $data->username = '';
 
         $company = $this->getCompanyModel()->find($data->cid);
@@ -151,8 +155,7 @@ class CompanyController extends BaseController
 
         if (!$company) {
             $errors['error'] = 'Akun perusahaan tidak ditemukan.';
-        }
-        else if ($company->activation_code != $data->code) {
+        } else if ($company->activation_code != $data->code) {
             $errors['error'] = 'Kode aktivasi yang anda masukkan tidak valid';
         }
 
@@ -182,10 +185,17 @@ class CompanyController extends BaseController
             }
 
             if (empty($errors)) {
+                $this->db->transBegin();
                 $company->activation_date = current_datetime();
+                $company->activation_code = '';
                 $company->active = 1;
+
+                $settings = $this->getSettingModel();
+                $settings->setValue('app.store_name', $company->name, $company->id);
+                $settings->setValue('app.store_address', $company->address, $company->id);
+
                 $this->getCompanyModel()->save($company);
-                
+
                 $user = new User();
                 $user->company_id = $company->id;
                 $user->username = $data->username;
@@ -196,18 +206,43 @@ class CompanyController extends BaseController
                 $user->created_by = '__SELF__';
                 $user->is_admin = 1;
                 $this->getUserModel()->save($user);
+                $this->db->transCommit();
 
-                return redirect()->to(base_url('activation-success?username='.$user->username));
+                return redirect()->to(base_url('activate/success?username=' . $user->username));
             }
         }
 
-        $username = strtolower(str_replace(' ', '', $company->owner_name));
+        $username = null;
+        if ($company) {
+            $username = strtolower(str_replace(' ', '', $company->owner_name));
+        }
 
         return view('company/activate', [
             'company' => $company,
             'data' => $data,
             'errors' => $errors,
             'username' => $username
+        ]);
+    }
+
+    public function activateSuccess()
+    {
+        $username = (string)$this->request->getGet('username');
+
+        return view('company/activate-success', [
+            'username' => $username
+        ]);
+    }
+
+    public function view($id)
+    {
+        $data = $this->getCompanyModel()->find($id);
+        if (!$data) {
+            return redirect()->to(base_url('companies'))->with('warning', 'Perusahaan tidak ditemukan.');
+        }
+
+        return view('company/view', [
+            'data' => $data
         ]);
     }
 }

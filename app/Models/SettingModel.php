@@ -23,7 +23,7 @@ class SettingModel extends Model
         return $row ? $row->value : $default;
     }
 
-    public function setValue($key, $value)
+    public function setValue($key, $value, $company_id = null)
     {
         $this->db->query('
             INSERT INTO
@@ -33,7 +33,7 @@ class SettingModel extends Model
             `company_id`=:company_id:,
             `key`=:key:,
             `value`=:value:', [
-                'company_id' => current_user()->company_id,
+                'company_id' => $company_id ? $company_id : current_user()->company_id,
                 'key' => $key,
                 'value' => $value,
         ]);
