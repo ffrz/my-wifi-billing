@@ -53,6 +53,11 @@ $this->navActive = 'report/paid-bills';
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if (empty($items)) : ?>
+                            <tr>
+                                <td colspan="7" class="text-center font-italic">Tidak ada rekaman</td>
+                            </tr>
+                        <?php endif ?>
                         <?php $total = 0 ?>
                         <?php foreach ($items as $i => $item) : ?>
                             <?php $total += $item->amount ?>
