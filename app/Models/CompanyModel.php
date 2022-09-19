@@ -11,7 +11,10 @@ class CompanyModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = \App\Entities\Company::class;
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['name'];
+    protected $allowedFields    = [
+        'name', 'owner_name', 'phone', 'address',
+        'reg_date', 'activation_code', 'activation_date', 'active'
+    ];
 
     public function getAll()
     {

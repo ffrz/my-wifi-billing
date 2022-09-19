@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +8,7 @@
   <link rel="stylesheet" href="<?= base_url('plugins/fontawesome-free/css/all.min.css') ?>">
   <link rel="stylesheet" href="<?= base_url('plugins/icheck-bootstrap/icheck-bootstrap.min.css') ?>">
   <link rel="stylesheet" href="<?= base_url('dist/css/adminlte.min.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('app.css') ?>">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -44,7 +44,12 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-right-to-bracket mr-2"></i> Masuk</button>
+          <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-right-to-bracket mr-2"></i>Masuk</button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <p>Belum punya akun? <a href="<?= base_url('register') ?>">Daftar</a></p>
           </div>
         </div>
       </form>

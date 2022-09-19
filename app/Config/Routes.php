@@ -36,6 +36,9 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'DashboardController::index');
+$routes->match(['get', 'post'], 'register', 'CompanyController::register');
+$routes->match(['get'], 'register/success', 'CompanyController::registerSuccess');
+$routes->match(['get', 'post'], 'activate', 'CompanyController::activate');
 $routes->match(['get', 'post'], 'login', 'AuthController::login');
 $routes->get('logout', 'AuthController::logout');
 
