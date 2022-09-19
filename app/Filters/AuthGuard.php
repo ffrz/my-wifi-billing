@@ -11,13 +11,14 @@ class AuthGuard implements FilterInterface
     {
         // get the current URL path, like "auth/login"
         $currentURIPath = $request->uri->getPath();
-        if ($currentURIPath != '/')
+        if ($currentURIPath != '/') {
             $currentURIPath = '/' . $currentURIPath;
+        }
 
         if ($currentURIPath == route_to('login')
             || $currentURIPath == route_to('register')
             || $currentURIPath == route_to('register/success')
-            || str_starts_with($currentURIPath, route_to('activate'))
+            || str_starts_with($currentURIPath, '/activate')
             || $currentURIPath == route_to('activate/success')) {
             return;
         }
