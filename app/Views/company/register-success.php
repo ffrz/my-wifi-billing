@@ -8,11 +8,11 @@
                 <p>
                     Selamat, akun perusahaan <b><?= esc($data->name) ?></b> telah terdaftar pada sistem kami.
                 </p>
-                <p>Kami akan segera mengirimkan link aktifasi dalam waktu maksimal
+                <p>Kami akan segera mengirimkan link aktivasi dalam waktu maksimal
                     7x24 jam melalui nomor <b><?= esc($data->phone) ?></b> yang telah anda daftarkan.
                 </p>
                 <p>
-                    Apabila terkendala dengan aktifasi, anda dapat menghubungi customer service kami di nomor Whatsapp
+                    Apabila terkendala dengan aktivasi, anda dapat menghubungi customer service kami di nomor Whatsapp
                     <a href="https://wa.me/6285317404760?text=Hi%20CS%20WifiKu" target="_blank">0853-1740-4760</a> (Fahmi)
                 </p>
                 <p>

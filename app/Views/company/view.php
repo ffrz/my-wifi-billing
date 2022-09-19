@@ -3,7 +3,7 @@ $this->title = 'Rincian Perusahaan';
 $this->navActive = 'company';
 $this->extend('_layouts/default');
 $activation_link = base_url('activate') . "/$data->id/$data->activation_code";
-$text_activation = "Hi " . esc($data->owner_name) . ", untuk aktifasi akun " . APP_NAME . ' '
+$text_activation = "Hi " . esc($data->owner_name) . ", untuk aktivasi akun " . APP_NAME . ' '
     . esc($data->name) . ' silahkan klik tautan ' . $activation_link;
 
 $phone = (string)$data->phone;
@@ -50,7 +50,7 @@ $phone = '62' . substr($phone, 1, strlen($phone));
                         </tr>
                         <?php if ($data->activation_code) : ?>
                             <tr>
-                                <td>Teks Aktifasi</td>
+                                <td>Teks Aktivasi</td>
                                 <td>:</td>
                                 <td><?= $text_activation ?></td>
                             </tr>
@@ -64,7 +64,7 @@ $phone = '62' . substr($phone, 1, strlen($phone));
         <div class="btn-group mr-2">
             <a href="<?= base_url("/companies/edit/$data->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
             <?php if ($data->activation_code) : ?>
-                <a target="_blank" href="<?= wa_send($phone, $text_activation) ?>" class="btn btn-warning"><i class="fas fa-paper-plane mr-2"></i>Kirim Link Aktifasi</a>
+                <a target="_blank" href="<?= wa_send($phone, $text_activation) ?>" class="btn btn-warning"><i class="fas fa-paper-plane mr-2"></i>Kirim Link Aktivasi</a>
             <?php endif ?>
             <?php if ($data->active) : ?>
             <a onclick="return confirm('Nonaktifkan?')" href="<?= base_url("/companies/delete/$data->id") ?>" class="btn btn-default"><i class="fas fa-ban mr-2"></i>Nonaktifkan</a>

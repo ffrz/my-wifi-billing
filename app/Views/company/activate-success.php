@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <div class="card">
     <div class="card-body register-card-body ml-2 mr-2">
-        <h4 class="login-box-msg">Pendaftaran dan Aktifasi Berhasil</h4>
+        <h4 class="login-box-msg">Pendaftaran dan Aktivasi Berhasil</h4>
         <p>
             Selamat, akun pengguna <b><?= esc($username) ?></b> telah aktif.
             Anda sekarang dapat login menggunakan akun ini.

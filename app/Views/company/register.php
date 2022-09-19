@@ -34,7 +34,7 @@
                 <div class="col-sm-8">
                     <input type="text" id="phone" name="phone" class="form-control <?= !empty($errors['phone']) ? 'is-invalid' : '' ?>"
                         placeholder="Contoh: 081200001111" value="<?= esc($data->phone) ?>">
-                    <div><small>Nomor harus aktif, kami akan mengirimkan link aktifasi ke nomor ini.</small></div>
+                    <div><small>Nomor harus aktif, kami akan mengirimkan link aktivasi ke nomor ini.</small></div>
                     <?php if (!empty($errors['phone'])) : ?>
                     <div class="error form-error">
                         <?= $errors['phone'] ?>
