@@ -96,7 +96,7 @@ $this->navActive = 'customer';
     ];
     DATATABLES_OPTIONS.columnDefs = [{
         orderable: false,
-        targets: 4
+        targets: 2
     }];
     $(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);
