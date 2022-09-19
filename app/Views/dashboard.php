@@ -1,69 +1,96 @@
 <?php
 $this->title = 'Dashboard';
 $this->navActive = 'dashboard';
-$this->extend('_layouts/default')
+$year = date('Y');
+$month = date('m');
+$this->extend('_layouts/default');
 ?>
-
 <?= $this->section('content') ?>
 <div class="row">
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text"><a href="<?= base_url('customers?status=1') ?>">Pelanggan Aktif</a></span>
-                <span class="info-box-number"><?= format_number($data->activeCustomer) ?></span>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h4><?= format_number($data->activeCustomer) ?></h4>
+                <p>Pelanggan Aktif</p>
             </div>
+            <div class="icon">
+                <i class="fa fa-users"></i>
+            </div>
+            <a href="<?= base_url('customers?status=1') ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-satellite-dish"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text"><a href="<?= base_url('products?active=1') ?>">Produk Aktif</a></span>
-                <span class="info-box-number"><?= format_number($data->activeProduct) ?></span>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h4><?= format_number($data->unpaidBillCount) ?></h4>
+                <p>Tagihan Aktif</p>
             </div>
+            <div class="icon">
+                <i class="fa fa-file-invoice-dollar"></i>
+            </div>
+            <a href="<?= base_url("bills?year=$year&month=$month&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box">
-            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-money-bills"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Tagihan</span>
-                <span class="info-box-number"><?= format_number($data->unpaidBillCount) ?> / Rp. <?= format_number($data->unpaidBill) ?></span>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h4>Rp. <?= format_number($data->unpaidBill) ?></h4>
+                <p>Total Tagihan</p>
             </div>
+            <div class="icon">
+                <i class="fa fa-sack-xmark"></i>
+            </div>
+            <a href="<?= base_url("bills?year=$year&month=$month&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box">
-            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-money-check"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Pemasukan Bulan ini</span>
-                <span class="info-box-number">Rp. <?= format_number($data->paidBill) ?></span>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h4>Rp. <?= format_number($data->paidBill) ?></h4>
+                <p>Penerimaan Tagihan</p>
             </div>
+            <div class="icon">
+                <i class="fa fa-hand-holding-dollar"></i>
+            </div>
+            <a href="<?= base_url("bills?year=$year&month=$month&status=1") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header border-0">
                 <h3 class="card-title">
-                    <i class="fas fa-th mr-1"></i>
+                    <i class="fa fa-chart-pie mr-1"></i>
+                    Tagihan <?= format_date(date('Y-m-d'), 'MMMM yyyy') ?>
+                </h3>
+            </div>
+            <div class="card-body">
+                <canvas id="pieChart" style="min-height: 280px; height: 250px; max-height: 280px; max-width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header border-0">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-line mr-1"></i>
                     Pendapatan <?= date('Y') ?>
                 </h3>
             </div>
             <div class="card-body">
-                <canvas class="chart" id="daily-sales" style="max-width: 100%;"></canvas>
+                <canvas class="chart" id="daily-sales" style="max-width: 100%; min-height:280px;"></canvas>
             </div>
         </div>
     </div>
+
+</div>
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('footscript') ?>
 <script src="<?= base_url('plugins/chart.js/Chart.min.js') ?>"></script>
 <script>
     var mydata = <?= json_encode($data->incomes) ?>;
-
     const myChart = new Chart($('#daily-sales'), {
         type: 'line',
         data: {
@@ -73,7 +100,7 @@ $this->extend('_layouts/default')
                 data: mydata.incomes,
                 borderWidth: 2,
                 fill: false,
-                borderColor: 'rgb(255, 0, 0)',
+                borderColor: '#00a65a',
                 tension: 0.1
             }]
         },
@@ -97,5 +124,29 @@ $this->extend('_layouts/default')
             }
         }
     });
+
+    var pieData = {
+        labels: [
+            'Belum Dibayar',
+            'Lunas',
+            'Dibatalkan',
+        ],
+        datasets: [{
+            data: [<?= $data->unpaidBill ?>, <?= $data->paidBill ?>, <?= $data->canceledBill ?>],
+            backgroundColor: ['#f39c12', '#00a65a', '#f56954'],
+        }]
+    }
+
+    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+    var pieOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+    }
+
+    new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions
+    })
 </script>
 <?= $this->endSection() ?>

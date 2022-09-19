@@ -45,6 +45,14 @@ class DashboardController extends BaseController
             and month(date_complete)=' . date('m') . '
         ')->getRowObject()->total;
 
+        $data->canceledBill = $this->db->query('
+            select ifnull(sum(amount), 0) as total from bills
+            where company_id= ' . current_user()->company_id . ' 
+            and status=2
+            and year(date_complete)=' . date('Y') . '
+            and month(date_complete)=' . date('m') . '
+        ')->getRowObject()->total;
+
         $data->incomes = [];
         $data->incomes["months"] = [];
         $data->incomes["incomes"] = [];
