@@ -75,6 +75,14 @@ use App\Entities\Acl; ?>
             </ul>
           </li>
         <?php endif ?>
+        <?php if (is_app_admin()) : ?>
+        <li class="nav-item">
+          <a href="<?= base_url('/companies') ?>" class="nav-link <?= nav_active($this, 'company') ?>">
+            <i class="nav-icon fas fa-building"></i>
+            <p>Perusahaan</p>
+          </a>
+        </li>
+        <?php endif ?>
         <?php if (current_user_can(Acl::VIEW_CUSTOMERS)) : ?>
         <li class="nav-item">
           <a href="<?= base_url('/customers') ?>" class="nav-link <?= nav_active($this, 'customer') ?>">

@@ -47,6 +47,7 @@ class AuthController extends BaseController
                 $currentUser->id = $user->id;
                 $currentUser->username = $username;
                 $currentUser->is_admin = $user->is_admin;
+                $currentUser->is_app_admin = $user->is_app_admin;
                 $currentUser->group_id = $user->group_id;
                 $currentUser->company_id = $user->company_id;
                 $currentUser->acl = [];

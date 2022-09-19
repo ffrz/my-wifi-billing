@@ -20,6 +20,22 @@ function current_user_can($access)
 
     return false;
 }
+
+function is_app_admin()
+{
+    $user = current_user();
+
+    if (!$user) {
+        return false;
+    }
+
+    if (isset($user->is_app_admin) && $user->is_app_admin) {
+        return true;
+    }
+    
+    return false;
+}
+
 /**
  * Helper function untuk merender kelas 'menu-open' pada sidebar
  * @param $self View

@@ -28,7 +28,7 @@ $this->navActive = 'company';
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item) : ?>
-                            <tr>
+                            <tr <?= $item->activation_code ? 'class="bg-warning"' : '' ?>>
                                 <td><?= $item->id ?></td>
                                 <td><?= esc($item->name) ?></td>
                                 <td><?= esc($item->owner_name) ?></td>

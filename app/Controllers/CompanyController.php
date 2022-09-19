@@ -12,6 +12,10 @@ class CompanyController extends BaseController
 {
     public function index()
     {
+        if (!current_user()->is_app_admin) {
+            return redirect()->to(base_url('/'))->with('error', 'halaman tidak dapat diakses.');
+        }
+
         $items = $this->getCompanyModel()->getAll();
 
         return view('company/index', [
@@ -19,8 +23,28 @@ class CompanyController extends BaseController
         ]);
     }
 
+    public function view($id)
+    {
+        if (!current_user()->is_app_admin) {
+            return redirect()->to(base_url('/'))->with('error', 'halaman tidak dapat diakses.');
+        }
+        
+        $data = $this->getCompanyModel()->find($id);
+        if (!$data) {
+            return redirect()->to(base_url('companies'))->with('warning', 'Perusahaan tidak ditemukan.');
+        }
+
+        return view('company/view', [
+            'data' => $data
+        ]);
+    }
+
     public function edit($id)
     {
+        if (!current_user()->is_app_admin) {
+            return redirect()->to(base_url('/'))->with('error', 'halaman tidak dapat diakses.');
+        }
+
         $model = $this->getCompanyModel();
         if ($id == 0) {
             $item = new Company();
@@ -60,6 +84,10 @@ class CompanyController extends BaseController
 
     public function delete($id)
     {
+        if (!current_user()->is_app_admin) {
+            return redirect()->to(base_url('/'))->with('error', 'halaman tidak dapat diakses.');
+        }
+
         $model = $this->getCompanyModel();
         $item = $model->find($id);
         if (!$item) {
@@ -231,18 +259,6 @@ class CompanyController extends BaseController
 
         return view('company/activate-success', [
             'username' => $username
-        ]);
-    }
-
-    public function view($id)
-    {
-        $data = $this->getCompanyModel()->find($id);
-        if (!$data) {
-            return redirect()->to(base_url('companies'))->with('warning', 'Perusahaan tidak ditemukan.');
-        }
-
-        return view('company/view', [
-            'data' => $data
         ]);
     }
 }
