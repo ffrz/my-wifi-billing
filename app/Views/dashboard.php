@@ -30,28 +30,6 @@ $this->extend('_layouts/default');
             </div>
             <a href="<?= base_url("bills?year=$year&month=$month&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-    </div>
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h4>Rp. <?= format_number($data->unpaidBill) ?></h4>
-                <p>Total Tagihan</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-sack-xmark"></i>
-            </div>
-            <a href="<?= base_url("bills?year=$year&month=$month&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h4>Rp. <?= format_number($data->paidBill) ?></h4>
-                <p>Penerimaan Tagihan</p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-hand-holding-dollar"></i>
-            </div>
             <a href="<?= base_url("bills?year=$year&month=$month&status=1") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>

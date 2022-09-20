@@ -57,7 +57,7 @@
       </section>
     </div>
     <footer class="main-footer">
-      <div class="float-right d-none d-sm-inline"><?= APP_NAME . ' v' . APP_VERSION_STR ?></div>&copy; Shift IT Solution 2022
+      <div class="float-right d-none d-sm-inline"><?= APP_NAME . ' v' . APP_VERSION_STR ?></div>&copy; WifiKu Billing 2022
     </footer>
   </div>
   <script src="<?= base_url('plugins/jquery/jquery.min.js') ?>"></script>
