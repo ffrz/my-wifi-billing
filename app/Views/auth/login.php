@@ -15,7 +15,7 @@
   <div class="card card-outline card-primary">
     <div class="card-header text-center text-muted">
       <div>
-         <span>Masuk <b><?= APP_NAME ?></b><sup><small> v<?= APP_VERSION_STR ?></sup></small></span>
+         <span>Masuk <b><?= APP_NAME ?></b> Billing<sup><small> v<?= APP_VERSION_STR ?></sup></small></span>
       </div>
     </div>
     <div class="card-body">
@@ -56,7 +56,7 @@
     </div>
   </div>
 </div>
-<div class="mt-4 text-muted">&copy; Shift IT Solution 2022</div>
+<div class="mt-4 text-muted">&copy; <?= APP_NAME ?> Billing 2022</div>
 <script src="<?= base_url('plugins/jquery/jquery.min.js') ?>"></script>
 <script src="<?= base_url('plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= base_url('dist/js/adminlte.min.js') ?>"></script>
