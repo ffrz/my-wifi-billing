@@ -13,7 +13,7 @@
                 </p>
                 <p>
                     Apabila terkendala dengan aktivasi, anda dapat menghubungi customer service kami di nomor Whatsapp
-                    <a href="https://wa.me/6285317404760?text=Hi%20CS%20WifiKu" target="_blank">0853-1740-4760</a> (Fahmi)
+                    <a href="https://wa.me/6285317404760?text=Hi%20CS%20WifiKu" target="_blank">0853-1740-4760</a>
                 </p>
                 <p>
                     <a href="<?= base_url('login') ?>">&larr; Kembali ke halaman Login.</a>

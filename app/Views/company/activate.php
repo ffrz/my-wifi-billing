@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <p class="row mt-4">
-                            CS: <a href="https://wa.me/6285317404760?text=Hi%20CS%20WifiKu" target="_blank">0853-1740-4760</a> (Fahmi)
+                            CS: <a href="https://wa.me/6285317404760?text=Hi%20CS%20WifiKu" target="_blank">0853-1740-4760</a>
                         </p>
                     <?php else : ?>
                         <p>Mohon maaf, terdapat kesalahan pada saat aktivasi akun perusahaan.</p>

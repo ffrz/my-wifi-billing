@@ -12,7 +12,7 @@
         </p>
         <p>
             Apabila terkendala login, anda dapat menghubungi customer service kami di nomor Whatsapp
-            <a href="https://wa.me/6285317404760?text=Hi+CS+WifiKu" target="_blank">0853-1740-4760</a> (Fahmi)
+            <a href="https://wa.me/6285317404760?text=Hi+CS+WifiKu" target="_blank">0853-1740-4760</a>
         </p>
     </div>
 </div>
