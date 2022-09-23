@@ -1,10 +1,8 @@
 <?php
 
-use App\Models\SettingModel;
-
 $this->title = '#' . $bill->code;
 ?>
-<?php $this->extend('_layouts/print-invoice') ?>
+<?php $this->extend('_layouts/print-invoice-58') ?>
 <?= $this->section('content') ?>
 <section class="invoice mb-4">
     <div class="row">
@@ -19,15 +17,15 @@ $this->title = '#' . $bill->code;
         <div class="col-md-6 mb-2">
             <div class="table-responsive">
                 <table class="invoice-table pad-xs">
-                <tbody>
+                    <tbody>
                         <tr>
-                            <td>No. Invoice</td>
+                            <td style="width:100px">No. Invoice</td>
                             <td>:</td>
-                            <td>#<?= $bill->code ?></td>
+                            <td style="width:100px">#<?= $bill->code ?></td>
                         </tr>
                         <tr>
-                            <td style="width:10rem;">ID Pelanggan</td>
-                            <td style="width:1rem;">:</td>
+                            <td>ID Pelanggan</td>
+                            <td>:</td>
                             <td><?= format_customer_id($data->cid) ?></td>
                         </tr>
                         <tr>
@@ -45,12 +43,12 @@ $this->title = '#' . $bill->code;
                             <td>:</td>
                             <td><?= format_date($bill->date, 'MMMM yyyy') ?></td>
                         </tr>
-                        <?php if ($product): ?>
-                        <tr>
-                            <td>Layanan</td>
-                            <td>:</td>
-                            <td><?= esc($product->name) ?></td>
-                        </tr>
+                        <?php if ($product) : ?>
+                            <tr>
+                                <td>Layanan</td>
+                                <td>:</td>
+                                <td><?= esc($product->name) ?></td>
+                            </tr>
                         <?php endif ?>
                         <tr>
                             <td>Deskripsi</td>
@@ -76,7 +74,7 @@ $this->title = '#' . $bill->code;
                 </table>
             </div>
         </div>
-        
+
     </div>
     <p><small>Dicetak: <?= current_user()->username ?> | <?= date('Y-m-d H:i:s') ?> - <?= APP_NAME . ' v' . APP_VERSION_STR ?></small></p>
     <script>
