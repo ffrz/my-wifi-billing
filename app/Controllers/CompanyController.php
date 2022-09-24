@@ -6,6 +6,8 @@ use App\Entities\Company;
 use App\Entities\User;
 use App\Models\CompanyModel;
 use CodeIgniter\Database\Exceptions\DataException;
+use DateInterval;
+use DateTime;
 use stdClass;
 
 class CompanyController extends BaseController
@@ -33,6 +35,26 @@ class CompanyController extends BaseController
         if (!$data) {
             return redirect()->to(base_url('companies'))->with('warning', 'Perusahaan tidak ditemukan.');
         }
+
+        $data->product_count = $this->db->query("
+            select count(0) as count
+            from products where company_id=$data->id and active=1
+        ")->getRowObject()->count;
+
+        $data->customer_count = $this->db->query("
+            select count(0) as count
+            from customers where company_id=$data->id and status=1
+        ")->getRowObject()->count;
+
+        $data->total_bill = (double)$this->db->query("
+            select sum(amount) as total from bills
+            where company_id=$data->id
+        ")->getRowObject()->total;
+
+        $data->total_bill_paid = (double)$this->db->query("
+            select sum(amount) as total from bills
+            where company_id=$data->id and status=1
+        ")->getRowObject()->total;
 
         return view('company/view', [
             'data' => $data

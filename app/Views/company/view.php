@@ -48,6 +48,26 @@ $phone = '62' . substr($phone, 1, strlen($phone));
                             <td>:</td>
                             <td><?= $data->active ? 'Aktif' : 'Non Aktif' ?></td>
                         </tr>
+                        <tr>
+                            <td>Pelanggan Aktif</td>
+                            <td>:</td>
+                            <td><?= $data->customer_count ?> pelanggan</td>
+                        </tr>
+                        <tr>
+                            <td>Layanan Aktif</td>
+                            <td>:</td>
+                            <td><?= $data->product_count ?> layanan</td>
+                        </tr>
+                        <tr>
+                            <td>Total Tagihan</td>
+                            <td>:</td>
+                            <td>Rp. <?= format_number($data->total_bill) ?></td>
+                        </tr>
+                        <tr>
+                            <td>Total Pemasukan</td>
+                            <td>:</td>
+                            <td>Rp. <?= format_number($data->total_bill_paid) ?></td>
+                        </tr>
                         <?php if ($data->activation_code) : ?>
                             <tr>
                                 <td>Teks Aktivasi</td>
