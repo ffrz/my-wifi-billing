@@ -14,7 +14,7 @@
                 <a class="nav-link" id="tabcontent2-tab" data-toggle="pill" href="#tabcontent2" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Tagihan</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tabcontent3-tab" data-toggle="pill" href="#tabcontent3" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Aktivasi Produk</a>
+                <a class="nav-link" id="tabcontent3-tab" data-toggle="pill" href="#tabcontent3" role="tab" aria-controls="tabcontent2-tab" aria-selected="true">Riwayat Aktivasi </a>
             </li>
         </ul>
     </div>
@@ -55,7 +55,7 @@
                         </tr>
                         <?php if ($data->product_id): ?>
                         <tr>
-                            <td>Produk Aktif</td>
+                            <td>Layanan Aktif</td>
                             <td>:</td>
                             <td><?= esc($data->product_name) ?></td>
                         </tr>
@@ -66,9 +66,9 @@
                         </tr>
                         <?php else: ?>
                             <tr>
-                                <td>Paket Produk</td>
+                                <td>Layanan</td>
                                 <td>:</td>
-                                <td>Silahkan aktifkan produk</td>
+                                <td>Tidak ada layanan aktif.</td>
                             </tr>
                         <?php endif ?>
                     </tbody>
@@ -93,7 +93,7 @@
                             <tr class="text-center">
                                 <th>No Invoice</th>
                                 <th>Bulan</th>
-                                <th>Produk</th>
+                                <th>Layanan</th>
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th>Catatan</th>
@@ -126,7 +126,7 @@
                         <thead>
                             <tr class="text-center">
                             <th>Tanggal</th>
-                            <th>Paket Produk</th>
+                            <th>Layanan</th>
                             <th>Harga</th>
                             </tr>
                         </thead>
@@ -154,7 +154,7 @@
         <div class="btn-group mr-2">
             <a href="<?= base_url('/customers') ?>" class="btn btn-default"><i class="fas fa-arrow-left mr-2"></i> Kembali</a>
             <a href="<?= base_url("/customers/edit/$data->id") ?>" class="btn btn-default"><i class="fas fa-edit mr-2"></i>Edit</a>
-            <a href="<?= base_url("/customers/activate-product/$data->id") ?>" class="btn btn-warning"><i class="fas fa-satellite-dish mr-2"></i>Ganti Produk</a>
+            <a href="<?= base_url("/customers/activate-product/$data->id") ?>" class="btn btn-warning"><i class="fas fa-satellite-dish mr-2"></i>Ganti Layanan</a>
             <a href="<?= base_url("/customers/delete/$data->id") ?>" class="btn btn-danger"><i class="fas fa-trash mr-2"></i>Hapus</a>
         </div>
     </div>

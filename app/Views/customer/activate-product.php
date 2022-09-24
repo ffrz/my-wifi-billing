@@ -1,5 +1,5 @@
 <?php
-$this->title = 'Aktivasi Paket Produk';
+$this->title = 'Aktivasi Layanan';
 $this->navActive = 'customer';
 $this->extend('_layouts/default')
 ?>
@@ -34,7 +34,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="old_product" class=" col-form-label col-sm-3">Paket Produk saat ini</label>
+                    <label for="old_product" class=" col-form-label col-sm-3">Layanan saat ini</label>
                     <div class="col-sm-9">
                         <?php
                         $current_product_text = 'Tidak diset';
@@ -46,7 +46,7 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="product" class=" col-form-label col-sm-3 required">Paket Produk Baru *</label>
+                    <label for="product" class=" col-form-label col-sm-3 required">Layanan Baru *</label>
                     <div class="col-sm-9">
                         <select class="form-control custom-select select2" id="product" name="product_id">
                             <option value="" <?= !$data->product_id ? 'selected' : '' ?>>--------</option>
@@ -72,7 +72,7 @@ $this->extend('_layouts/default')
 
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Aktivasi Produk</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Aktifkan Layanan</button>
             </div>
         </form>
     </div>

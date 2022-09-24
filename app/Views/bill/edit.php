@@ -31,10 +31,10 @@ $this->extend('_layouts/default')
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="product_id" class=" col-form-label col-sm-3">Produk</label>
+                    <label for="product_id" class=" col-form-label col-sm-3">Layanan</label>
                     <div class="col-sm-9">
                         <select disabled class="form-control custom-select select2" id="product_id">
-                            <option value="0" <?= !$data->product_id ? 'selected' : '' ?>>- Produk Layanan -</option>
+                            <option value="0" <?= !$data->product_id ? 'selected' : '' ?>>- Layanan -</option>
                             <?php foreach ($products as $product) : ?>
                                 <?php if ($product->id != $customer->product_id) continue ?>
                                 <option value="<?= $product->id ?>" <?= $data->product_id == $product->id ? 'selected' : '' ?>

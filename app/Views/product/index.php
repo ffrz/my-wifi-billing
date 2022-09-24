@@ -1,5 +1,5 @@
 <?php
-$this->title = 'Produk';
+$this->title = 'Layanan';
 $this->navActive = 'product';
 $this->extend('_layouts/default')
 ?>
@@ -69,10 +69,10 @@ $this->extend('_layouts/default')
                                 <td><?= $item->description ?></td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Actions">
-                                        <a href="<?= base_url("/products/edit/$item->id?duplicate=1") ?>" class="btn btn-default btn-sm" title="Duplikat produk"><i class="fa fa-copy"></i></a>
-                                        <a href="<?= base_url("/products/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah Produk"><i class="fa fa-edit"></i></a>
+                                        <a href="<?= base_url("/products/edit/$item->id?duplicate=1") ?>" class="btn btn-default btn-sm" title="Duplikat layanan"><i class="fa fa-copy"></i></a>
+                                        <a href="<?= base_url("/products/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah layanan"><i class="fa fa-edit"></i></a>
                                         <?php if ($item->active): ?>
-                                            <a onclick="return confirm('Hapus produk?')" href="<?= base_url("/products/delete/$item->id") ?>" title="Hapus Produk" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                            <a onclick="return confirm('Hapus layanan?')" href="<?= base_url("/products/delete/$item->id") ?>" title="Hapus layanan" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                         <?php endif ?>
                                     </div>
                                 </td>

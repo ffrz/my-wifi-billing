@@ -1,11 +1,9 @@
 <?php
 
-use App\Entities\Product;
-
 if ($duplicate) {
-    $this->title = 'Duplikat Produk';
+    $this->title = 'Duplikat Layanan';
 } else {
-    $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Produk';
+    $this->title = (!$data->id ? 'Tambah' : 'Edit') . ' Layanan';
 }
 $this->navActive = 'product';
 
@@ -18,9 +16,9 @@ $this->navActive = 'product';
             <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= $data->id ?>">
             <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label required">Nama Produk *</label>
+                <label for="name" class="col-sm-3 col-form-label required">Nama Layanan *</label>
                 <div class="col-sm-5">
-                    <input type="text" autofocus autocomplete="off" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama Produk" name="name" value="<?= esc($data->name) ?>">
+                    <input type="text" autofocus autocomplete="off" class="form-control <?= !empty($errors['name']) ? 'is-invalid' : '' ?>" id="name" placeholder="Nama Layanan" name="name" value="<?= esc($data->name) ?>">
                 </div>
                 <?php if (!empty($errors['name'])) : ?>
                     <span class="offset-sm-3 col-sm-9 error form-error">
@@ -58,7 +56,7 @@ $this->navActive = 'product';
                 <div class="offset-sm-3 col-sm-9">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input " id="active" name="active" value="1" <?= $data->active ? 'checked="checked"' : '' ?>>
-                        <label class="custom-control-label" for="active" title="Produk aktif dapat digunakan">Aktif</label>
+                        <label class="custom-control-label" for="active" title="Layanan aktif dapat digunakan">Aktif</label>
                     </div>
                 </div>
             </div>

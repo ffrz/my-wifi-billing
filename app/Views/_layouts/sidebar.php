@@ -95,7 +95,7 @@ use App\Entities\Acl; ?>
         <li class="nav-item">
           <a href="<?= base_url('/products') ?>" class="nav-link <?= nav_active($this, 'product') ?>">
             <i class="nav-icon fas fa-satellite-dish"></i>
-            <p>Produk</p>
+            <p>Layanan</p>
           </a>
         </li>
         <?php endif ?>

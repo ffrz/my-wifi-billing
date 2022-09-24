@@ -199,7 +199,7 @@ class CustomerController extends BaseController
             $item->bill_period = 1;
 
             if (!$item->product_id) {
-                $errors['product_id'] = 'Silahkan pilih produk.';
+                $errors['product_id'] = 'Silahkan pilih layanan.';
             }
 
             if (empty($errors)) {

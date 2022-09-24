@@ -19,13 +19,13 @@ $acl_resources = [
         Acl::ADD_CUSTOMER => 'Menambah pelanggan',
         Acl::EDIT_CUSTOMER => 'Mengubah pelanggan',
         Acl::DELETE_CUSTOMER => 'Menghapus pelanggan',
-        Acl::CHANGE_CUSTOMER_PRODUCT => 'Mengubah paket produk',
+        Acl::CHANGE_CUSTOMER_PRODUCT => 'Mengubah layanan',
     ],
-    'Produk' => [
-        Acl::VIEW_PRODUCTS => 'Mengakses daftar produk',
-        Acl::ADD_PRODUCT => 'Menambah produk',
-        Acl::EDIT_PRODUCT => 'Mengubah produk',
-        Acl::DELETE_PRODUCT => 'Menghapus produk',
+    'Layanan' => [
+        Acl::VIEW_PRODUCTS => 'Mengakses daftar layanan',
+        Acl::ADD_PRODUCT => 'Menambah ',
+        Acl::EDIT_PRODUCT => 'Mengubah layanan',
+        Acl::DELETE_PRODUCT => 'Menghapus layanan',
     ],
     'Biaya Operasional' => [
         Acl::VIEW_COSTS => 'Mengakses daftar biaya operasional',

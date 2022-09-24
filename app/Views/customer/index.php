@@ -47,7 +47,7 @@ $this->navActive = 'customer';
                     <thead>
                         <tr>
                             <th>Pelanggan</th>
-                            <th>Paket</th>
+                            <th>Layanan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -75,7 +75,7 @@ $this->navActive = 'customer';
                                         <a href="<?= base_url("/customers/view/$item->id") ?>" class="btn btn-default btn-sm" title="Lihat rincian"><i class="fa fa-eye"></i></a>
                                         <a href="<?= base_url("/customers/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
                                         <?php if ($item->status == 1) : ?>
-                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-warning btn-sm" title="Ubah paket produk"><i class="fa fa-satellite-dish mr-1"></i> Aktivasi</a>
+                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-warning btn-sm" title="Ganti layanan"><i class="fa fa-satellite-dish mr-1"></i> Aktivasi</a>
                                         <?php endif ?>
                                         <a onclick="return confirm('Hapus pelanggan?')" href="<?= base_url("/customers/delete/$item->id") ?>" title="Hapus / nonaktifkan" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                     </div>

@@ -18,8 +18,8 @@ class ProductModel extends Model
 
     /**
      * Periksa duplikat rekaman berdasarkan nama paket dan id
-     * @var $name nama produk
-     * @var $id id produk
+     * @var $name nama produk / layanan
+     * @var $id id produk / layanan
      * @return bool true jika ada duplikat, false jika tidak ada duplikat 
      */
     public function exists($name, $id)

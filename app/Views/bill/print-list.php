@@ -37,7 +37,7 @@ $this->title = 'Daftar Tagihan';
                     <tr style="background: lightgray;">
                         <th>Invoice #</th>
                         <th>Pelanggan</th>
-                        <th>Produk Layanan</th>
+                        <th>Layanan</th>
                         <th>Tagihan (Rp.)</th>
                         <th>Status</th>
                         <th>WA</th>

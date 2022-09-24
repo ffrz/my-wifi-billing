@@ -78,7 +78,7 @@ class ProductController extends BaseController
 
             $item = $model->find($id);
             if (!$item || $item->company_id != current_user()->company_id) {
-                return redirect()->to(base_url('products'))->with('warning', 'Produk tidak ditemukan.');
+                return redirect()->to(base_url('products'))->with('warning', 'Layanan tidak ditemukan.');
             }
 
             if ($duplicate) {
@@ -108,7 +108,7 @@ class ProductController extends BaseController
                 $item->updated_at = date('Y-m-d H:i:s');
                 $item->updated_by = current_user()->username;
                 $model->save($item);
-                return redirect()->to(base_url("products"))->with('info', 'Data Produk telah disimpan.');
+                return redirect()->to(base_url("products"))->with('info', 'Data layanan telah disimpan.');
             }
         }
 
@@ -129,7 +129,7 @@ class ProductController extends BaseController
         $product = $model->find($id);
 
         if (!$product || $product->company_id != current_user()->company_id) {
-            return redirect()->to(base_url('products'))->with('warning', 'Produk tidak ditemukan.');
+            return redirect()->to(base_url('products'))->with('warning', 'Layanan tidak ditemukan.');
         }
 
         $product->active = false;
@@ -141,6 +141,6 @@ class ProductController extends BaseController
         } catch (Exception $ex) {
         }
 
-        return redirect()->to(base_url('products'))->with('info', 'Produk telah dinonaktifkan.');
+        return redirect()->to(base_url('products'))->with('info', 'Layanan telah dinonaktifkan.');
     }
 }
