@@ -46,10 +46,9 @@ $this->extend('_layouts/default')
                 <table class="data-table display table table-bordered table-striped table-condensed center-th">
                     <thead>
                         <tr>
-                            <th>Nama</th>
-                            <th>Harga</th>
-                            <th>Tagihan</th>
-                            <th>Pelanggan Aktif</th>
+                            <th>Nama Layanan</th>
+                            <th>Biaya (Rp.)</th>
+                            <th>Pelanggan</th>
                             <th>Deskripsi</th>
                             <th></th>
                         </tr>
@@ -63,8 +62,7 @@ $this->extend('_layouts/default')
                                         <span class="badge badge-danger">Non Aktif</span>
                                     <?php endif ?>
                                 </td>
-                                <td class="text-right"><?= format_number($item->price) ?></td>
-                                <td class="text-center">Tiap <?= $item->bill_period ?> Bulan</td>
+                                <td class="text-right"><?= format_number($item->price) ?> / <?= $item->bill_period == 1 ? '' : $item->bill_period  ?> bulan</td>
                                 <td class="text-center"><?= $item->customer_count ?></td>
                                 <td><?= $item->description ?></td>
                                 <td class="text-center">
@@ -92,7 +90,7 @@ $this->extend('_layouts/default')
     ];
     DATATABLES_OPTIONS.columnDefs = [{
         orderable: false,
-        targets: 5
+        targets: 4
     }];
     $(document).ready(function() {
         $('.data-table').DataTable(DATATABLES_OPTIONS);

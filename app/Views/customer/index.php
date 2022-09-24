@@ -67,16 +67,19 @@ $this->navActive = 'customer';
                                 <td>
                                     <?php if ($item->product_id) : ?>
                                         <?= esc($item->product_name) ?><br>
-                                        Rp. <?= format_number($item->product_price) ?> / <?= $item->bill_period ?> bulan
+                                        Rp. <?= format_number($item->product_price) ?> / <?= $item->bill_period == 1 ? '' : $item->bill_period ?> bulan
+                                    <?php endif ?>
+                                    <?php if ($item->status == 1) : ?>
+                                        <div>
+                                            <?php $activate_text =  $item->product_id ? 'Ganti Layanan' : 'Aktifkan Layanan' ?>                                            
+                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-xs btn-warning" title="<?= $activate_text ?>"><i class="fa fa-satellite-dish mr-1"></i> <?= $activate_text ?></a>
+                                        </div>
                                     <?php endif ?>
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <a href="<?= base_url("/customers/view/$item->id") ?>" class="btn btn-default btn-sm" title="Lihat rincian"><i class="fa fa-eye"></i></a>
                                         <a href="<?= base_url("/customers/edit/$item->id") ?>" class="btn btn-default btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-                                        <?php if ($item->status == 1) : ?>
-                                            <a href="<?= base_url("/customers/activate-product/$item->id") ?>" class="btn btn-warning btn-sm" title="Ganti layanan"><i class="fa fa-satellite-dish mr-1"></i> Aktivasi</a>
-                                        <?php endif ?>
                                         <a onclick="return confirm('Hapus pelanggan?')" href="<?= base_url("/customers/delete/$item->id") ?>" title="Hapus / nonaktifkan" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
