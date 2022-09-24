@@ -96,6 +96,7 @@ $routes->group('bills', function($routes) {
 });
 
 $routes->group('reports', function($routes) {
+    $routes->get('income-statement', 'ReportController::incomeStatement');
     $routes->get('cost', 'ReportController::cost');
     $routes->get('paid-bills', 'ReportController::paidBills');
     $routes->get('unpaid-bills', 'ReportController::unpaidBills');

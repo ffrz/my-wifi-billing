@@ -138,4 +138,74 @@ class ReportController extends BaseController
 
         return $filter;
     }
+
+    public function incomeStatement()
+    {
+        if (!current_user_can(Acl::VIEW_REPORTS)) {
+            return redirect()->to(base_url('/'))->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
+        $print = $this->request->getGet('print');
+        $filter = $this->initFilter();
+
+        $where = [];
+        $where[] = 'b.company_id=' . current_user()->company_id;
+        $where[] = 'b.status=1';
+        $where[] = 'year(date_complete)=' . $filter->year;
+        if ($filter->month != 0) {
+            $where[] = 'month(date_complete)=' . $filter->month;
+        }
+
+        $where = implode(' and ', $where);
+        if (!empty($where)) {
+            $where = ' where ' . $where;
+        }
+
+        $sql = "select
+            b.*, c.fullname, c.wa, c.address, c.cid, p.name product_name
+            from bills b
+            inner join customers c on b.customer_id = c.id
+            left join products p on b.product_id = p.id 
+            $where
+            order by b.date_complete, b.id asc";
+        $items = $this->db->query($sql)->getResultObject();
+        $bill_income_by_products = [];
+        $bill_incomes = [];
+        foreach ($items as $item) {
+            if (!isset($bill_income_by_products[$item->product_name])) {
+                $bill = $bill_income_by_products[$item->product_name] = new stdClass;
+                $bill->product_name = $item->product_name;
+                $bill->total = 0;
+                $bill_incomes[] = $bill;
+            }
+
+            $bill = $bill_income_by_products[$item->product_name];
+            $bill->total += $item->amount;            
+        }
+
+        $where = [];
+        $where[] = 'c.company_id=' . current_user()->company_id;
+        $where[] = 'year(c.date)=' . $filter->year;
+        if ($filter->month != 0) {
+            $where[] = 'month(c.date)=' . $filter->month;
+        }
+
+        $where = implode(' and ', $where);
+        if (!empty($where)) {
+            $where = ' where ' . $where;
+        }
+
+        $sql = "select c.*, cc.name category_name
+            from costs c
+            left join cost_categories cc on cc.id = c.category_id
+            $where
+            order by c.date asc";
+        $costs = $this->db->query($sql)->getResultObject();
+
+        return view('report/income-statement' . ($print ? '-print' : ''), [
+            'bills' => $bill_incomes,
+            'costs' => $costs,
+            'filter' => $filter,
+        ]);
+    }
 }

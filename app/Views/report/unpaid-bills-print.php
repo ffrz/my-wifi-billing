@@ -4,7 +4,7 @@ use App\Models\SettingModel;
 
 $settings = new SettingModel();
 
-$this->title = 'Laporan Biaya Opr.';
+$this->title = 'Laporan Penagihan';
 ?>
 
 <?php $this->extend('_layouts/print-invoice') ?>
@@ -47,7 +47,7 @@ $this->title = 'Laporan Biaya Opr.';
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class="text-right" colspan="5">Total</th>
+                            <th class="text-right" colspan="5">Total (Rp.)</th>
                             <th class="text-right"><?= format_number($total) ?></th>
                         </tr>
                     </tfoot>

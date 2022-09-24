@@ -72,7 +72,7 @@ $this->navActive = 'report/unpaid-bills';
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class="text-right" colspan="5">Total</th>
+                            <th class="text-right" colspan="5">Total (Rp.)</th>
                             <th class="text-right"><?= format_number($total) ?></th>
                         </tr>
                     </tfoot>
