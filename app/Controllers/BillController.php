@@ -71,12 +71,15 @@ class BillController extends BaseController
             inner join customers c on b.customer_id = c.id
             left join products p on b.product_id = p.id 
             $where
-            order by c.cid asc";
+            order by b.code asc";
         $items = $this->db->query($sql)->getResultObject();
 
         $view = 'index';
-        if ($print) {
+        if ($print == 1) {
             $view = 'print-list';
+        }
+        else if ($print == 2) {
+            $view = 'print-receipts';
         }
 
         return view("bill/$view", [

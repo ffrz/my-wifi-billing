@@ -1,5 +1,4 @@
 <?php
-
 $this->title = '#' . $bill->code;
 ?>
 <?php $this->extend('_layouts/print-invoice-58') ?>

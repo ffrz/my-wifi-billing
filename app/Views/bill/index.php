@@ -9,6 +9,7 @@ $this->navActive = 'bill';
     <?php /*
     <a href="<?= base_url('bills/add') ?>" class="btn plus-btn btn-primary mr-1" title="Baru"><i class="fa fa-plus"></i></a>
     */ ?>
+    <a target="_blank" href="<?= "?print=2&year=$filter->year&month=$filter->month&status=$filter->status" ?>" title="Cetak Struk" class="btn plus-btn btn-default mr-1"><i class="fa fa-receipt mr"></i></a>
     <a target="_blank" href="<?= "?print=1&year=$filter->year&month=$filter->month&status=$filter->status" ?>" title="Cetak" class="btn plus-btn btn-default mr-1"><i class="fa fa-print mr"></i></a>
     <button class="btn btn-default plus-btn mr-2" data-toggle="modal" data-target="#modal-sm" title="Saring"><i class="fa fa-filter"></i></button>
 </li>
