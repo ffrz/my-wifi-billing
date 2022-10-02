@@ -43,13 +43,35 @@ $this->title = 'Cetak Tagihan ' . $period;
     .tr {
         text-align: right;
     }
+
+    .invoice-table td {
+        vertical-align: top;
+    }
+
+    .invoice-table {
+        width: 100%;
+    }
+
+    .invoice-table td:first-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .invoice-container {
+        display: inline-block;
+        border: 1px solid #333;
+        padding: 5px;
+        width: 30%;
+        margin: 5px;
+    }
 </style>
 <section class="invoice mb-4" style="width:210mm;margin:0 auto;">
     <?php foreach ($items as $i => $bill) : ?>
-        <div style="display:inline-block;border:1px solid #333;padding:5px;width:30%;margin:5px;">
-            <h4 class="m0 tc"><i class="fas fa-satellite-dish"></i><?= esc($settings->get('app.store_name')) ?></h4>
+        <div class="invoice-container">
+            <h4 class="m0 tc"><i class="fas fa-satellite-dish mr-2"></i><?= esc($settings->get('app.store_name')) ?></h4>
             <p class="fi m0 tc"><?= esc($settings->get('app.store_address')) ?></p>
-            <table class="invoice-table pad-xs m0a" style="width:100%;">
+            <table class="invoice-table pad-xs m0a">
                 <tbody>
                     <tr>
                         <td class="tr">No. Invoice</td>
