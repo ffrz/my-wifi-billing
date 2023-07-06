@@ -16,7 +16,7 @@
 
 define('APP_NAME', 'WifiKu Billing');
 define('APP_VERSION', 0x010000);
-define('APP_VERSION_STR', '1.0.0');
+define('APP_VERSION_STR', '1.0.1');
 
 define('MAX_USER_GROUP', 2);
 define('MAX_USER', 5);
