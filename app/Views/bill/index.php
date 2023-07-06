@@ -30,6 +30,7 @@ $this->navActive = 'bill';
                         <label for="year" class="col-form-label col-sm-4">Tahun</label>
                         <div class="col-sm-8">
                             <select class="custom-select mt-2" id="year" name="year">
+                                <option value="all" <?= $filter->year == 'all' ? 'selected' : '' ?>>Semua</option>
                                 <?php for ($year = date('Y'); $year >= 2022; $year--) : ?>
                                     <option value="<?= $year ?>" <?= $filter->year == $year ? 'selected' : '' ?>><?= $year ?></option>
                                 <?php endfor ?>

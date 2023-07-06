@@ -28,7 +28,7 @@ $this->extend('_layouts/default');
             <div class="icon">
                 <i class="fa fa-file-invoice-dollar"></i>
             </div>
-            <a href="<?= base_url("bills?year=$year&month=$month&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="<?= base_url("bills?year=all&month=all&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-6">
@@ -40,7 +40,7 @@ $this->extend('_layouts/default');
             <div class="icon">
                 <i class="fa fa-sack-xmark"></i>
             </div>
-            <a href="<?= base_url("bills?year=$year&month=$month&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="<?= base_url("bills?year=all&month=all&status=0") ?>" class="small-box-footer">Info lebih lanjut <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-6">

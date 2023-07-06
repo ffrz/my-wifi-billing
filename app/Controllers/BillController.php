@@ -26,7 +26,7 @@ class BillController extends BaseController
             $filter->status = 0;
         }
         if (!isset($filter->year)) {
-            $filter->year = date('Y');
+            $filter->year = 'all';
         }
         if (!isset($filter->month)) {
             $filter->month = 0;
@@ -52,7 +52,10 @@ class BillController extends BaseController
 
         $where = [];
         $where[] = 'b.company_id=' . current_user()->company_id;
-        $where[] = 'year(date)=' . $filter->year;
+
+        if ($filter->year != 'all') {
+            $where[] = 'year(date)=' . $filter->year;
+        }
         if ($filter->month != 0) {
             $where[] = 'month(date)=' . $filter->month;
         }
